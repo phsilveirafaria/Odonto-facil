@@ -1,5 +1,5 @@
-angular.module('odontoFacil').controller("clienteController", ['clienteFactory', 'ngTable',
-	function(clienteFactory, ngTable) {
+angular.module('odontoFacil').controller("clienteController", ['clienteFactory', 'NgTableParams', '$scope' ,
+	function(clienteFactory, NgTableParams, $scope) {
 	var ctrl = this;
 
 	/*
@@ -9,9 +9,9 @@ angular.module('odontoFacil').controller("clienteController", ['clienteFactory',
 	ctrl.clientes = [];
 	ctrl.cliente = {};
 	
-//	$scope.$watch(function () { return ctrl.lstConvenios; }, function (newValue, oldValue) {
-//		ctrl.tableParams = new NgTableParams({ count: 10, sorting: { nomeCompleto: "asc" } }, { counts: [], dataset: ctrl.lstConvenios });
-//	});
+	$scope.$watch(function () { return ctrl.clientes; }, function (newValue, oldValue) {
+		ctrl.tableParams = new NgTableParams({ count: 10, sorting: { nomeCompleto: "asc" } }, { counts: [], dataset: ctrl.clientes });
+	});
 
 	// primeiro parametro, sucesso, segundo parametro erro.
 	ctrl.listarClientes = function() {

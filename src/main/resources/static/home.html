@@ -272,7 +272,17 @@ desired effect
         <li class="header">Menu</li>
         <!-- Optionally, you can add icons to the links -->
         <li><a href="#"><i class="fa fa-home"></i> <span>Home</span></a></li>
-        <li><a href="#"><i class="fa fa-user-md"></i> <span>Funcionários</span></a></li>
+        <li class="treeview">
+          <a href="#"><i class="fa fa-user-md"></i> <span>Funcionários</span>
+            <span class="pull-right-container">
+                <i class="fa fa-angle-left pull-right"></i>
+              </span>
+          </a>
+          <ul class="treeview-menu">
+            <li><a href="#/funcionario">Cadastrar</a></li>
+            <li><a href="#/consultarFuncionario">Pesquisar</a></li>
+          </ul>
+        </li>
          <li><a href="#"><i class="fa fa-calendar"></i> <span>Agenda</span></a></li>
          <li class="treeview">
           <a href="#"><i class="fa fa-users"></i> <span>Clientes</span>
