@@ -1,6 +1,6 @@
 angular.module('odontoFacil').factory('funcionarioFactory',['$http', function($http) {
 	var _funcionario;
-	var _editandoPaciente;
+	var _editandoFuncionario;
 	
 	var _listarFuncionarios = function() {
 		return $http.get(

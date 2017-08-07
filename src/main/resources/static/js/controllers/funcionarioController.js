@@ -9,8 +9,8 @@ angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 
 		ctrl.tableParams = new NgTableParams({ count: 10, sorting: { nomeCompleto: "asc" } }, { counts: [], dataset: ctrl.funcionarios });
 	});
 	
-	if (cadastroFuncionarioFactory.isEditandoFuncionario()) {
-		ctrl.funcionario = cadastroFuncionarioFactory.getFuncionario();		
+	if (funcionarioFactory.isEditandoFuncionario()) {
+		ctrl.funcionario = funcionarioFactory.getFuncionario();		
 	}
 
 	// primeiro parametro, sucesso, segundo parametro erro.
@@ -37,7 +37,7 @@ angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 
 	}
 	
 	ctrl.editarFuncionario = function(funcionario) {
-		cadastroFuncionarioFactory.setFuncionario(funcionario);
+		funcionarioFactory.setFuncionario(funcionario);
 		$location.path("/editarFuncionario");
 	};
 	
@@ -47,12 +47,12 @@ angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 
 			$mdDialog.show(
 					$mdDialog.alert()
 						.clickOutsideToClose(true)
-						.title('Cadastro de Cliente')
+						.title('Cadastro de Funcionário')
 						.textContent('Funcionário cadastrado com sucesso!')
 						.ariaLabel('Alerta')
 						.ok('Ok')						
 				);	
-			ctrl.paciente = {};	
+			ctrl.funcionario = {};	
 			ctrl.funcionarios = response.data;
 			$scope.frmFuncionario.$setPristine();
 		}, function errorCallback(response) {

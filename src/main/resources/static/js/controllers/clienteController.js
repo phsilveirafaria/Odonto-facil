@@ -1,5 +1,5 @@
-angular.module('odontoFacil').controller("clienteController", ['clienteFactory', 'NgTableParams', '$scope' ,
-	function(clienteFactory, NgTableParams, $scope) {
+angular.module('odontoFacil').controller("clienteController", ['clienteFactory','$mdDialog', 'NgTableParams', '$scope' ,
+	function(clienteFactory, $mdDialog, NgTableParams, $scope) {
 	var ctrl = this;
 
 	/*
@@ -43,9 +43,17 @@ angular.module('odontoFacil').controller("clienteController", ['clienteFactory',
 	ctrl.salvarClientes = function(cliente) {
 		console.log(cliente);
 		clienteFactory.salvarClientes(cliente).then(function successCallback(response) {
+			$mdDialog.show(
+					$mdDialog.alert()
+						.clickOutsideToClose(true)
+						.title('Cadastro de Paciente')
+						.textContent('Paciente cadastrado com sucesso!')
+						.ariaLabel('Alerta')
+						.ok('Ok')						
+				);	
+			ctrl.cliente = {};	
 			ctrl.clientes = response.data;
-			console.log(response.data);
-			console.log(response.status);
+			$scope.frmCliente.$setPristine();
 		}, function errorCallback(response) {
 			console.log(response.data);
 			console.log(response.status);
