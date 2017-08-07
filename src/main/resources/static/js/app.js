@@ -1,9 +1,8 @@
-angular.module('odontoFacil', ['ngRoute', 'ngTable'])
+angular.module('odontoFacil', ['ngRoute', 'ngMaterial', 'ngTable'])
 .config(['$routeProvider', function($routeProvider) {		
 		$routeProvider.
 			when('/home', { 
 				templateUrl: "home.html",
-				//controller: "indexCtrl",
 			}).when('/cliente', { 
 				templateUrl: "pages/cadastroCliente.html",
 				controller: "clienteController",
@@ -12,9 +11,13 @@ angular.module('odontoFacil', ['ngRoute', 'ngTable'])
 				templateUrl: "pages/consultarCliente.html",
 				controller: "clienteController",
 				controllerAs: "ctrl"
-			}).when('/consultarCliente', { 
-				templateUrl: "pages/consultarCliente.html",
-				controller: "clienteController",
+			}).when('/cadastrarFuncionario', { 
+				templateUrl: "pages/cadastroFuncionario.html",
+				controller: "funcionarioController",
+				controllerAs: "ctrl"			
+			}).when('/consultarFuncionario', { 
+				templateUrl: "pages/consultarFuncionario.html",
+				controller: "funcionarioController",
 				controllerAs: "ctrl"			
 			}).when('/index', { 
 				templateUrl: "index.html",

@@ -14,37 +14,17 @@ public class Funcionario extends Usuario{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@GeneratedValue(strategy= GenerationType.AUTO)
-	private long idFuncionario;
-	
-	@OneToOne
-	@JoinColumn(name="idUsuario")
-	private Usuario usuario;
-	
 	@OneToOne
 	@JoinColumn(name="idFuncao")
 	private Funcao funcao;
 	
+	private String login;
+	
+	private String senha;
+	
 	private String pis;
 	
-	private Boolean ativo;
-
-	public long getIdFuncionario() {
-		return idFuncionario;
-	}
-
-	public void setIdFuncionario(long idFuncionario) {
-		this.idFuncionario = idFuncionario;
-	}
-
-	public Usuario getUsuario() {
-		return usuario;
-	}
-
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}
-
+	
 	public Funcao getFuncao() {
 		return funcao;
 	}
@@ -61,19 +41,25 @@ public class Funcionario extends Usuario{
 		this.pis = pis;
 	}
 
-	public Boolean getAtivo() {
-		return ativo;
-	}
-
-	public void setAtivo(Boolean ativo) {
-		this.ativo = ativo;
-	}
-
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
+
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 	
 	
 }
