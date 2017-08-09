@@ -1,13 +1,19 @@
-angular.module('odontoFacil').factory('loginFactory',['$http', function($http) {
-	
-	var _autenticar = function(cliente) {
-		return $http.post(
-				'http://localhost:8080/autenticar',
-				cliente
-		);
+angular.module('odontoFacil').factory('loginFactory', ['$http', 'consts', function($http, consts) {		
+	var _login = function(headers) {			
+		return $http.get(consts.BASE_URL + '/user', {headers : headers});				
 	};
 	
-	return {
-		autenticar: _autenticar
+	var _logout = function() {
+		return $http.post('logout', {});
+	};
+	
+	var _realizarBackup = function() {
+		return $http.get(consts.BASE_URL + '/realizarBackup');
 	}
+	
+	return {		
+		login: _login,
+		logout: _logout,
+		realizarBackup: _realizarBackup		
+	};
 }]);

@@ -1,8 +1,10 @@
-angular.module('odontoFacil', ['ngRoute', 'ngMaterial', 'ngTable'])
+angular.module('odontoFacil', ['ngRoute', 'ngMaterial', 'ngTable']).constant("consts", {
+	BASE_URL: "http://localhost:8080"
+})
 .config(['$routeProvider', function($routeProvider) {		
 		$routeProvider.
 			when('/home', { 
-				templateUrl: "home.html",
+				templateUrl: "pages/dashboard.html",
 			}).when('/cliente', { 
 				templateUrl: "pages/cadastroCliente.html",
 				controller: "clienteController",

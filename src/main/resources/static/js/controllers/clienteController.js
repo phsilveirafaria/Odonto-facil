@@ -12,7 +12,17 @@ angular.module('odontoFacil').controller("clienteController", ['clienteFactory',
 	$scope.$watch(function () { return ctrl.clientes; }, function (newValue, oldValue) {
 		ctrl.tableParams = new NgTableParams({ count: 10, sorting: { nomeCompleto: "asc" } }, { counts: [], dataset: ctrl.clientes });
 	});
+	
+	if (clienteFactory.isEditandoCliente()) {
+		ctrl.cliente = clienteFactory.getCliente();		
+	}
 
+	ctrl.editarCliente = function(cliente) {
+		clienteFactory.setCliente(cliente);
+		clienteFactory.setEditandoCliente(true);
+		$location.path("/editarCliente");
+	};
+	
 	// primeiro parametro, sucesso, segundo parametro erro.
 	ctrl.listarClientes = function() {
 		clienteFactory.listarClientes().then(function successCallback(response) {
@@ -52,8 +62,16 @@ angular.module('odontoFacil').controller("clienteController", ['clienteFactory',
 						.ok('Ok')						
 				);	
 			ctrl.cliente = {};	
-			ctrl.clientes = response.data;
 			$scope.frmCliente.$setPristine();
+			
+			clienteFactory.listarClientes().then(
+					successCallback = function(response) {					    
+						ctrl.clientes = response.data;	    	  
+				  	  },
+				  	  errorCallback = function (error, status){
+				  		//utilService.tratarExcecao(error); 
+				  	  }
+			);
 		}, function errorCallback(response) {
 			console.log(response.data);
 			console.log(response.status);

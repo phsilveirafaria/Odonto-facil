@@ -14,9 +14,9 @@ angular.module('odontoFacil').factory('clienteFactory',['$http', function($http)
 	};
 	
 	var _excluirClientes = function(cliente) {
-		return $http.delete(
-			'http://localhost:8080/excluirClientes/'+ cliente.idCliente,
-			cliente
+		return $http.get(
+			'http://localhost:8080/excluirClientes/',
+			cliente.idCliente
 		);
 	};
 	

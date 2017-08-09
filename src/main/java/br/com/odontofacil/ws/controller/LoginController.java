@@ -1,5 +1,6 @@
 package br.com.odontofacil.ws.controller;
 
+import java.security.Principal;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,18 +24,10 @@ public class LoginController {
 	private LoginService loginService;
 	
 	
-	@RequestMapping(method=RequestMethod.POST, value="/autenticar", consumes=MediaType.APPLICATION_JSON_VALUE)
-	public LoginResponse autenticar(@RequestBody Usuario usuario){
-		Usuario usuarioAutenticado = loginService.autenticar(usuario.getNomeCompleto());
-		
-		JwtBuilder builder = Jwts.builder();
-		
-		String token = builder.setSubject(usuarioAutenticado.getNomeCompleto()) 
-		.signWith(SignatureAlgorithm.HS512, "teste")
-		.setExpiration(new Date(System.currentTimeMillis() + 1 * 60 * 1000)) // 1 MINUTO
-		.compact();
-		
-		return new LoginResponse(token);
+	@RequestMapping("/user")
+	public Principal user(Principal user) {		
+		//psicologoLogado = psicologoRepositorio.findByLogin(user.getName());		
+		return user;
 	}
 	
 	@RequestMapping("/clientes")
