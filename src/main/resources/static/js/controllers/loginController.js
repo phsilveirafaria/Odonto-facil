@@ -12,19 +12,9 @@ angular.module('odontoFacil').controller('loginController', ['$scope', '$rootSco
 			if (response.data.name) {				
 				$rootScope.authenticated = true;	
 				//funcionarioFactory.setVinculadoGCal();				
-				$location.path('/dashboard');
+				$location.path('/home');
 			} else {											
 				$rootScope.authenticated = false;
-				if(response.data.name != undefined){
-				$mdDialog.show(
-						$mdDialog.alert()
-							.clickOutsideToClose(true)
-							.title('Usuario ou Senha inválido')
-							.textContent('Tente novamente!')
-							.ariaLabel('Alerta')
-							.ok('Ok')						
-					);
-				}	
 				credentials = {};	
 				$scope.frmLogin.$setPristine();
 			}			
