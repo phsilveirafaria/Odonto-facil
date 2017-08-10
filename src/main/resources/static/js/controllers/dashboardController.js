@@ -1,3 +1,3 @@
-angular.module('odontoFacil').controller("clienteController", ['clienteFactory','$mdDialog', 'NgTableParams', '$scope' ,
-	function(clienteFactory, $mdDialog, NgTableParams, $scope) {
+angular.module('odontoFacil').controller("dashboardController", [
+function() {
 }]);
