@@ -14,9 +14,6 @@ public class Cliente extends Usuario{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@GeneratedValue
-	private long idCliente;
-	
 	private String observacoes;
 	
 	private String nomeCompletoResponsavel;
@@ -24,14 +21,6 @@ public class Cliente extends Usuario{
 	private String telefoneContatoResponsavel;
 	
 	private Boolean maiorIdade;
-
-	public long getIdCliente() {
-		return idCliente;
-	}
-
-	public void setIdCliente(long idCliente) {
-		this.idCliente = idCliente;
-	}
 
 
 	public String getObservacoes() {

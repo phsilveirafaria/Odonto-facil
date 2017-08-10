@@ -28,12 +28,16 @@ public class OdontoFacilApiApplication extends SpringBootServletInitializer {
 
 	@Bean
 	public DataSource dataSource() throws Exception {
+		try {
 		DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
 	    dataSourceBuilder.url("jdbc:mysql://localhost:3306/odontoFacil");
 	    dataSourceBuilder.username("root");
 	    dataSourceBuilder.password("");
 	        	
 	    return dataSourceBuilder.build();
+		}catch (Exception e) {
+			throw new Exception();
+		}
 	}
 	
 	
@@ -42,11 +46,12 @@ public class OdontoFacilApiApplication extends SpringBootServletInitializer {
 	protected static class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		private static final String USUARIO_POR_LOGIN = "SELECT login, senha, ativo FROM usuario "
 				+ "WHERE login = ?";
+		
 
-		 private static final String PERMISSAO_POR_USUARIO = "SELECT u.login"
-		 + "f.nomeCompleto FROM funcionario_tem_permissao up "
-		 + "JOIN funcionario u ON u.id = up.idFuncionario " + 
-		 "JOIN permissao p ON p.id = up.idPermissao "
+		 private static final String PERMISSAO_POR_USUARIO = "SELECT u.login,"
+		 + "u.nomeCompleto FROM permissoes_funcionarios up "
+		 + "JOIN usuario u ON u.id_Usuario = up.id " + 
+		 "JOIN permissao p ON p.id = up.id_permissao "
 		 + "WHERE u.login = ?";
 
 		@Autowired
@@ -78,23 +83,6 @@ public class OdontoFacilApiApplication extends SpringBootServletInitializer {
 	        .csrf()
 	        	.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());	
 			
-			/*
-			http.httpBasic().and().authorizeRequests()
-					.antMatchers("/lib/**", "/js/**", "/plugins/**","/", "/index.html", "/cadastrar_psicologo.html",
-							"/salvarCliente")
-					.permitAll().anyRequest()
-					.authenticated().and()
-					.formLogin()
-					.loginPage("/index.html")
-					.usernameParameter("login")
-					.passwordParameter("senha")
-					.and()
-					.logout()
-					.and()
-					.csrf()
-					.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
-			 */
-
 		}
 
 		@Override

@@ -16,10 +16,10 @@ import javax.persistence.ManyToOne;
 		@GeneratedValue(strategy=GenerationType.AUTO)
 		Integer id;
 		@ManyToOne
-	    @JoinColumn(name="idfuncionario")
+	    @JoinColumn(name="id_Usuario")
 		Funcionario funcionario;
 		@ManyToOne
-	    @JoinColumn(name="idpermissao")
+	    @JoinColumn(name="id_permissao")
 		Permissao permissao;
 		@Column(name="datacriacao")
 		Calendar dataCriacao;		
