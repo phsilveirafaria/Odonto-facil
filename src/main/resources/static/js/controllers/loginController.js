@@ -15,7 +15,7 @@ angular.module('odontoFacil').controller('loginController', ['$scope', '$rootSco
 				$location.path('/dashboard');
 			} else {											
 				$rootScope.authenticated = false;
-				if(response.data != null){
+				if(response.data.name != undefined){
 				$mdDialog.show(
 						$mdDialog.alert()
 							.clickOutsideToClose(true)
