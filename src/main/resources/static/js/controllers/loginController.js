@@ -1,6 +1,6 @@
 angular.module('odontoFacil').controller('loginController', ['$scope', '$rootScope', '$http', '$location', 
-	'$mdDialog', 'loginFactory', 'funcionarioFactory', 'utilService',	function($scope, $rootScope, 
-			$http, $location, $mdDialog, loginFactory, funcionarioFactory, utilService) {
+	'$mdDialog', 'loginFactory', 'funcionarioFactory',	function($scope, $rootScope, 
+			$http, $location, $mdDialog, loginFactory, funcionarioFactory) {
 	var ctrl = this;
 		
 	var authenticate = function(credentials, callback) {		
@@ -15,6 +15,18 @@ angular.module('odontoFacil').controller('loginController', ['$scope', '$rootSco
 				$location.path('/dashboard');
 			} else {											
 				$rootScope.authenticated = false;
+				if(response.data != null){
+				$mdDialog.show(
+						$mdDialog.alert()
+							.clickOutsideToClose(true)
+							.title('Usuario ou Senha inválido')
+							.textContent('Tente novamente!')
+							.ariaLabel('Alerta')
+							.ok('Ok')						
+					);
+				}	
+				credentials = {};	
+				$scope.frmLogin.$setPristine();
 			}			
 			callback && callback();
 		}, function() {

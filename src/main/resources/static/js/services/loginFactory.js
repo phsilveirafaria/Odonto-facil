@@ -1,5 +1,5 @@
 angular.module('odontoFacil').factory('loginFactory', ['$http', 'consts', function($http, consts) {		
-	var _login = function(headers) {			
+	var _login = function(headers) {
 		return $http.get(consts.BASE_URL + '/user', {headers : headers});				
 	};
 	
