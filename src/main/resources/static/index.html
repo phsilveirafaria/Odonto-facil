@@ -7,15 +7,16 @@
 <meta
 	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
 	name="viewport">
+<link rel="stylesheet" href="./lib/dist/css/skins/_all-skins.css">
 <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.min.css">
+<link href='./lib/fullcalendar/dist/fullcalendar-3.1.0.min.css'
+	rel='stylesheet' type="text/css" />
+<link href='./lib/fullcalendar/dist/fullcalendar.print-3.1.0.min.css'
+	rel='stylesheet' type="text/css" media='print' />
+
 <!-- Font Awesome -->
 <link rel="stylesheet"
 	href="./lib/font-awesome/css/font-awesome.min.css">
-<!-- FastClick -->
-<script src="./lib/fastclick/lib/fastclick.js"></script>
-<!-- AdminLTE App -->
-<script src="./lib/dist/js/adminlte.min.js"></script>
-<!-- page script -->
 <!-- Ionicons -->
 <link rel="stylesheet" href="./lib/Ionicons/css/ionicons.min.css">
 <!-- Theme style -->
@@ -24,29 +25,11 @@
         page. However, you can choose any other skin. Make sure you
         apply the skin class to the body tag so the changes take effect. -->
 
-<link rel="stylesheet" href="./lib/dist/css/skins/_all-skins.css">
-<script type="text/javascript" src='lib/angular-1.5.11.min.js'></script>
-<script type="text/javascript" src='lib/angular-animate-1.5.11.min.js'></script>
-<script type="text/javascript" src='lib/angular-aria-1.5.11.min.js'></script>
-<script type="text/javascript" src='lib/angular-messages-1.5.11.min.js'></script>
-<!-- Material -->
-<script type="text/javascript"
-	src='lib/angular-material/angular-material-1.1.4.min.js'></script>
+
 <link href="lib/angular-material/angular-material-1.1.4.min.css"
 	rel="stylesheet" type="text/css">
 
-<script src="js/app.js"></script>
-<script src="js/controllers/clienteController.js"></script>
-<script src="js/controllers/funcionarioController.js"></script>
-<script src="js/controllers/homeController.js"></script>
-<script src="js/controllers/dashboardController.js"></script>
-<script src="js/controllers/loginController.js"></script>
-<script src="js/services/clienteFactory.js"></script>
-<script src="js/services/funcionarioFactory.js"></script>
-<script src="js/services/loginFactory.js"></script>
 
-<script type="text/javascript" src='lib/angular-route-1.5.9.min.js'></script>
-<script type="text/javascript" src='lib/angular-table/ng-table.min.js'></script>
 <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
 <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
 <!--[if lt IE 9]>
@@ -86,7 +69,7 @@ desired effect
 		<header class="main-header" ng-show="authenticated">
 
 			<!-- Logo -->
-			<a href="/" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
+			<a href="#" class="logo"> <!-- mini logo for sidebar mini 50x50 pixels -->
 				<span class="logo-mini"><b>OD</b>FC</span> <!-- logo for regular state and mobile devices -->
 				<span class="logo-lg"><b>Odonto</b>Facil</span>
 			</a>
@@ -277,7 +260,7 @@ desired effect
 				<ul class="sidebar-menu" data-widget="tree">
 					<li class="header">Menu</li>
 					<!-- Optionally, you can add icons to the links -->
-					<li><a href="#"><i class="fa fa-home"></i> <span>Home</span></a></li>
+					<li><a href="#/home"><i class="fa fa-home"></i> <span>Home</span></a></li>
 					<li class="treeview"><a href="#"><i class="fa fa-user-md"></i>
 							<span>Funcionários</span> <span class="pull-right-container">
 								<i class="fa fa-angle-left pull-right"></i>
@@ -286,7 +269,7 @@ desired effect
 							<li><a href="#/cadastrarFuncionario">Cadastrar</a></li>
 							<li><a href="#/consultarFuncionario">Pesquisar</a></li>
 						</ul></li>
-					<li><a href="#"><i class="fa fa-calendar"></i> <span>Agenda</span></a></li>
+					<li><a href="#/agenda"><i class="fa fa-calendar"></i> <span>Agenda</span></a></li>
 					<li class="treeview"><a href="#"><i class="fa fa-users"></i>
 							<span>Pacientes</span> <span class="pull-right-container">
 								<i class="fa fa-angle-left pull-right"></i>
@@ -309,9 +292,7 @@ desired effect
 		<div class="content-wrapper">
 			<!-- Content Header (Page header) -->
 			<section class="content-header">
-				<h1>
-					Page Header <small>Optional description</small>
-				</h1>
+				<!-- SE QUISER DA PARA COLOCAR CABEÇALHO AQUI -->
 				<ol class="breadcrumb">
 					<li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
 					<li class="active">Here</li>
@@ -320,14 +301,14 @@ desired effect
 			<!-- Main content -->
 			<section class="content container-fluid">
 				<div ng-view></div>
-				<div class="hold-transition login-page">
+				<div ng-show="!authenticated" class="hold-transition login-page">
 					<div class="login-box">
 						<div class="login-logo">
 							<a href="#/index.html"><b>Odonto</b>Facil</a>
 						</div>
 						<!-- /.login-logo -->
 						<div ng-controller="loginController as ctrl"
-							ng-show="!authenticated" class="login-box-body">
+							class="login-box-body">
 							<p class="login-box-msg">Entrar no Sistema</p>
 
 							<form role="form" name="frmLogin" ng-submit="ctrl.login()">
@@ -470,6 +451,30 @@ desired effect
 	<!-- AdminLTE App -->
 	<script src="./lib/dist/js/adminlte.min.js"></script>
 
+	<script type="text/javascript" src='lib/angular-1.5.11.min.js'></script>
+	<script type="text/javascript" src='lib/angular-route-1.5.9.min.js'></script>
+	<script type="text/javascript" src='lib/angular-table/ng-table.min.js'></script>
+	<script type="text/javascript" src='lib/angular-animate-1.5.11.min.js'></script>
+	<script type="text/javascript" src='lib/angular-aria-1.5.11.min.js'></script>
+	<script type="text/javascript" src='lib/angular-messages-1.5.11.min.js'></script>
+	<!-- Material -->
+	<script type="text/javascript"
+		src='lib/angular-material/angular-material-1.1.4.min.js'></script>
+	<!-- FastClick -->
+	<script src="./lib/fastclick/lib/fastclick.js"></script>
+	<!-- AdminLTE App -->
+	<script src="js/app.js"></script>
+	<script src="js/controllers/clienteController.js"></script>
+	<script src="js/controllers/funcionarioController.js"></script>
+	<script src="js/controllers/homeController.js"></script>
+	<script src="js/controllers/dashboardController.js"></script>
+	<script src="js/controllers/loginController.js"></script>
+	<script src="js/services/clienteFactory.js"></script>
+	<script src="js/services/funcionarioFactory.js"></script>
+	<script src="js/services/loginFactory.js"></script>
+
+
+	<!-- page script -->
 
 	<!-- iCheck -->
 	<script src="../../plugins/iCheck/icheck.min.js"></script>

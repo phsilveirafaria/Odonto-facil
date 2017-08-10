@@ -51,7 +51,6 @@ angular.module('odontoFacil').controller("clienteController", ['clienteFactory',
 	
 	
 	ctrl.salvarClientes = function(cliente) {
-		console.log(cliente);
 		clienteFactory.salvarClientes(cliente).then(function successCallback(response) {
 			$mdDialog.show(
 					$mdDialog.alert()
