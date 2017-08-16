@@ -41,7 +41,6 @@
 	                 		<caption style="text-align: center;">Lista de Clientes</caption>							
     						<tr ng-repeat="cliente in $data | filter:ctrl.pesquisaNome">
         						<td data-title="'Nome'">{{cliente.nomeCompleto}}</td>
-					            <td data-title="'Usuario'">{{cliente.login}}</td>					       		
 					            <td data-title="'CPF'">{{cliente.cpf_cnpj}}</td>					            
 					            <td data-title="'E-mail'">{{cliente.email}}</td>
 					            <td data-title="'CEP'" class="text-center">{{cliente.cep}}</td>

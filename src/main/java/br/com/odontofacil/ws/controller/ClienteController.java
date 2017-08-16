@@ -25,6 +25,7 @@ public class ClienteController {
 	//Serve para inserir e alterar
 		@RequestMapping(method=RequestMethod.POST, value="/salvarClientes", consumes=MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<Cliente> salvar(@RequestBody Cliente cliente){
+			cliente.setAtivo(true);
 			Cliente clienteCadastrado = clienteService.salvar(cliente);
 			return new ResponseEntity<>(clienteCadastrado, HttpStatus.CREATED);
 		}
