@@ -36,10 +36,10 @@ public class FuncionarioController {
 			return new ResponseEntity<>(funcionarios, HttpStatus.OK);
 		}
 		
-		@RequestMapping(method=RequestMethod.DELETE, value = "/deletarFuncionario/{id}")
-		public ResponseEntity<Funcionario> excluirfuncionario(@PathVariable Long id) {
+		@RequestMapping(method=RequestMethod.POST, value = "/deletarFuncionario")
+		public ResponseEntity<Funcionario> excluirfuncionario(@RequestBody Funcionario funcionario) {
 			
-			Funcionario funcionarioEncontrado = funcionarioService.buscarPorId(id);
+			Funcionario funcionarioEncontrado = funcionarioService.buscarPorId(funcionario.getIdUsuario());
 			
 			if(funcionarioEncontrado == null){
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);

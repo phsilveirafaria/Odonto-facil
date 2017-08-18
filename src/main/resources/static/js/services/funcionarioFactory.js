@@ -16,8 +16,8 @@ angular.module('odontoFacil').factory('funcionarioFactory',['$http', function($h
 	};
 	
 	var _excluirFuncionarios = function(funcionario) {
-		return $http.delete(
-			'http://localhost:8080/excluirFuncionarios/'+ funcionario.idFuncionario,
+		return $http.post(
+			'http://localhost:8080/excluirFuncionarios/',
 			funcionario
 		);
 	};

@@ -25,7 +25,15 @@ angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 
 	}
 	
 	ctrl.excluirFuncionarios = function(funcionario) {
+		console.log(cliente);
+		var confirm = $mdDialog.confirm()
+		.title('Atenção')
+		.textContent('Todas as informações do paciente, incluindo os prontuários, serão perdidas. Tem certeza que deseja continuar?')				
+		.ok('Sim')
+		.cancel('Não');
+		
 		funcionarioFactory.excluirFuncionarios(funcionario).then(function successCallback(response) {
+			ctrl.listarFuncionarios();
 			ctrl.funcionarios = response.data;
 			console.log(response.data);
 			console.log(response.status);
