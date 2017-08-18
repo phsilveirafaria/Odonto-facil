@@ -17,17 +17,17 @@ angular.module('odontoFacil').factory('clienteFactory',['$http', function($http)
 	};
 	
 	var _excluirClientes = function(cliente) {
-		return $http.get(
+		return $http.post(
 			'http://localhost:8080/excluirClientes/',
-			cliente.idCliente
+			cliente
 		);
 	};
 	
 	return {
-		getCliente: function() { return cliente; },
-		setCliente: function(cliente) { cliente = cliente; },
+		getCliente: function() { return _cliente; },
+		setCliente: function(cliente) { _cliente = cliente; },
 		isEditandoCliente: function() { return _editandoCliente; },
-		setEditandoClientes: function(editandoCliente) { _editandoCliente = editandoCliente; },
+		setEditandoCliente: function(editandoCliente) { _editandoCliente = editandoCliente; },
 		listarClientes: _listarClientes,
 		salvarClientes: _salvarClientes,
 		excluirClientes: _excluirClientes

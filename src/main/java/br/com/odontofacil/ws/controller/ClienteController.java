@@ -36,10 +36,10 @@ public class ClienteController {
 			return new ResponseEntity<>(clientes, HttpStatus.OK);
 		}
 		
-		@RequestMapping(method=RequestMethod.DELETE, value = "/deletarCliente/{id}")
-		public ResponseEntity<Cliente> excluirCliente(@PathVariable Long id) {
+		@RequestMapping(method=RequestMethod.POST, value = "/excluirClientes")
+		public ResponseEntity<Cliente> excluirCliente(@RequestBody Cliente cliente) {
 			
-			Cliente clienteEncontrado = clienteService.buscarPorId(id);
+			Cliente clienteEncontrado = clienteService.buscarPorId(cliente.getIdUsuario());
 			
 			if(clienteEncontrado == null){
 				return new ResponseEntity<>(HttpStatus.NOT_FOUND);

@@ -11,6 +11,10 @@ angular.module('odontoFacil', ['ngRoute', 'ngMaterial', 'ngTable']).constant("co
 				templateUrl: "pages/cadastroCliente.html",
 				controller: "clienteController",
 				controllerAs: "ctrl"
+			}).when('/editarCliente', { 
+				templateUrl: "pages/cadastroCliente.html",
+				controller: "clienteController",
+				controllerAs: "ctrl"
 			}).when('/agenda', { 
 				templateUrl: "pages/agenda.html",
 				controller: "agendaController",
