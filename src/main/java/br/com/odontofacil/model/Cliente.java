@@ -1,5 +1,7 @@
 package br.com.odontofacil.model;
 
+import java.math.BigInteger;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -15,6 +17,8 @@ public class Cliente extends Usuario{
 	private static final long serialVersionUID = 1L;
 
 	private String observacoes;
+	
+	private int numeroProntuario;
 	
 	private String nomeCompletoResponsavel;
 	
@@ -59,5 +63,13 @@ public class Cliente extends Usuario{
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
+
+	public int getNumeroProntuario() {
+		return numeroProntuario;
+	}
+
+	public void setNumeroProntuario(int numeroProntuario) {
+		this.numeroProntuario = numeroProntuario;
+	}
+
 }

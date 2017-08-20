@@ -40,6 +40,17 @@ angular.module('odontoFacil').controller('loginController', ['$scope', '$rootSco
 //				);
 		    } else {		    	
 		    	ctrl.error = true;
+				credentials = {};	
+				$scope.frmLogin.$setPristine();
+				
+		    	$mdDialog.show(
+						$mdDialog.alert()
+							.clickOutsideToClose(true)
+							.title('Login Inválido')
+							.textContent('Usuario e senha inválidos')
+							.ariaLabel('Alerta')
+							.ok('Ok')						
+					);	
 		    }
 		  });			
 	};
