@@ -18,7 +18,7 @@ public class Cliente extends Usuario{
 
 	private String observacoes;
 	
-	private int numeroProntuario;
+	private String numeroProntuario;
 	
 	private String nomeCompletoResponsavel;
 	
@@ -64,12 +64,14 @@ public class Cliente extends Usuario{
 		return serialVersionUID;
 	}
 
-	public int getNumeroProntuario() {
+	public String getNumeroProntuario() {
 		return numeroProntuario;
 	}
 
-	public void setNumeroProntuario(int numeroProntuario) {
+	public void setNumeroProntuario(String numeroProntuario) {
 		this.numeroProntuario = numeroProntuario;
 	}
+
+	
 
 }

@@ -22,13 +22,10 @@ angular.module('odontoFacil').factory('funcionarioFactory',['$http', function($h
 		);
 	};
 	
-	var _atualizarFuncionario = function(funcionario) {
-		return $http.post('http://localhost:8080/atualizarFuncionarios', funcionario);
-	};
 	
 	return {
-		getFuncionario: function() { return funcionario; },
-		setFuncionario: function(funcionario) { funcionario = funcionario; },
+		getFuncionario: function() { return _funcionario; },
+		setFuncionario: function(funcionario) { _funcionario = funcionario; },
 		isEditandoFuncionario: function() { return _editandoFuncionario; },
 		setEditandoFuncionario: function(editandoFuncionario) { _editandoFuncionario = editandoFuncionario; },
 		listarFuncionarios: _listarFuncionarios,

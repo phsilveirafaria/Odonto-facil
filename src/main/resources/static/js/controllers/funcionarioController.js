@@ -1,5 +1,5 @@
-angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 'funcionarioFactory', 'NgTableParams', '$scope',
-	function($mdDialog, funcionarioFactory, NgTableParams, $scope) {
+angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 'funcionarioFactory', 'NgTableParams', '$scope', '$location', '$http' ,
+	function($mdDialog, funcionarioFactory, NgTableParams, $scope, $location, $http) {
 	var ctrl = this;
 
 	ctrl.funcionarios = [];
@@ -44,8 +44,41 @@ angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 
 		
 	}
 	
+	ctrl.buscarCep = function(nCep) {
+		ctrl.loading = true;
+		
+		var cep = nCep.replace(/[^0-9]/g,'');
+		$http.get("https://viacep.com.br/ws/" + cep + "/json/").then(
+				successCallback = function(response) {
+					ctrl.funcionario.rua = response.data.logradouro;
+					ctrl.funcionario.numero = "";
+					ctrl.funcionario.bairro = response.data.bairro;
+					ctrl.funcionario.cidade = response.data.localidade;
+					ctrl.funcionario.uf = response.data.uf;
+					ctrl.loading = false;					
+				},
+			  	errorCallback = function (error, status){
+					ctrl.funcionario.logradouro = "";
+					ctrl.funcionario.numero = "";
+					ctrl.funcionario.bairro = "";
+					ctrl.funcionario.localidade = "";
+					ctrl.funcionario.uf = "";
+					ctrl.loading = false;
+			  	}		
+		);						
+	};
+	
 	ctrl.editarFuncionario = function(funcionario) {
+		if (funcionario.dataNascimento) {
+			var dataFormatada = new Date(funcionario.dataNascimento);			
+			var dia = dataFormatada.getDate() < 10?"0"+dataFormatada.getDate():dataFormatada.getDate();
+			var mes = (dataFormatada.getMonth()+1) < 10?"0"+(dataFormatada.getMonth()+1):(dataFormatada.getMonth()+1);
+			var ano = dataFormatada.getFullYear();			
+			funcionario.dataNascimento = dia + "/" + mes + "/" + ano;
+		}
 		funcionarioFactory.setFuncionario(funcionario);
+		funcionarioFactory.setEditandoFuncionario(true);
+		console.log(funcionario);
 		$location.path("/editarFuncionario");
 	};
 	

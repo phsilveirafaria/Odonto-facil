@@ -1,5 +1,5 @@
-angular.module('odontoFacil').controller("clienteController", ['clienteFactory','$mdDialog', 'NgTableParams', '$scope' , '$location', 
-	function(clienteFactory, $mdDialog, NgTableParams, $scope, $location) {
+angular.module('odontoFacil').controller("clienteController", ['clienteFactory', '$http', '$mdDialog', 'NgTableParams', '$scope' , '$location', 
+	function(clienteFactory, $http, $mdDialog, NgTableParams, $scope, $location) {
 	var ctrl = this;
 
 	/*
@@ -16,6 +16,30 @@ angular.module('odontoFacil').controller("clienteController", ['clienteFactory',
 	if (clienteFactory.isEditandoCliente()) {
 		ctrl.cliente = clienteFactory.getCliente();		
 	}
+	
+	ctrl.buscarCep = function(nCep) {
+		ctrl.loading = true;
+		
+		var cep = nCep.replace(/[^0-9]/g,'');
+		$http.get("https://viacep.com.br/ws/" + cep + "/json/").then(
+				successCallback = function(response) {
+					ctrl.cliente.rua = response.data.logradouro;
+					ctrl.cliente.numero = "";
+					ctrl.cliente.bairro = response.data.bairro;
+					ctrl.cliente.cidade = response.data.localidade;
+					ctrl.cliente.uf = response.data.uf;
+					ctrl.loading = false;					
+				},
+			  	errorCallback = function (error, status){
+					ctrl.cliente.logradouro = "";
+					ctrl.cliente.numero = "";
+					ctrl.cliente.bairro = "";
+					ctrl.cliente.localidade = "";
+					ctrl.cliente.uf = "";
+					ctrl.loading = false;
+			  	}		
+		);						
+	};
 
 	ctrl.editarCliente = function(cliente) {
 		if (cliente.dataNascimento) {
@@ -70,22 +94,14 @@ angular.module('odontoFacil').controller("clienteController", ['clienteFactory',
 			$mdDialog.show(
 					$mdDialog.alert()
 						.clickOutsideToClose(true)
-						.title('Cadastro de Paciente')
-						.textContent('Paciente cadastrado com sucesso!')
+						.title('Cadastro de Clientes')
+						.textContent('Cliente cadastrado com sucesso!')
 						.ariaLabel('Alerta')
 						.ok('Ok')						
 				);	
-			ctrl.listarClientes();	
+			ctrl.cliente = {};	
+			ctrl.clientes = response.data;
 			$scope.frmCliente.$setPristine();
-			
-			clienteFactory.listarClientes().then(
-					successCallback = function(response) {					    
-						ctrl.clientes = response.data;	    	  
-				  	  },
-				  	  errorCallback = function (error, status){
-				  		//utilService.tratarExcecao(error); 
-				  	  }
-			);
 		}, function errorCallback(response) {
 			console.log(response.data);
 			console.log(response.status);

@@ -80,11 +80,13 @@
 						<label for="text" class="col-sm-2 control-label">CEP:  
 						</label>
 						<div class="col-sm-2">
-							<input type="text" class="form-control" ng-model="ctrl.cliente.cep" maxlength="8" 
-								placeholder="CEP"/>
+							<input type="text" onKeyPress="mascara(this, '#####-###')" class="form-control" ng-model="ctrl.cliente.cep" maxlength="9" ng-pattern="/^[0-9]{5}[-][0-9]{3}$/"
+								ng-blur="ctrl.cliente.cep?ctrl.buscarCep(ctrl.cliente.cep):''"
+								placeholder="CEP" formatted-cep>
 						</div>
 					</div>
 					
+																																				
 					<div class="form-group">
 						<label for="text" class="col-sm-2 control-label">Rua:  
 						</label>
