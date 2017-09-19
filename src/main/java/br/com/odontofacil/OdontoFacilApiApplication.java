@@ -1,5 +1,9 @@
 package br.com.odontofacil;
 
+import java.util.Locale;
+import java.util.TimeZone;
+
+import javax.annotation.PostConstruct;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,8 +19,14 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.web.servlet.i18n.FixedLocaleResolver;
+
+import br.com.odontofacil.model.Funcionario;
 
 
 @SpringBootApplication
@@ -24,6 +34,17 @@ public class OdontoFacilApiApplication extends SpringBootServletInitializer {
 
 	public static void main(String[] args) {
 		SpringApplication.run(OdontoFacilApiApplication.class, args);
+	}
+	
+	
+	@PostConstruct
+	void started() {
+		TimeZone.setDefault(TimeZone.getTimeZone("America/Sao_Paulo"));
+	}
+	
+	@Bean
+	public LocaleResolver localeResolver() {
+		return new FixedLocaleResolver(new Locale("pt", "BR"));
 	}
 
 	@Bean
@@ -84,7 +105,15 @@ public class OdontoFacilApiApplication extends SpringBootServletInitializer {
 	        	.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());	
 			
 		}
-
+		
+//		public Funcionario usuarioLogado() {
+//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//		String us = auth.getName();
+//		
+//		return funcionario;
+//		}
+		
+		
 		@Override
 		public void configure(AuthenticationManagerBuilder builder) throws Exception {
 			builder

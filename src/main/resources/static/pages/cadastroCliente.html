@@ -34,17 +34,8 @@
 					
 					<div class="form-group">
 						<label class="col-sm-2 control-label">Date Nascimento: </label>
-						<div class="col-sm-5">
-							<div class="input-group">
-								<div class="input-group-addon">
-
-									<i class="fa fa-calendar"></i>
-								</div>
-								<input type="date" class="form-control" autofocus
-									ng-required="true" ng-model="ctrl.cliente.dataNascimento"
-									data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
-							</div>
-						</div>
+								<md-datepicker class="form-control" autofocus
+									ng-required="true" ng-model="ctrl.cliente.dataNascimento"/>
 					</div>
 					
 					<div class="form-group">

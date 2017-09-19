@@ -1,7 +1,7 @@
 angular.module('odontoFacil', ['ngRoute', 'ngMaterial', 'ngTable']).constant("consts", {
 	BASE_URL: "http://localhost:8080"
 })
-.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider) {		
+.config(['$routeProvider', '$httpProvider', '$mdDateLocaleProvider' ,function($routeProvider, $httpProvider, $mdDateLocaleProvider) {		
 		$routeProvider.
 			when('/home', { 
 				templateUrl: "pages/dashboard.html",
@@ -18,6 +18,10 @@ angular.module('odontoFacil', ['ngRoute', 'ngMaterial', 'ngTable']).constant("co
 			}).when('/editarFuncionario', { 
 				templateUrl: "pages/cadastroFuncionario.html",
 				controller: "funcionarioController",
+				controllerAs: "ctrl"
+			}).when('/financeiro', { 
+				templateUrl: "pages/financeiro.html",
+				controller: "financeiroController",
 				controllerAs: "ctrl"
 			}).when('/agenda', { 
 				templateUrl: "pages/agenda.html",
@@ -40,6 +44,22 @@ angular.module('odontoFacil', ['ngRoute', 'ngMaterial', 'ngTable']).constant("co
 				controller: "loginController",
 				controllerAs: "ctrl"			
 			}).otherwise({redirectTo: '/'});
+		
+		$mdDateLocaleProvider.months = ['Janeiro', 'Fevereiro', 'Março', 'Abril', 'Maio', 'Junho', 'Julho', 'Agosto', 'Setembro', 'Outubro', 'Novembro', 'Dezembro'];
+	    $mdDateLocaleProvider.shortMonths = ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+	    $mdDateLocaleProvider.days = ['Domingo', 'Segunda', 'terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado'];
+	    $mdDateLocaleProvider.shortDays = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+		
+		$mdDateLocaleProvider.formatDate = function(date) {
+			console.log("aqui");
+			return moment(date).format('DD/MM/YYYY');
+		};
+		
+		$mdDateLocaleProvider.parseDate = function(dateString) {
+			var m = moment(dateString, 'DD/MM/YYYY', true);
+			return m.isValid() ? m.toDate() : new Date(NaN);
+		};
+		
 		
 		$httpProvider.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 		

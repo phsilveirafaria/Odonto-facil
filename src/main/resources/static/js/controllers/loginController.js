@@ -55,6 +55,18 @@ angular.module('odontoFacil').controller('loginController', ['$scope', '$rootSco
 		  });			
 	};
 	
+ctrl.funcionario = {};
+	
+	ctrl.funcionarioLogado = function(funcionario) {
+		homeFactory.funcionarioLogado().then(function successCallback(response){
+		ctrl.funcionario = response.data;
+		return ctrl.funcionario.nomeCompleto;
+	}, function errorCallback(response) {
+		console.log(response.data);
+		console.log(response.status);
+	});
+	}
+	
 	ctrl.logout = function() {
 		loginFactory.logout();
 		$rootScope.authenticated = false;

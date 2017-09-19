@@ -14,7 +14,8 @@ angular.module('odontoFacil').controller("clienteController", ['clienteFactory',
 	});
 	
 	if (clienteFactory.isEditandoCliente()) {
-		ctrl.cliente = clienteFactory.getCliente();		
+		ctrl.cliente = clienteFactory.getCliente();	
+		console.log(ctrl.cliente);
 	}
 	
 	ctrl.buscarCep = function(nCep) {
@@ -42,16 +43,9 @@ angular.module('odontoFacil').controller("clienteController", ['clienteFactory',
 	};
 
 	ctrl.editarCliente = function(cliente) {
-		if (cliente.dataNascimento) {
-			var dataFormatada = new Date(cliente.dataNascimento);			
-			var dia = dataFormatada.getDate() < 10?"0"+dataFormatada.getDate():dataFormatada.getDate();
-			var mes = (dataFormatada.getMonth()+1) < 10?"0"+(dataFormatada.getMonth()+1):(dataFormatada.getMonth()+1);
-			var ano = dataFormatada.getFullYear();			
-			cliente.dataNascimento = dia + "/" + mes + "/" + ano;
-		}
+		console.log(cliente.dataNascimento);
 		clienteFactory.setCliente(cliente);
 		clienteFactory.setEditandoCliente(true);
-		console.log(cliente);
 		$location.path("/editarCliente");
 	};
 	
@@ -60,7 +54,6 @@ angular.module('odontoFacil').controller("clienteController", ['clienteFactory',
 		clienteFactory.listarClientes().then(function successCallback(response) {
 			ctrl.clientes = response.data;
 			console.log(response.data);
-			console.log(response.status);
 		}, function errorCallback(response) {
 			console.log(response.data);
 			console.log(response.status);

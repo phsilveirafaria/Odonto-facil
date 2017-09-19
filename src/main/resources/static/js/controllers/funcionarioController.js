@@ -1,5 +1,5 @@
-angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 'funcionarioFactory', 'NgTableParams', '$scope', '$location', '$http' ,
-	function($mdDialog, funcionarioFactory, NgTableParams, $scope, $location, $http) {
+angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 'funcionarioFactory', 'NgTableParams', '$scope', '$location', '$http', 'homeFactory' ,
+	function($mdDialog, funcionarioFactory, NgTableParams, $scope, $location, $http, homeFactory) {
 	var ctrl = this;
 
 	ctrl.funcionarios = [];
@@ -12,6 +12,16 @@ angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 
 	if (funcionarioFactory.isEditandoFuncionario()) {
 		ctrl.funcionario = funcionarioFactory.getFuncionario();		
 	}
+	
+//	ctrl.funcionarioLogado = function() {
+//		homeFactory.funcionarioLogado().then(function successCallback(response){
+//		ctrl.funcionario.nomeCompleto = response.data;
+//	}, function errorCallback(response) {
+//		console.log(response.data);
+//		console.log(response.status);
+//	});
+
+//	}
 
 	// primeiro parametro, sucesso, segundo parametro erro.
 	ctrl.listarFuncionarios = function() {

@@ -178,7 +178,7 @@ desired effect
 								<img
 								src="https://yt3.ggpht.com/-3YGn4reoO5c/AAAAAAAAAAI/AAAAAAAAAAA/zLqOw91Omy4/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"
 								class="user-image" alt="User Image"> <!-- hidden-xs hides the username on small devices so only the image appears. -->
-								<span class="hidden-xs">Paulo Henrique</span>
+								<span class="hidden-xs" ng-bind="ctrl.funcionario">{{ctrl.funcionarioLogado()}}</span>
 						</a>
 							<ul class="dropdown-menu">
 								<!-- The user image in the menu -->
@@ -264,7 +264,7 @@ desired effect
 							<li><a href="#/cliente">Cadastrar</a></li>
 							<li><a href="#/consultarCliente">Pesquisar</a></li>
 						</ul></li>
-					<li><a href="#"><i class="fa fa-home"></i> <span>Financeiro</span></a></li>
+					<li><a href="#/financeiro"><i class="fa fa-home"></i> <span>Financeiro</span></a></li>
 					<li><a href="#"><i class="fa fa-home"></i> <span>Perfil</span></a></li>
 					<li><a href="#"><i class="fa fa-home"></i> <span>Convênios</span></a></li>
 
@@ -435,7 +435,8 @@ desired effect
 	<script src="./lib/bootstrap/dist/js/bootstrap.min.js"></script>
 	<!-- AdminLTE App -->
 	<script src="./lib/dist/js/adminlte.min.js"></script>
-
+	<script type="text/javascript" src='lib/moment/moment.js'></script>
+	<script type="text/javascript" src='lib/ui-bootstrap/ui-bootstrap-tpls-2.3.2.min.js'></script>
 	<script type="text/javascript" src='lib/angular-1.5.11.min.js'></script>
 	<script type="text/javascript" src='lib/angular-route-1.5.9.min.js'></script>
 	<script type="text/javascript" src='lib/angular-table/ng-table.min.js'></script>
@@ -456,13 +457,17 @@ desired effect
 	<script src="./lib/Chart.js/Chart.js"></script>
 	<script src="js/app.js"></script>
 	<script src="js/controllers/clienteController.js"></script>
+	<script src="js/controllers/agendaController.js"></script>
 	<script src="js/controllers/funcionarioController.js"></script>
 	<script src="js/controllers/homeController.js"></script>
 	<script src="js/controllers/dashboardController.js"></script>
 	<script src="js/controllers/loginController.js"></script>
 	<script src="js/services/clienteFactory.js"></script>
+	<script src="js/services/homeFactory.js"></script>
 	<script src="js/services/funcionarioFactory.js"></script>
 	<script src="js/services/loginFactory.js"></script>
+	<script src="js/services/financeiroFactory.js"></script>
+	<script src="js/services/financeiroController.js"></script>
 	<script type="text/javascript" src="js/util.js"></script>
 
 
@@ -480,8 +485,5 @@ desired effect
     });
   });
 </script>
-	</div>
-
-
 </body>
 </html>

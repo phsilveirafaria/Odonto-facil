@@ -1,6 +1,7 @@
 package br.com.odontofacil.model;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -22,7 +23,7 @@ public class Usuario implements Serializable{
 	
 	private String nomeCompleto;
 	
-	private Date dataNascimento;
+	private Calendar dataNascimento;
 	
 	private String cpf_cnpj;
 	
@@ -67,11 +68,12 @@ public class Usuario implements Serializable{
 		this.nomeCompleto = nomeCompleto;
 	}
 
-	public Date getDataNascimento() {
+
+	public Calendar getDataNascimento() {
 		return dataNascimento;
 	}
 
-	public void setDataNascimento(Date dataNascimento) {
+	public void setDataNascimento(Calendar dataNascimento) {
 		this.dataNascimento = dataNascimento;
 	}
 

@@ -32,6 +32,7 @@ public class FuncionarioService {
 		
 	}
 	
+	
 	public 	List<Funcionario> buscarTodos(){
 		return funcionarioRepository.findAll();
 	}
