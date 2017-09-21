@@ -32,6 +32,10 @@ public class FuncionarioService {
 		
 	}
 	
+	public Funcionario buscaPorLogin(String login) {
+		return funcionarioRepository.findByLogin(login);
+	}
+	
 	
 	public 	List<Funcionario> buscarTodos(){
 		return funcionarioRepository.findAll();

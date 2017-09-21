@@ -9,8 +9,8 @@ import br.com.odontofacil.model.Funcionario;
 @Repository
 public interface FuncionarioRepository extends JpaRepository <Funcionario, Long>{
 	
-//	@Query("SELECT f FROM Usuario f "
-//			+ "WHERE f.login = ?1 ")
-//	public Funcionario findByLogin(String login);
+	@Query("SELECT f FROM Usuario f "
+			+ "WHERE f.login = ?1 ")
+	public Funcionario findByLogin(String login);
 
 }

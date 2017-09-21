@@ -62,7 +62,7 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-purple sidebar-mini">
+<body class="hold-transition skin-purple sidebar-mini" ng-controller="loginController as ctrl">
 	<div class="wrapper">
 
 		<!-- Main Header -->
@@ -178,7 +178,8 @@ desired effect
 								<img
 								src="https://yt3.ggpht.com/-3YGn4reoO5c/AAAAAAAAAAI/AAAAAAAAAAA/zLqOw91Omy4/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"
 								class="user-image" alt="User Image"> <!-- hidden-xs hides the username on small devices so only the image appears. -->
-								<span class="hidden-xs" ng-bind="ctrl.funcionario">{{ctrl.funcionarioLogado()}}</span>
+<!-- 							<span class="hidden-xs" ng-bind="ctrl.funcionario">{{ctrl.funcionarioLogado()}}</span> -->
+								<span class="hidden-xs">{{ctrl.x.nomeCompleto}}</span>
 						</a>
 							<ul class="dropdown-menu">
 								<!-- The user image in the menu -->
@@ -196,7 +197,7 @@ desired effect
 										<a href="#" class="btn btn-default btn-flat">Profile</a>
 									</div>
 									<div class="pull-right">
-										<a href="index.html" class="btn btn-default btn-flat">Sair</a>
+										<a href="index.html" ng-click="ctrl.logout()" class="btn btn-default btn-flat">Sair</a>
 									</div>
 								</li>
 							</ul>
@@ -292,8 +293,7 @@ desired effect
 							<a href="#/index.html"><b>Odonto</b>Facil</a>
 						</div>
 						<!-- /.login-logo -->
-						<div ng-controller="loginController as ctrl"
-							class="login-box-body">
+						<div class="login-box-body">
 							<p class="login-box-msg">Entrar no Sistema</p>
 
 							<form role="form" name="frmLogin" ng-submit="ctrl.login()">
@@ -436,8 +436,8 @@ desired effect
 	<!-- AdminLTE App -->
 	<script src="./lib/dist/js/adminlte.min.js"></script>
 	<script type="text/javascript" src='lib/moment/moment.js'></script>
-	<script type="text/javascript" src='lib/ui-bootstrap/ui-bootstrap-tpls-2.3.2.min.js'></script>
 	<script type="text/javascript" src='lib/angular-1.5.11.min.js'></script>
+	<script type="text/javascript" src='lib/ui-bootstrap/ui-bootstrap-tpls-2.3.2.min.js'></script>
 	<script type="text/javascript" src='lib/angular-route-1.5.9.min.js'></script>
 	<script type="text/javascript" src='lib/angular-table/ng-table.min.js'></script>
 	<script type="text/javascript" src='lib/angular-animate-1.5.11.min.js'></script>
@@ -457,17 +457,20 @@ desired effect
 	<script src="./lib/Chart.js/Chart.js"></script>
 	<script src="js/app.js"></script>
 	<script src="js/controllers/clienteController.js"></script>
+	<script src="js/controllers/financeiroController.js"></script>
 	<script src="js/controllers/agendaController.js"></script>
 	<script src="js/controllers/funcionarioController.js"></script>
 	<script src="js/controllers/homeController.js"></script>
+	<script src="js/controllers/modalAgendamentoController.js"></script>
 	<script src="js/controllers/dashboardController.js"></script>
 	<script src="js/controllers/loginController.js"></script>
 	<script src="js/services/clienteFactory.js"></script>
+	<script src="js/services/SessionService.js"></script>
 	<script src="js/services/homeFactory.js"></script>
 	<script src="js/services/funcionarioFactory.js"></script>
 	<script src="js/services/loginFactory.js"></script>
+	<script src="js/services/agendamentoFactory.js"></script>
 	<script src="js/services/financeiroFactory.js"></script>
-	<script src="js/services/financeiroController.js"></script>
 	<script type="text/javascript" src="js/util.js"></script>
 
 

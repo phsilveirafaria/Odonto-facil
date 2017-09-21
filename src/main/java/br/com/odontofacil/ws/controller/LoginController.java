@@ -3,10 +3,13 @@ package br.com.odontofacil.ws.controller;
 import java.security.Principal;
 import java.util.Date;
 
+import javax.websocket.server.PathParam;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,11 +39,20 @@ public class LoginController {
 		return user;
 	}
 	
-//	@RequestMapping(method=RequestMethod.GET, value="/userLogado", consumes=MediaType.APPLICATION_JSON_VALUE)
-//	public ResponseEntity<String> userLogado(){
-//		Funcionario user = (Funcionario) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-//		return new ResponseEntity<>(user.getNomeCompleto(), HttpStatus.CREATED);
-//	}
+//	public Funcionario usuarioLogado() {
+//	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+//	String us = auth.getName();
+//	
+//	return funcionario;
+//	}	
+	
+	@RequestMapping(method=RequestMethod.GET, value="/userLogado/{nome}")
+	public ResponseEntity<Funcionario> userLogado(@PathParam("{nome}") String nome){
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String user = auth.getName();
+		Funcionario funcionario = funcionarioService.buscaPorLogin(user);
+		return new ResponseEntity<>(funcionario , HttpStatus.CREATED);
+	}
 	
 
 	@RequestMapping("/clientes")

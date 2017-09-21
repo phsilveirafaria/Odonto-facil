@@ -106,12 +106,6 @@ public class OdontoFacilApiApplication extends SpringBootServletInitializer {
 			
 		}
 		
-//		public Funcionario usuarioLogado() {
-//		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-//		String us = auth.getName();
-//		
-//		return funcionario;
-//		}
 		
 		
 		@Override

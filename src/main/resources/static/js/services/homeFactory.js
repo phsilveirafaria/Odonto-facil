@@ -1,17 +1,17 @@
 angular.module('odontoFacil').factory('homeFactory',['$http', function($http) {
 	var ctrl = this;
-	
+	var homeFactory = {};
 	ctrl.funcionario = {};
 	
 	
-	var _funcionarioLogado = function() {
+	homeFactory.funcionarioLogado = function(funcionario) {
 		return $http.get(
-			'http://localhost:8080/userLogado'
+			'http://localhost:8080/userLogado',
+			funcionario
+				
 		);
 	};
 	
-	return {
-		funcionarioLogado: _funcionarioLogado,
-	}
+	return homeFactory;
 	
 }]);

@@ -1,0 +1,82 @@
+<head>		
+	<meta charset="UTF-8" />		
+</head>	
+<div class="modal-header">
+	<h3 class="modal-title" id="modal-title">Agendamento</h3>
+</div>
+
+<div class="modal-body" id="modal-body"> 		
+	<form name="agendamentoForm">
+		<div class="form-group">
+			<div ng-class="agendamentoForm.selPacientes.$error.required ?
+				'form-group has-error has-feedback' : ''">					
+				<label for="selPacientes">Nome do Paciente:</label> 
+				<select
+					id="selPacientes" name="selPacientes" class="form-control"					
+					ng-model="ctrl.agendamento.paciente"
+					ng-options="paciente.nomeExibicao for paciente in ctrl.lstPacientesAtivos track by paciente.id"
+					ng-required = "true">
+					<option value="">Selecione o paciente</option>
+				</select>																							
+			</div>								
+			<div>					
+				<label for="selConvenios">Convênio:</label> 
+				<select
+					id="selConvenios" name="selConvenios" class="form-control"					
+					ng-model="ctrl.agendamento.convenio"
+					ng-options="convenio.nome for convenio in ctrl.lstConveniosAtivos track by convenio.id">
+					<option value="">Selecione o convênio</option>
+				</select>																										
+			</div>
+			<div class="clockpicker" ng-class="agendamentoForm.inicio.$error.pattern || 
+				agendamentoForm.inicio.$error.required ? 
+				'form-group has-error has-feedback' : ''">
+				<label for="inicio">Horário da consulta:</label>
+				<input id="inicio" name="inicio" type="text" class="form-control" 
+					ng-model="ctrl.agendamento.formatedStart"
+					ng-disabled="!ctrl.agendamento.editable"
+					maxlength="5" ng-required="true" onKeyPress="mascara(this, '##:##')" 
+					ng-pattern="/^([01]\d|2[0-3]):?([0-5]\d)$/" ng-required="true">
+				<script type="text/javascript">			
+					$('.clockpicker').clockpicker({
+						autoclose: true
+					});			
+				</script>													 					
+			</div>	
+			<label for="observacao">Observação: </label> 
+			<textarea id="observacao" ng-disabled="!ctrl.agendamento.editable" 
+				class="form-control" ng-model="ctrl.agendamento.description"></textarea>
+			<div class="checkbox">
+				<label><input type="checkbox" ng-disabled="!ctrl.agendamento.editable" 
+					value="true" 
+					ng-model="ctrl.agendamento.repetirSemanalmente">Repetir semanalmente</label>
+			</div>
+			<div class="checkbox">
+				<label><input type="checkbox" value="true" ng-model="ctrl.agendamento.naoCompareceu">Não compareceu</label>				
+			</div>
+		</div>
+	</form>			
+</div>
+<div class="modal-footer"> 
+	<div class="form-group">		
+		<button id="btnIniciarConsulta" type="button" class="btn btn-info" style="width: 154px;"
+			ng-if="ctrl.agendamento.id" ng-click="ctrl.iniciarConsulta(ctrl.agendamento)">
+			Iniciar Consulta</button>	
+		<button id="btnProntuarios" type="button" class="btn btn-primary" style="width: 154px;"
+			ng-if="ctrl.agendamento.id"	ng-disabled="!ctrl.agendamento.paciente" 
+			ng-click="ctrl.verProntuarios(ctrl.agendamento.paciente)">
+			Ver Prontuários</button>		
+	</div>
+	<div class="form-group">
+		<button id="btnSalvar" type="button" class="btn btn-success" style="width: 100px;" 
+			ng-click="ctrl.salvar(ctrl.agendamento, ctrl.agendamentoCarregado)" 
+			ng-disabled="agendamentoForm.$invalid || !ctrl.isDataChanged(ctrl.agendamento, ctrl.agendamentoCarregado)">
+			Salvar</button>
+		<button id="btnRemove" type="button" class="btn btn-danger"	style="width: 100px;"
+			ng-click="ctrl.confirmarRemocaoEvento(ctrl.agendamento)" 
+			ng-if="ctrl.agendamento.id">
+			Remover</button>		
+		<button id="btnCancel" type="button" class="btn btn-default" ng-click="ctrl.cancelar()" style="width: 100px;">
+			Cancelar</button>
+	</div>	 	 
+</div>

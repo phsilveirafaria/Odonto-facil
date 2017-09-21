@@ -6,6 +6,9 @@ angular.module('odontoFacil').controller("homeController", ['homeFactory',
 	
 	ctrl.funcionario = {};
 	
+	$scope.$watch(function () { return ctrl.funcionario; }, function (newValue, oldValue) {
+	});
+	
 	ctrl.funcionarioLogado = function(funcionario) {
 		homeFactory.funcionarioLogado().then(function successCallback(response){
 		ctrl.funcionario = response.data;

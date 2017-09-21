@@ -1,7 +1,12 @@
 angular.module('odontoFacil').controller('loginController', ['$scope', '$rootScope', '$http', '$location', 
-	'$mdDialog', 'loginFactory', 'funcionarioFactory',	function($scope, $rootScope, 
-			$http, $location, $mdDialog, loginFactory, funcionarioFactory) {
+	'$mdDialog', 'loginFactory', 'funcionarioFactory' , 'Session', 'homeFactory',	function($scope, $rootScope, 
+			$http, $location, $mdDialog, loginFactory, funcionarioFactory, Session, homeFactory) {
 	var ctrl = this;
+	ctrl.funcionario = {};
+	ctrl.x = {};
+	
+	$scope.$watch(function () { return ctrl.funcionario; }, function (newValue, oldValue) {
+	});
 		
 	var authenticate = function(credentials, callback) {		
 		var headers = credentials ? {authorization : "Basic "
@@ -9,9 +14,10 @@ angular.module('odontoFacil').controller('loginController', ['$scope', '$rootSco
 		} : {};
 		
 		loginFactory.login(headers).then(function(response) {			
-			if (response.data.name) {				
+			if (response.data.name) {
 				$rootScope.authenticated = true;	
-				//funcionarioFactory.setVinculadoGCal();				
+				ctrl.funcionarioLogado(response.data.name);
+				//console.log(Session.usuario);
 				$location.path('/home');
 			} else {											
 				$rootScope.authenticated = false;
@@ -24,6 +30,8 @@ angular.module('odontoFacil').controller('loginController', ['$scope', '$rootSco
 			callback && callback();
 		});
 	}
+	
+	
 	
 	authenticate();	
 	ctrl.credentials = {};
@@ -55,17 +63,6 @@ angular.module('odontoFacil').controller('loginController', ['$scope', '$rootSco
 		  });			
 	};
 	
-ctrl.funcionario = {};
-	
-	ctrl.funcionarioLogado = function(funcionario) {
-		homeFactory.funcionarioLogado().then(function successCallback(response){
-		ctrl.funcionario = response.data;
-		return ctrl.funcionario.nomeCompleto;
-	}, function errorCallback(response) {
-		console.log(response.data);
-		console.log(response.status);
-	});
-	}
 	
 	ctrl.logout = function() {
 		loginFactory.logout();
@@ -73,4 +70,29 @@ ctrl.funcionario = {};
 		ctrl.credentials = {};
 	    $location.path("/");
 	};
+	
+
+	
+	ctrl.funcionarioLogado = function(nomeFuncionario) {
+		/*homeFactory.funcionarioLogado(nomeFuncionario).then(function successCallback(response){
+		Session.create(response.data);
+		ctrl.funcionario = response.data;
+		return ctrl.funcionario;
+	}, function errorCallback(response) {
+		console.log(response.data);
+		console.log(response.status);
+	});*/
+		$http({
+			  method: 'GET',
+			  url: 'http://localhost:8080/userLogado/'+ nomeFuncionario
+			}).then(function successCallback(response) {
+			    Session.create(response.data);
+			    ctrl.x = response.data;
+			  }, function errorCallback(response) {
+			    // called asynchronously if an error occurs
+			    // or server returns response with an error status.
+			  });
+		
+	}
+	
 }]);

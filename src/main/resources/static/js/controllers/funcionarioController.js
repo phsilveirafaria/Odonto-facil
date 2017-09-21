@@ -1,9 +1,11 @@
-angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 'funcionarioFactory', 'NgTableParams', '$scope', '$location', '$http', 'homeFactory' ,
-	function($mdDialog, funcionarioFactory, NgTableParams, $scope, $location, $http, homeFactory) {
+angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 'funcionarioFactory', 'NgTableParams', '$scope', '$location', '$http',
+	function($mdDialog, funcionarioFactory, NgTableParams, $scope, $location, $http) {
 	var ctrl = this;
 
 	ctrl.funcionarios = [];
 	ctrl.funcionario = {};
+	
+	//ctrl.funcionarioLogado();
 	
 	$scope.$watch(function () { return ctrl.funcionarios; }, function (newValue, oldValue) {
 		ctrl.tableParams = new NgTableParams({ count: 10, sorting: { nomeCompleto: "asc" } }, { counts: [], dataset: ctrl.funcionarios });
@@ -11,6 +13,18 @@ angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 
 	
 	if (funcionarioFactory.isEditandoFuncionario()) {
 		ctrl.funcionario = funcionarioFactory.getFuncionario();		
+	}
+	
+	
+	ctrl.funcionarioLogado = function(funcionario) {
+		homeFactory.funcionarioLogado().then(function successCallback(response){
+		ctrl.funcionario = response.data;
+		return ctrl.funcionario.nomeCompleto;
+	}, function errorCallback(response) {
+		console.log(response.data);
+		console.log(response.status);
+	});
+
 	}
 	
 //	ctrl.funcionarioLogado = function() {
