@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.odontofacil.model.Funcionario;
+import br.com.odontofacil.model.Permissao;
 import br.com.odontofacil.ws.repository.FuncionarioRepository;
 
 @Service
@@ -29,7 +30,6 @@ public class FuncionarioService {
 	
 	public Funcionario buscarPorId(Long id){
 		return funcionarioRepository.findOne(id);
-		
 	}
 	
 	public Funcionario buscaPorLogin(String login) {

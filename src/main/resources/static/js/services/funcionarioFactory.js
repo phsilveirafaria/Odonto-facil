@@ -2,10 +2,17 @@ angular.module('odontoFacil').factory('funcionarioFactory',['$http', function($h
 	var _funcionario;
 	var _editandoFuncionario;
 	
+	var ctrl = this;
+	
 	var _listarFuncionarios = function() {
 		return $http.get(
 			'http://localhost:8080/listarFuncionarios'
 		);
+	};
+	
+	var _listarPermissoes = function() {
+		return $http.get(
+		'http://localhost:8080/listarPermissoes');
 	};
 	
 	var _salvarFuncionarios = function(funcionario) {
@@ -29,6 +36,7 @@ angular.module('odontoFacil').factory('funcionarioFactory',['$http', function($h
 		isEditandoFuncionario: function() { return _editandoFuncionario; },
 		setEditandoFuncionario: function(editandoFuncionario) { _editandoFuncionario = editandoFuncionario; },
 		listarFuncionarios: _listarFuncionarios,
+		listarPermissoes: _listarPermissoes,
 		salvarFuncionarios: _salvarFuncionarios,
 		excluirFuncionarios: _excluirFuncionarios,
 	}

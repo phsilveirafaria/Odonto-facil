@@ -1,5 +1,4 @@
 // Modulos desta controller
-//var lazyModules = ['ui.calendar', 'ui.bootstrap'];
  var lazyModules = ['ui.calendar', 'ui.bootstrap']; 
 angular.forEach(lazyModules, function(dependency) {
 	angular.module('odontoFacil').requires.push(dependency);
@@ -9,11 +8,9 @@ angular.module('odontoFacil').controller('agendaController', ['$scope', '$mdDial
 	function ($scope, $mdDialog, agendamentoFactory, $uibModal) {
 	
   var ctrl = this;
-  
-  
-  $scope.$watch(function () { return ctrl.funcionario; }, function (newValue, oldValue) {
-	});
-  
+  ctrl.selClientes = agendamentoFactory.listarClientes();
+  ctrl.selFuncionarios = agendamentoFactory.listarFuncionarios();
+    
  
     
   var select = function(start, end) {	  

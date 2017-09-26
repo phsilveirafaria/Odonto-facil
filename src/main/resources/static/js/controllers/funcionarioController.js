@@ -4,12 +4,16 @@ angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 
 
 	ctrl.funcionarios = [];
 	ctrl.funcionario = {};
+	ctrl.permissoes = [];
 	
 	//ctrl.funcionarioLogado();
 	
 	$scope.$watch(function () { return ctrl.funcionarios; }, function (newValue, oldValue) {
 		ctrl.tableParams = new NgTableParams({ count: 10, sorting: { nomeCompleto: "asc" } }, { counts: [], dataset: ctrl.funcionarios });
 	});
+	
+	$scope.$watch(function () { return ctrl.permissoes; }, function (newValue, oldValue) {
+	});	
 	
 	if (funcionarioFactory.isEditandoFuncionario()) {
 		ctrl.funcionario = funcionarioFactory.getFuncionario();		
@@ -46,6 +50,17 @@ angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 
 			console.log(response.status);
 		});
 
+	}
+	
+	var carregarPermissoes = function() {
+		funcionarioFactory.listarPermissoes().then(
+				successCallback = function(response) {	  
+					ctrl.permissoes = response.data;					
+				},
+				errorCallback = function (error, status){					
+					console.log(error, status); 
+				}
+		);
 	}
 	
 	ctrl.excluirFuncionarios = function(funcionario) {
@@ -126,6 +141,6 @@ angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 
 		});
 		
 	}
-	
+	carregarPermissoes();
 	ctrl.listarFuncionarios();
 }]);

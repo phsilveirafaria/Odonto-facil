@@ -69,11 +69,18 @@ public class OdontoFacilApiApplication extends SpringBootServletInitializer {
 				+ "WHERE login = ?";
 		
 
-		 private static final String PERMISSAO_POR_USUARIO = "SELECT u.login,"
-		 + "u.nome_completo FROM permissoes_funcionarios up "
-		 + "JOIN usuario u ON u.id_Usuario = up.id " + 
-		 "JOIN permissao p ON p.id = up.id_permissao "
-		 + "WHERE u.login = ?";
+		private static final String PERMISSAO_POR_USUARIO = "SELECT u.login,"
+				 + "u.nome_completo FROM permissoes_funcionarios up "
+				 + "JOIN usuario u ON u.id_Usuario = up.id " + 
+				 "JOIN permissao p ON p.id = up.id_permissao "
+				 + "WHERE u.login = ?";		
+		
+		
+//		 private static final String PERMISSAO_POR_USUARIO = "SELECT u.login,"
+//		 + "u.nome_completo FROM permissoes_funcionarios up "
+//		 + "JOIN usuario u ON u.id_Usuario = up.id " + 
+//		 "JOIN permissao p ON p.id = up.id_permissao "
+//		 + "WHERE u.login = ?";
 
 		@Autowired
 		private DataSource dataSource;

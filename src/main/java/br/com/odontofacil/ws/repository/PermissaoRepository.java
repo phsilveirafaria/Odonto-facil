@@ -1,18 +1,17 @@
 package br.com.odontofacil.ws.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import br.com.odontofacil.model.Funcionario;
 import br.com.odontofacil.model.Permissao;
 
 @Repository
-public interface FuncionarioRepository extends JpaRepository <Funcionario, Long>{
+public interface PermissaoRepository extends JpaRepository <Permissao, Long>{
 	
-	@Query("SELECT f FROM Usuario f "
-			+ "WHERE f.login = ?1 ")
-	public Funcionario findByLogin(String login);
-	
+//	@Query("SELECT p FROM Permissao ")
+//	public List<Permissao> buscarPermissoes();
 
 }

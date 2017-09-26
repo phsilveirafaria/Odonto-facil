@@ -15,8 +15,8 @@ public class Funcionario extends Usuario{
 	private static final long serialVersionUID = 1L;
 
 	@OneToOne
-	@JoinColumn(name="idFuncao")
-	private Funcao funcao;
+	@JoinColumn(name="idPermissao")
+	private Permissao permissao;
 	
 	private String login;
 	
@@ -25,12 +25,12 @@ public class Funcionario extends Usuario{
 	private String pis;
 	
 	
-	public Funcao getFuncao() {
-		return funcao;
+	public Permissao getPermissao() {
+		return permissao;
 	}
 
-	public void setFuncao(Funcao funcao) {
-		this.funcao = funcao;
+	public void setPermissao(Permissao permissao) {
+		this.permissao = permissao;
 	}
 
 	public String getPis() {

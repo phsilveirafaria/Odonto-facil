@@ -188,7 +188,7 @@ desired effect
 									class="img-circle" alt="User Image">
 
 									<p>
-										Paulo Henrique - Web Developer <small>Developer since
+										{{ctrl.x.nomeCompleto}} - Web Developer <small>Developer since
 											2012</small>
 									</p></li>
 								<!-- Menu Body -->
@@ -265,7 +265,7 @@ desired effect
 							<li><a href="#/cliente">Cadastrar</a></li>
 							<li><a href="#/consultarCliente">Pesquisar</a></li>
 						</ul></li>
-					<li><a href="#/financeiro"><i class="fa fa-home"></i> <span>Financeiro</span></a></li>
+					<li><a href="#/financeiro" ng-show="ctrl.x.permissao.id == 2"><i class="fa fa-home"></i> <span>Financeiro</span></a></li>
 					<li><a href="#"><i class="fa fa-home"></i> <span>Perfil</span></a></li>
 					<li><a href="#"><i class="fa fa-home"></i> <span>Convênios</span></a></li>
 

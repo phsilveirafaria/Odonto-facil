@@ -10,14 +10,15 @@
 		<div class="form-group">
 			<div ng-class="agendamentoForm.selPacientes.$error.required ?
 				'form-group has-error has-feedback' : ''">					
-				<label for="selPacientes">Nome do Paciente:</label> 
-				<select
-					id="selPacientes" name="selPacientes" class="form-control"					
-					ng-model="ctrl.agendamento.paciente"
-					ng-options="paciente.nomeExibicao for paciente in ctrl.lstPacientesAtivos track by paciente.id"
-					ng-required = "true">
-					<option value="">Selecione o paciente</option>
-				</select>																							
+				<label for="selClientes">Nome do Paciente:</label> 
+				<div class="form-group">
+						<label for="text" class="col-sm-2 control-label">Permissão: </label> 
+						<select name="nomeCliente" class="form-control" ng-model="ctrl.cliente.nomeCompleto"
+							ng-options="cliente.nomeCompleto for cliente in ctrl.selClientes track by cliente.idCliente"
+							ng-required="true">
+							<option value="">Selecione o Paciente</option>
+						</select>
+					</div>																						
 			</div>								
 			<div>					
 				<label for="selConvenios">Convênio:</label> 

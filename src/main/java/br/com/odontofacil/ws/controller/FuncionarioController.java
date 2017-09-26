@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.odontofacil.model.Funcionario;
+import br.com.odontofacil.model.Permissao;
 import br.com.odontofacil.ws.service.FuncionarioService;
 
 @RestController
