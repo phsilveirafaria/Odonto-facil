@@ -1,5 +1,5 @@
 angular.module('odontoFacil').controller("clienteController", ['clienteFactory', '$http', '$mdDialog', 'NgTableParams', '$scope' , '$location', 
-	function($http, $mdDialog, NgTableParams, $scope, $location) {
+	function(clienteFactory, $http, $mdDialog, NgTableParams, $scope, $location) {
 	var ctrl = this;
 
 	/*

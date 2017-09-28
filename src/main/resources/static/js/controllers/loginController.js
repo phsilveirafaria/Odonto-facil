@@ -84,7 +84,7 @@ angular.module('odontoFacil').controller('loginController', ['$scope', '$rootSco
 	});*/
 		$http({
 			  method: 'GET',
-			  url: 'http://localhost:8080/userLogado/'+ nomeFuncionario
+			  url: 'http://localhost:8080/userLogado/', nomeFuncionario
 			}).then(function successCallback(response) {
 			    Session.create(response.data);
 			    ctrl.x = response.data;

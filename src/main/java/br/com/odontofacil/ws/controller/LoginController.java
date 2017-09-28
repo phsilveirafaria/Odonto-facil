@@ -46,7 +46,7 @@ public class LoginController {
 //	return funcionario;
 //	}	
 	
-	@RequestMapping(method=RequestMethod.GET, value="/userLogado/{nome}")
+	@RequestMapping(method=RequestMethod.GET, value="/userLogado")
 	public ResponseEntity<Funcionario> userLogado(@PathParam("{nome}") String nome){
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String user = auth.getName();
