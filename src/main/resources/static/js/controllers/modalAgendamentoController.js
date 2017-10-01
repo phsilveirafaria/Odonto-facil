@@ -4,4 +4,7 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 	
 	var ctrl = this;	
 	
+	ctrl.comboClientes = agendamentoFactory.getListarClientes();
+	ctrl.agendamento = agendamentoFactory.getAgendamento();
+	
 }]);

@@ -14,5 +14,9 @@ public interface FuncionarioRepository extends JpaRepository <Funcionario, Long>
 			+ "WHERE f.login = ?1 ")
 	public Funcionario findByLogin(String login);
 	
+	@Query("SELECT COALESCE(MAX(id),0)+1 FROM Usuario u")
+	public Long nextId();
+
+	
 
 }

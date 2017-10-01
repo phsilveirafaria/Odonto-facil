@@ -36,6 +36,9 @@ public class FuncionarioService {
 		return funcionarioRepository.findByLogin(login);
 	}
 	
+	public Long proximoId() {
+		return funcionarioRepository.nextId();
+	}
 	
 	public 	List<Funcionario> buscarTodos(){
 		return funcionarioRepository.findAll();

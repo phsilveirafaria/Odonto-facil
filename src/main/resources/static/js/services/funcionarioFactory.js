@@ -15,12 +15,6 @@ angular.module('odontoFacil').factory('funcionarioFactory',['$http', function($h
 		'http://localhost:8080/listarPermissoes');
 	};
 	
-	var _salvarFuncionarios = function(funcionario) {
-		return $http.post(
-			'http://localhost:8080/salvarFuncionarios',
-			funcionario
-		);
-	};
 	
 	var _excluirFuncionarios = function(funcionario) {
 		return $http.post(
@@ -29,7 +23,29 @@ angular.module('odontoFacil').factory('funcionarioFactory',['$http', function($h
 		);
 	};
 	
+	var _salvarFuncionarios = function(funcionario) {
+		var novoFuncionario = angular.copy(funcionario);
+		
+		if (novoFuncionario.cpf) {
+			novoFuncionario.cpf = novoFuncionario.cpf.replace(/[^0-9]/g,'');
+		}
+		
+		novoFuncionario.ativo = true;
+		
+		CredenciaisFuncionario = {
+				funcionario: novoFuncionario,
+				senha: novoFuncionario.senha
+		}
+		
+		
+		return $http.post(
+			'http://localhost:8080/salvarFuncionarios',
+			CredenciaisFuncionario
+		);
+	};
 	
+		
+		
 	return {
 		getFuncionario: function() { return _funcionario; },
 		setFuncionario: function(funcionario) { _funcionario = funcionario; },

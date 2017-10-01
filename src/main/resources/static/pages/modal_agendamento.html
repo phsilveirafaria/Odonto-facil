@@ -5,7 +5,7 @@
 	<h3 class="modal-title" id="modal-title">Agendamento</h3>
 </div>
 
-<div class="modal-body" id="modal-body"> 		
+<div class="modal-body" id="modal-body" ng-controller="modalAgendamentoController"> 		
 	<form name="agendamentoForm">
 		<div class="form-group">
 			<div ng-class="agendamentoForm.selPacientes.$error.required ?
@@ -13,8 +13,8 @@
 				<label for="selClientes">Nome do Paciente:</label> 
 				<div class="form-group">
 						<label for="text" class="col-sm-2 control-label">Permissão: </label> 
-						<select name="nomeCliente" class="form-control" ng-model="ctrl.cliente.nomeCompleto"
-							ng-options="cliente.nomeCompleto for cliente in ctrl.selClientes track by cliente.idCliente"
+						<select name="nomeCliente" class="form-control" ng-model="ctrl.agendamento.clinte"
+							ng-options="cliente.nomeCompleto for cliente in ctrl.comboClientes track by cliente.idCliente"
 							ng-required="true">
 							<option value="">Selecione o Paciente</option>
 						</select>
@@ -29,7 +29,7 @@
 					<option value="">Selecione o convênio</option>
 				</select>																										
 			</div>
-			<div class="clockpicker" ng-class="agendamentoForm.inicio.$error.pattern || 
+			<!-- <div class="clockpicker" ng-class="agendamentoForm.inicio.$error.pattern || 
 				agendamentoForm.inicio.$error.required ? 
 				'form-group has-error has-feedback' : ''">
 				<label for="inicio">Horário da consulta:</label>
@@ -43,7 +43,7 @@
 						autoclose: true
 					});			
 				</script>													 					
-			</div>	
+			</div>	 -->
 			<label for="observacao">Observação: </label> 
 			<textarea id="observacao" ng-disabled="!ctrl.agendamento.editable" 
 				class="form-control" ng-model="ctrl.agendamento.description"></textarea>

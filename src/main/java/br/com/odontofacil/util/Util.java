@@ -2,6 +2,9 @@ package br.com.odontofacil.util;
 
 import java.util.InputMismatchException;
 
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+
 public class Util {
 	
 	public static void validarCPF(String cpf) throws Exception {
@@ -58,6 +61,12 @@ public class Util {
 	    } catch (InputMismatchException erro) {	
 	    	throw new Exception("O CPF informado é inválido!");
 	    }
+	}
+	
+	public static String gerarChave() throws Exception {
+		SecretKey secretKey = KeyGenerator.getInstance("AES").generateKey();	
+		
+		return java.util.Base64.getEncoder().encodeToString(secretKey.getEncoded()).substring(0, 16);
 	}
 
 }

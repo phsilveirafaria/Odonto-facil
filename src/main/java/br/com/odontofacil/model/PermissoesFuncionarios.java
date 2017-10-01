@@ -14,7 +14,7 @@ import javax.persistence.ManyToOne;
 	public class PermissoesFuncionarios {
 		@Id
 		@GeneratedValue(strategy=GenerationType.AUTO)
-		Integer id;
+		Long id;
 		@ManyToOne
 	    @JoinColumn(name="id_Usuario")
 		Funcionario funcionario;
@@ -39,15 +39,6 @@ import javax.persistence.ManyToOne;
 		/**
 		 * @return the id
 		 */
-		public Integer getId() {
-			return id;
-		}
-		/**
-		 * @param id the id to set
-		 */
-		public void setId(Integer id) {
-			this.id = id;
-		}
 		
 		/**
 		 * @param funcionario the funcionario to set
@@ -55,6 +46,14 @@ import javax.persistence.ManyToOne;
 		public Funcionario getFuncionario() {
 			return funcionario;
 		}
+		public Long getId() {
+			return id;
+		}
+
+		public void setId(Long id) {
+			this.id = id;
+		}
+
 		public void setFuncionario(Funcionario funcionario) {
 			this.funcionario = funcionario;
 		}
