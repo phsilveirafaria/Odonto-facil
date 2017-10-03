@@ -1,10 +1,18 @@
-angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope', '$uibModalInstance', 
+angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope', 
 	'$location', '$mdDialog', 'agendamentoFactory', 
-	function ($scope, $uibModalInstance, $location, $mdDialog,	agendamentoFactory) {
+	function ($scope, $location, $mdDialog,	agendamentoFactory) {
 	
 	var ctrl = this;	
 	
-	ctrl.comboClientes = agendamentoFactory.getListarClientes();
+	agendamentoFactory.listarClientes().then(
+			sucessCallback = function(response){
+				ctrl.comboClientes = response.data;
+			},
+			errorCallback = function (error){
+				
+			});
+	
+	console.log(ctrl.comboClientes);
 	ctrl.agendamento = agendamentoFactory.getAgendamento();
 	
 }]);

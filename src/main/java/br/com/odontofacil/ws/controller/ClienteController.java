@@ -1,6 +1,7 @@
 package br.com.odontofacil.ws.controller;
 
 import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,9 +36,9 @@ public class ClienteController {
 //		}
 		
 		@RequestMapping(method=RequestMethod.GET, value="/listarClientes", produces=MediaType.APPLICATION_JSON_VALUE)
-		public ResponseEntity<Collection<Cliente>> listar() {
-			Collection<Cliente> clientes = clienteService.buscarTodos();
-			return new ResponseEntity<>(clientes, HttpStatus.OK);
+		public List<Cliente> listar() {
+			List<Cliente> clientes = clienteService.buscarTodos();
+			return (clientes);
 		}
 		
 		@RequestMapping(method=RequestMethod.POST, value = "/excluirClientes")

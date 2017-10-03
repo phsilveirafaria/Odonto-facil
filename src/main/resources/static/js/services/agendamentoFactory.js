@@ -14,7 +14,6 @@ angular.module('odontoFacil').factory('agendamentoFactory', ['$http',  function(
 		);
 	};
 	
-	console.log(_listarClientes);
 	return {		
 		getAgendamento: function() { return _agendamento; },
 		setAgendamento: function(agendamento) { _agendamento = agendamento; },		
@@ -24,8 +23,6 @@ angular.module('odontoFacil').factory('agendamentoFactory', ['$http',  function(
 		setEnd: function(end) { _agendamento.end = end; },
 		listarClientes: _listarClientes,
 		listarFuncionarios: _listarFuncionarios,
-		getListarClientes: function() { return _listarClientes; },
-		setListarClientes: function(listarClientes) { _listarClientes = listarClientes; },
 		getAgendamentoCarregado: function() { return _agendamentoCarregado; },
 		setAgendamentoCarregado: function(agendamentoCarregado) { _agendamentoCarregado = agendamentoCarregado; },
 		getEditable: function() { return _agendamento.editable; },

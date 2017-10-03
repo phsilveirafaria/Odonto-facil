@@ -12,8 +12,8 @@
 				'form-group has-error has-feedback' : ''">					
 				<label for="selClientes">Nome do Paciente:</label> 
 				<div class="form-group">
-						<label for="text" class="col-sm-2 control-label">Permissão: </label> 
-						<select name="nomeCliente" class="form-control" ng-model="ctrl.agendamento.clinte"
+						<label for="text" class="col-sm-2 control-label">Cliente: </label> 
+						<select name="nomeCliente" class="form-control" ng-model="ctrl.agendamento.cliente"
 							ng-options="cliente.nomeCompleto for cliente in ctrl.comboClientes track by cliente.idCliente"
 							ng-required="true">
 							<option value="">Selecione o Paciente</option>
