@@ -14,6 +14,16 @@ angular.module('odontoFacil').factory('agendamentoFactory', ['$http',  function(
 		);
 	};
 	
+	var _listarAgendamentos = function(dataInicial, dataFinal) {
+		var params = {dataInicial: dataInicial.format(), dataFinal: dataFinal.format()};
+		return $http.get('http://localhost:8080/listarAgendamentos', {params});
+	};
+	
+	var _salvarAgendamento = function(ag) {
+		var agendamento = angular.copy(ag);
+		return $http.post('http://localhost:8080/salvarAgendamento', angular.copy(agendamento));
+	};
+	
 	return {		
 		getAgendamento: function() { return _agendamento; },
 		setAgendamento: function(agendamento) { _agendamento = agendamento; },		

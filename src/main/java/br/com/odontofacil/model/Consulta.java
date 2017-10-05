@@ -42,8 +42,6 @@ public class Consulta implements Serializable{
 	
 	private Calendar fim;
 	
-	private Boolean recibo;
-	
 	private String observacoes;
 
 	public long getIdConsulta() {
@@ -108,14 +106,6 @@ public class Consulta implements Serializable{
 
 	public void setFim(Calendar fim) {
 		this.fim = fim;
-	}
-
-	public Boolean getRecibo() {
-		return recibo;
-	}
-
-	public void setRecibo(Boolean recibo) {
-		this.recibo = recibo;
 	}
 
 	public String getObservacoes() {
