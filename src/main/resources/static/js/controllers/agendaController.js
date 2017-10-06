@@ -102,6 +102,8 @@ angular.module('odontoFacil').controller('agendaController', ['$scope', '$mdDial
 	  
 	  ctrl.openEventModal();											
   };
+  
+  
 	
   var eventRender = function( event, element, view ) { 	  
 	  console.log("eventRender");
@@ -136,8 +138,46 @@ angular.module('odontoFacil').controller('agendaController', ['$scope', '$mdDial
 	
   var viewRender = function (view, element) {	  
 	  console.log("viewRender");
-//	  listarAgendamento(view.start, view.end);	 
+	  listarAgendamento(view.start, view.end);	 
   };    
+  
+  
+  /**
+   * Popula o calendario com os agendamentos do BD e persiste novos agendamentos
+   * na view atual, caso necessário
+   */ 
+  var listarAgendamento = function(dataInicial, dataFinal) {	  
+	  $mdDialog.show({			
+		    template: 
+		    	'<head>' +		
+		    		'<meta charset="UTF-8" />'+		
+				'</head>' +
+				'<md-dialog>'+
+					'<md-dialog-content>'+
+						'<div class="md-dialog-content">'+
+							'<p>Carregando agendamentos ...</p>'+
+							'<div layout="row" layout-sm="column" layout-align="center center" aria-label="wait">'+
+					    		'<md-progress-circular md-mode="indeterminate" ></md-progress-circular>'+
+					    	'</div>'+
+						'</div>'+
+					'</md-dialog-content>'+	
+				'</md-dialog>',
+		    parent: angular.element(document.body),		    
+		    clickOutsideToClose: false		    
+		});
+	  agendamentoFactory.listarAgendamentos(dataInicial, dataFinal).then(
+			  successCallback = function (response) {	
+				  console.log(response.data);
+				  angular.element('.calendar').fullCalendar('removeEvents');
+				  angular.element('.calendar').fullCalendar('renderEvents',response.data);
+				  $mdDialog.hide();
+			  },
+			  errorCallback = function (error) {				  
+				  $mdDialog.hide();				  
+				  utilService.tratarExcecao(error);				  
+			  }			  
+	  );		  
+  };      
 
   /* config object */
   ctrl.uiConfig = {

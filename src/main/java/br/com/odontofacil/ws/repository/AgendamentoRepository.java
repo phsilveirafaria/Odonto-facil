@@ -11,13 +11,10 @@ import br.com.odontofacil.model.Funcionario;
 
 public interface AgendamentoRepository extends JpaRepository <Agendamento, Long>{
 	
-//	@Query("SELECT a FROM Agendamento a "
-//			+ "INNER JOIN a.cliente p "
-//			+ "INNER JOIN f.funcionario fun "					
-//			+ "WHERE ((DATE(a.start) BETWEEN DATE(?1) AND DATE(?2)) "
-//			+ "OR (DATE(a.start) <= DATE(?1)) "
-//			+ "AND fun = ?3")
-	@Query("Select a from Agendamento a")
+	@Query("SELECT a FROM Agendamento a "
+			+ "INNER JOIN a.funcionario fun "					
+			+ "WHERE (DATE(a.start) BETWEEN DATE(?1) AND DATE(?2)) "
+			+ "AND fun = ?3)")
 	public List<Agendamento> listarPorPeriodo(Calendar dataInicial, Calendar dataFinal, Funcionario funcionario);
 
 }

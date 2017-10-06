@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.odontofacil.model.Agendamento;
+import br.com.odontofacil.model.Consulta;
 import br.com.odontofacil.model.Funcionario;
 import br.com.odontofacil.ws.service.AgendamentoService;
 import br.com.odontofacil.ws.service.FuncionarioService;
@@ -60,26 +61,26 @@ public class AgendaController {
 				System.out.println("User nulo em getFuncionarioLogado");
 				throw new Exception("Erro ao carregar Funcionario. Faça login novamente.");
 			}
-						
+			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");	
 			List<Agendamento> agendamentos = agendamentoService.listarPorPeriodo(di, df, funcionario);
 			
-			for (Agendamento ag : agendamentos) {
-				if (ag.isAtivo()) {
-					if (ag.getColor().equals(COR_AGENDAMENTO_NAO_COMPARECEU)) {
-						ag.setNaoCompareceu(true);
-					}
-					
-//					// Decripta dados do prontuário				
-//					if (ag.getConsulta() != null && ag.getConsulta().getProntuario() != null && !ag.getConsulta().getProntuario().isEmpty()) {
-//						ag.getConsulta().setProntuario(Util.decrypt(ag.getConsulta().getProntuario(), psicologo));
+//			for (Agendamento ag : agendamentos) {
+//				if (ag.isAtivo()) {
+//					if (ag.getColor().equals(COR_AGENDAMENTO_NAO_COMPARECEU)) {
+//						ag.setNaoCompareceu(true);
 //					}
-					
-					listaAgendamentos.add(ag);
-				}
-			}												
+//					
+////					// Decripta dados do prontuário				
+////					if (ag.getConsulta() != null && ag.getConsulta().getProntuario() != null && !ag.getConsulta().getProntuario().isEmpty()) {
+////						ag.getConsulta().setProntuario(Util.decrypt(ag.getConsulta().getProntuario(), psicologo));
+////					}
+//					
+//					listaAgendamentos.add(ag);
+//				}
+//			}												
 			
 			System.out.println("listarAgendamentos: fim");
-			return listaAgendamentos;		
+			return agendamentos;		
 		}	
 		
 		
@@ -92,6 +93,10 @@ public class AgendaController {
 			System.out.println("salvarAgendamento: início");		
 
 			Funcionario funcionario;
+			Consulta consulta;
+			
+			
+			
 			if (user != null) {
 				System.out.println("user.getName(): " + user.getName());
 				

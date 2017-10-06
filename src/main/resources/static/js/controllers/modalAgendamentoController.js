@@ -1,6 +1,11 @@
+ var lazyModules = ['ui.bootstrap']; 
+angular.forEach(lazyModules, function(dependency) {
+	angular.module('odontoFacil').requires.push(dependency);
+});
+
 angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope', 
-	'$location', '$mdDialog', 'agendamentoFactory', 
-	function ($scope, $location, $mdDialog,	agendamentoFactory) {
+	'$location', '$mdDialog', 'agendamentoFactory', '$uibModalInstance',
+	function ($scope, $location, $mdDialog,	agendamentoFactory, $uibModalInstance) {
 	
 	var ctrl = this;	
 	
@@ -71,10 +76,11 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 						});
 					}
 			);																
-		};								
+		}							
 		
 		angular.element('.calendar').fullCalendar('unselect');												
-	};			
+	});			
 	
-	}	
+	}
+	
 }]);
