@@ -13,7 +13,8 @@
 	rel='stylesheet' type="text/css" />
 <link href='./lib/fullcalendar/dist/fullcalendar.print-3.1.0.min.css'
 	rel='stylesheet' type="text/css" media='print' />
-
+	  <!-- bootstrap wysihtml5 - text editor -->
+  <link rel="stylesheet" href="lib/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
 <!-- Font Awesome -->
 <link rel="stylesheet"
 	href="./lib/font-awesome/css/font-awesome.min.css">
@@ -62,7 +63,8 @@ desired effect
 |               | sidebar-mini                            |
 |---------------------------------------------------------|
 -->
-<body class="hold-transition skin-purple sidebar-mini" ng-controller="loginController as ctrl">
+<body class="hold-transition skin-purple sidebar-mini"
+	ng-controller="loginController as ctrl">
 	<div class="wrapper">
 
 		<!-- Main Header -->
@@ -178,7 +180,7 @@ desired effect
 								<img
 								src="https://yt3.ggpht.com/-3YGn4reoO5c/AAAAAAAAAAI/AAAAAAAAAAA/zLqOw91Omy4/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"
 								class="user-image" alt="User Image"> <!-- hidden-xs hides the username on small devices so only the image appears. -->
-<!-- 							<span class="hidden-xs" ng-bind="ctrl.funcionario">{{ctrl.funcionarioLogado()}}</span> -->
+								<!-- 							<span class="hidden-xs" ng-bind="ctrl.funcionario">{{ctrl.funcionarioLogado()}}</span> -->
 								<span class="hidden-xs">{{ctrl.x.nomeCompleto}}</span>
 						</a>
 							<ul class="dropdown-menu">
@@ -188,8 +190,8 @@ desired effect
 									class="img-circle" alt="User Image">
 
 									<p>
-										{{ctrl.x.nomeCompleto}} - {{ctrl.x.permissao.nome}} <small> since
-											2012</small>
+										{{ctrl.x.nomeCompleto}} - {{ctrl.x.permissao.nome}} <small>
+											since 2012</small>
 									</p></li>
 								<!-- Menu Body -->
 								<li class="user-body">
@@ -197,7 +199,8 @@ desired effect
 										<a href="#" class="btn btn-default btn-flat">Perfil</a>
 									</div>
 									<div class="pull-right">
-										<a href="index.html" ng-click="ctrl.logout()" class="btn btn-default btn-flat">Sair</a>
+										<a href="index.html" ng-click="ctrl.logout()"
+											class="btn btn-default btn-flat">Sair</a>
 									</div>
 								</li>
 							</ul>
@@ -265,7 +268,8 @@ desired effect
 							<li><a href="#/cliente">Cadastrar</a></li>
 							<li><a href="#/consultarCliente">Pesquisar</a></li>
 						</ul></li>
-					<li><a href="#/financeiro" ng-show="ctrl.x.permissao.id == 2"><i class="fa fa-money"></i> <span>Financeiro</span></a></li>
+					<li><a href="#/financeiro" ng-show="ctrl.x.permissao.id == 2"><i
+							class="fa fa-money"></i> <span>Financeiro</span></a></li>
 					<li><a href="#"><i class="fa fa-home"></i> <span>Perfil</span></a></li>
 					<li><a href="#"><i class="fa fa-home"></i> <span>Convênios</span></a></li>
 
@@ -437,7 +441,8 @@ desired effect
 	<script src="./lib/dist/js/adminlte.min.js"></script>
 	<script type="text/javascript" src='lib/moment/moment.js'></script>
 	<script type="text/javascript" src='lib/angular-1.5.11.min.js'></script>
-	<script type="text/javascript" src='lib/ui-bootstrap/ui-bootstrap-tpls-2.3.2.min.js'></script>
+	<script type="text/javascript"
+		src='lib/ui-bootstrap/ui-bootstrap-tpls-2.3.2.min.js'></script>
 	<script type="text/javascript" src='lib/angular-route-1.5.9.min.js'></script>
 	<script type="text/javascript" src='lib/angular-table/ng-table.min.js'></script>
 	<script type="text/javascript" src='lib/angular-animate-1.5.11.min.js'></script>
@@ -448,6 +453,8 @@ desired effect
 	<script type="text/javascript" src='lib/fullcalendar/dist/calendar.js'></script>
 	<script type="text/javascript"
 		src='lib/fullcalendar/dist/locale-all.js'></script>
+	<!-- Bootstrap WYSIHTML5 -->
+	<script src="lib/bootstrap-wysihtml5/bootstrap3-wysihtml5.all.min.js"></script>
 	<!-- Material -->
 	<script type="text/javascript"
 		src='lib/angular-material/angular-material-1.1.4.min.js'></script>
@@ -459,6 +466,7 @@ desired effect
 	<script src="js/controllers/clienteController.js"></script>
 	<script src="js/controllers/financeiroController.js"></script>
 	<script src="js/controllers/agendaController.js"></script>
+	<script src="js/controllers/consultaController.js"></script>
 	<script src="js/controllers/funcionarioController.js"></script>
 	<script src="js/controllers/homeController.js"></script>
 	<script src="js/controllers/modalAgendamentoController.js"></script>
@@ -467,6 +475,7 @@ desired effect
 	<script src="js/services/clienteFactory.js"></script>
 	<script src="js/services/SessionService.js"></script>
 	<script src="js/services/homeFactory.js"></script>
+	<script src="js/services/consultaFactory.js"></script>
 	<script src="js/services/funcionarioFactory.js"></script>
 	<script src="js/services/modalAgendamentoFactory.js"></script>
 	<script src="js/services/loginFactory.js"></script>
@@ -477,6 +486,7 @@ desired effect
 
 
 	<!-- page script -->
+
 
 	<!-- iCheck -->
 	<script src="../../plugins/iCheck/icheck.min.js"></script>

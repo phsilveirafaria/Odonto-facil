@@ -24,7 +24,7 @@ angular.module('odontoFacil').controller('agendaController', ['$scope', '$mdDial
 		  var time = moment();
 		  start = moment(start).hour(time.hour()).minute(time.minute()).second(0).millisecond(0);
 		  end = moment(start); // a consulta deve terminar no mesmo dia
-		  end.add(1, 'm');
+		  end.add(30, 'm');
 	  }
 		
 	  var dataInicialAgendamento = start.local();

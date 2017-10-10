@@ -107,7 +107,7 @@ public class AgendaController {
 					throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
 				}
 			} else {
-				System.out.println("user nulo em getPsicologoLogado");
+				System.out.println("user nulo em getFuncionarioLogado");
 				throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
 			}
 			

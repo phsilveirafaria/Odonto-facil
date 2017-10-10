@@ -1,11 +1,6 @@
- var lazyModules = ['ui.bootstrap']; 
-angular.forEach(lazyModules, function(dependency) {
-	angular.module('odontoFacil').requires.push(dependency);
-});
-
 angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope', 
-	'$location', '$mdDialog', 'agendamentoFactory', '$uibModalInstance',
-	function ($scope, $location, $mdDialog,	agendamentoFactory, $uibModalInstance) {
+	'$location', '$mdDialog', 'agendamentoFactory',
+	function ($scope, $location, $mdDialog,	agendamentoFactory) {
 	
 	var ctrl = this;	
 	
@@ -19,6 +14,35 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 			errorCallback = function (error){
 				
 			});
+	
+	ctrl.iniciarConsulta = function(agendamento) {		
+		consultaFactory.setAgendamento(agendamento);
+		if (agendamento.consulta) {						
+			$location.path('/consulta');
+		} else {
+			if (agendamento.paciente) {								
+				consultaPacienteFactory.setConsulta({});
+				consultaPacienteFactory.setId(null);				
+				consultaPacienteFactory.setProntuario(null);
+				consultaPacienteFactory.setValor(0);
+				consultaPacienteFactory.setRecibo(false);
+				consultaPacienteFactory.setInicio(new Date());
+				consultaPacienteFactory.setFim(null);
+				$location.path('/consulta');
+			} else {
+				$mdDialog.show(
+					$mdDialog.alert()
+						.clickOutsideToClose(true)
+						.title('Algo saiu errado ...')
+						.textContent("Não foi possível localizar o paciente da consulta!")
+						.ariaLabel('Alerta')
+						.ok('Ok')						
+				);							
+			}
+		}
+		$uibModalInstance.close();			
+	};
+	
 	
 	agendamentoFactory.listarFuncionarios().then(
 			sucessCallback = function(response){
@@ -59,7 +83,7 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 		if (agendamento.paciente) {						
 			agendamento.title = updateTitle(agendamento);
 			var horarioConsulta = agendamento.formatedStart.split(":");
-			agendamento.start = moment(agendamento.start).hour(horarioConsulta[0]).minute(horarioConsulta[1]).second(0).millisecond(0);			
+			agendamento.start = moment(agendamento.start).hour(horarioConsulta[0]).minute(horarioConsulta[60]).second(0).millisecond(0);			
 			agendamento.end = moment(agendamento.start).add(ctrl.tempoSessao, 'm');
 			agendamento.ativo = true;
 					

@@ -1,5 +1,5 @@
-angular.module('odontoFacil').controller("clienteController", ['clienteFactory', '$http', '$mdDialog', 'NgTableParams', '$scope' , '$location', 
-	function(clienteFactory, $http, $mdDialog, NgTableParams, $scope, $location) {
+angular.module('odontoFacil').controller("clienteController", ['clienteFactory', 'agendamentoFactory', 'consultaFactory', '$http', '$mdDialog', 'NgTableParams', '$scope' , '$location', 
+	function(clienteFactory, agendamentoFactory, consultaFactory, $http, $mdDialog, NgTableParams, $scope, $location) {
 	var ctrl = this;
 
 	/*
@@ -80,6 +80,44 @@ angular.module('odontoFacil').controller("clienteController", ['clienteFactory',
 		});
 		
 	}
+	
+	ctrl.iniciarConsulta = function(cliente) {
+		var start = new Date();								
+		var end = new Date();
+		
+		consulta = {
+				id: null,
+				prontuario: "",
+				valor: 0,
+				recibo: false,
+				inicio: start,
+				fim: end
+		};
+		
+		// cria agendamento
+		agendamento = {
+				id: null,
+				gCalendarId: null,				
+				cliente: cliente,
+				consulta: consulta,
+				title: cliente.nomeCompleto,
+				start: start,
+				end: end,				
+				descricao: null,
+				ativo: true			
+		}		
+		
+		agendamentoFactory.salvarAgendamento(agendamento).then(
+				successCallback = function(response) {
+					consultaFactory.setAgendamento(response.data);
+					consultaFactory.setInicioAgendamento(new Date());
+					consultaFactory.setFimAgendamento(null);
+					$location.path("/consulta");
+				},
+				errorCallback = function (error, status){					
+				}
+		);				
+	};		
 	
 	
 	ctrl.salvarClientes = function(cliente) {
