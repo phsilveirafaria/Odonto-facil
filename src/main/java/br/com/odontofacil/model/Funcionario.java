@@ -1,11 +1,10 @@
 package br.com.odontofacil.model;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
@@ -16,8 +15,10 @@ public class Funcionario extends Usuario{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@OneToOne
-	@JoinColumn(name="idPermissao")
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinTable(name= "permissoes_funcionarios", joinColumns = {
+	@JoinColumn(name = "id_usuario", nullable = false, updatable = false)}, inverseJoinColumns = {
+	@JoinColumn(name= "id_permissao", nullable = false, updatable = false)})
 	private Permissao permissao;
 	
 	private String login;
@@ -28,14 +29,8 @@ public class Funcionario extends Usuario{
 	
 	private String pis;
 	
+	//private Permissao permissao;
 	
-	public Permissao getPermissao() {
-		return permissao;
-	}
-
-	public void setPermissao(Permissao permissao) {
-		this.permissao = permissao;
-	}
 
 	public String getPis() {
 		return pis;
@@ -73,6 +68,12 @@ public class Funcionario extends Usuario{
 		this.chave = chave;
 	}
 
-	
-	
+	public Permissao getPermissao() {
+		return permissao;
+	}
+
+	public void setPermissao(Permissao permissao) {
+		this.permissao = permissao;
+	}
+
 }

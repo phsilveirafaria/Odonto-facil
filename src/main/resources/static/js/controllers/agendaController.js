@@ -67,7 +67,7 @@ angular.module('odontoFacil').controller('agendaController', ['$scope', '$mdDial
 		    controllerAs: 'ctrl',
 		    size: size
 		});
-	    
+		
 		modalInstance.result.then(function (selectedItem) {}, function () {			
 			agendamentoFactory.setAgendamento({});					
 		});

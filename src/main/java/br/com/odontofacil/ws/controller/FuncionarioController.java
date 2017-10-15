@@ -1,29 +1,24 @@
 package br.com.odontofacil.ws.controller;
 
-import java.security.Principal;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.HashSet;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.odontofacil.model.Funcionario;
-import br.com.odontofacil.model.Permissao;
-import br.com.odontofacil.model.PermissoesFuncionarios;
 import br.com.odontofacil.pojo.CredenciaisFuncionario;
 import br.com.odontofacil.util.Util;
 import br.com.odontofacil.ws.service.FuncionarioService;
-import br.com.odontofacil.ws.service.PermissoesFuncionariosService;
 
 @RestController
 public class FuncionarioController {
@@ -31,8 +26,18 @@ public class FuncionarioController {
 	@Autowired
 	FuncionarioService funcionarioService;
 	
-	@Autowired
-	PermissoesFuncionariosService permissoesFuncionariosService;	
+private final static Logger logger = Logger.getLogger(FuncionarioController.class);
+	
+	private static void logMessage(String msg, boolean error) {
+    	if(!error && logger.isDebugEnabled()){
+    	    logger.debug(msg);
+    	}
+
+    	//logs an error message with parameter
+    	if (error) {
+    		logger.error(msg);
+    	}
+    }
 	
 	
 	//Serve para inserir e alterar
@@ -42,6 +47,7 @@ public class FuncionarioController {
 			Funcionario funcionario = cf.getFuncionario();
 			funcionario.setSenha((new BCryptPasswordEncoder().encode(cf.getSenha())).getBytes());
 			
+			//if()
 			Funcionario funcionarioExiste = this.funcionarioService.buscaPorLogin(funcionario.getLogin());
 			if (funcionarioExiste != null) {
 				throw new Exception("Usuário já cadastrado!");
@@ -51,18 +57,16 @@ public class FuncionarioController {
 				try {
 					Util.validarCPF(funcionario.getCpf_cnpj());
 				} catch(Exception ex) {
+					logMessage("CPF " + funcionario.getCpf_cnpj() + " do psicólogo é inválido", true);
 					throw new Exception("O CPF é inválido!");
 				}
 			}
 			
 			funcionario.setChave(Util.gerarChave().getBytes());		
-			funcionario.setIdUsuario(this.funcionarioService.proximoId());		
+			funcionario.setIdUsuario(this.funcionarioService.proximoId());	
 			
+						
 			Funcionario funcionarioCadastrado = funcionarioService.salvar(funcionario);
-			
-			PermissoesFuncionarios PermissaoFuncionario = new PermissoesFuncionarios(funcionarioCadastrado, funcionarioCadastrado.getPermissao(), Calendar.getInstance());
-			this.permissoesFuncionariosService.save(PermissaoFuncionario);
-			
 			
 			return funcionarioCadastrado;
 		}

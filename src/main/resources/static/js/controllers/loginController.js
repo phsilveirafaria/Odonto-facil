@@ -17,7 +17,6 @@ angular.module('odontoFacil').controller('loginController', ['$scope', '$rootSco
 			if (response.data.name) {
 				$rootScope.authenticated = true;	
 				ctrl.funcionarioLogado(response.data.name);
-				//console.log(Session.usuario);
 				$location.path('/home');
 			} else {											
 				$rootScope.authenticated = false;

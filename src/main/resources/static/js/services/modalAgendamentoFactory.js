@@ -1,6 +1,9 @@
 angular.module('odontoFacil').factory('agendamentoFactory', ['$http',  function($http) {
 	var _agendamento = {};
 	var _agendamentoCarregado = {};	
+	var _msgErro;
+	var _msgConfirmacao;
+	var _tipoConfirmacao;
 	
 	var _listarClientes = function() {
 		return $http.get(
@@ -22,6 +25,12 @@ angular.module('odontoFacil').factory('agendamentoFactory', ['$http',  function(
 		setStart: function(start) { _agendamento.start = start; },
 		getEnd: function() { return _agendamento.end; },
 		setEnd: function(end) { _agendamento.end = end; },
+		getMsgErro: function() { return _msgErro; },
+		setMsgErro: function(msgErro) { _msgErro = msgErro; },
+		getMsgConfirmacao: function() { return _msgConfirmacao; },
+		setMsgConfirmacao: function(msgConfirmacao) { _msgConfirmacao = msgConfirmacao; },
+		getTipoConfirmacao: function() { return _tipoConfirmacao; },
+		setTipoConfirmacao: function(tipoConfirmacao) { _tipoConfirmacao = tipoConfirmacao; },
 		listarClientes: _listarClientes,
 		listarFuncionarios: _listarFuncionarios,
 		getListarClientes: function() { return _listarClientes; },

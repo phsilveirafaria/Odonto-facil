@@ -3,6 +3,7 @@ package br.com.odontofacil.ws.controller;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class AgendaController {
 	private AgendamentoService agendamentoService;
 	
 		public static String COR_AGENDAMENTO_DEFAULT = "#0A6CAC";
-	    public static String COR_AGENDAMENTO_NAO_COMPARECEU = "#FF5900";
+	    public static String COR_AGENDAMENTO_NAO_COMPARECEU = "#FF0000";
 	    
 	    private List<Agendamento> listaAgendamentos;
 	    
@@ -41,7 +42,8 @@ public class AgendaController {
 				@RequestParam("dataFinal") String dataFinal, Principal user) throws Exception {
 			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 			Calendar di = Calendar.getInstance();
-			Calendar df = Calendar.getInstance();		
+			Calendar df = Calendar.getInstance();
+			List<Agendamento> agendamentos = new ArrayList<Agendamento>();
 			
 			try {
 				di.setTime(format.parse(dataInicial));
@@ -62,8 +64,11 @@ public class AgendaController {
 				throw new Exception("Erro ao carregar Funcionario. Faça login novamente.");
 			}
 			SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");	
-			List<Agendamento> agendamentos = agendamentoService.listarPorPeriodo(di, df, funcionario);
-			
+			if(funcionario.getPermissao().getId() == 1){
+				agendamentos = agendamentoService.listarPorPeriodoePorProfissional(di, df, funcionario);
+			}else{
+				agendamentos = agendamentoService.listarAllPorPeriodo(di, df);	
+			}
 //			for (Agendamento ag : agendamentos) {
 //				if (ag.isAtivo()) {
 //					if (ag.getColor().equals(COR_AGENDAMENTO_NAO_COMPARECEU)) {
@@ -95,12 +100,15 @@ public class AgendaController {
 			Funcionario funcionario;
 			Consulta consulta;
 			
-			
-			
 			if (user != null) {
 				System.out.println("user.getName(): " + user.getName());
 				
 				funcionario = funcionarioService.buscaPorLogin(user.getName());
+				
+				if(agendamento.getFuncionario() == null){
+					agendamento.setFuncionario(funcionario);
+				}
+				
 				if (funcionario == null) {
 					System.out.println("Funcionario nulo em getFuncionarioLogado");
 					

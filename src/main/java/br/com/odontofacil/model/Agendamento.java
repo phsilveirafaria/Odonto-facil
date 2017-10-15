@@ -3,6 +3,7 @@ package br.com.odontofacil.model;
 import java.util.Calendar;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,11 +35,11 @@ public class Agendamento {
     @JoinColumn(name="idconsulta")
 	private Consulta consulta;	
 	
-//	@Column(name="idgcalendar") 
-//	private String idGCalendar;
-//	
-//	@Column(name="idrecurring")
-//	private String idRecurring;	
+	@Column(name="idgcalendar") 
+	private String idGCalendar;
+	
+	@Column(name="idrecurring")
+	private String idRecurring;	
 	
 	@Temporal(TemporalType.TIMESTAMP)
 	private Calendar start;

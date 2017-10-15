@@ -22,8 +22,13 @@ public class AgendamentoService {
 			return agendamento;
 		}
 	
-	public List<Agendamento> listarPorPeriodo(Calendar dataInicial,Calendar dataFinal,Funcionario funcionario){
-		List<Agendamento> agendamentos = agendamentoRepository.listarPorPeriodo(dataInicial, dataFinal, funcionario);
+	public List<Agendamento> listarPorPeriodoePorProfissional(Calendar dataInicial,Calendar dataFinal,Funcionario funcionario){
+		List<Agendamento> agendamentos = agendamentoRepository.listarPorPeriodoePorProfissional(dataInicial, dataFinal, funcionario);
+		return agendamentos;
+	}
+	
+	public List<Agendamento> listarAllPorPeriodo(Calendar dataInicial,Calendar dataFinal){
+		List<Agendamento> agendamentos = agendamentoRepository.listarAllPorPeriodo(dataInicial, dataFinal);
 		return agendamentos;
 	}
 

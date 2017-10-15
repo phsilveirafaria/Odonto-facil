@@ -24,8 +24,6 @@ public class Cliente extends Usuario{
 	
 	private String telefoneContatoResponsavel;
 	
-	private Boolean maiorIdade;
-
 
 	public String getObservacoes() {
 		return observacoes;
@@ -50,15 +48,6 @@ public class Cliente extends Usuario{
 	public void setTelefoneContatoResponsavel(String telefoneContatoResponsavel) {
 		this.telefoneContatoResponsavel = telefoneContatoResponsavel;
 	}
-
-	public Boolean getMaiorIdade() {
-		return maiorIdade;
-	}
-
-	public void setMaiorIdade(Boolean maiorIdade) {
-		this.maiorIdade = maiorIdade;
-	}
-
 	
 	public static long getSerialversionuid() {
 		return serialVersionUID;

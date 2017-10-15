@@ -1,11 +1,37 @@
-angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope', 
-	'$location', '$mdDialog', 'agendamentoFactory',
-	function ($scope, $location, $mdDialog,	agendamentoFactory) {
+angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope', '$http',
+	'$location', '$mdDialog', 'agendamentoFactory', 'Session', 
+	function ($scope, $http, $location, $mdDialog,	agendamentoFactory, Session) {
 	
-	var ctrl = this;	
+	var ctrl = this;		
+	ctrl.x = Session.usuario;
 	
 	ctrl.agendamentoCarregado = agendamentoFactory.getAgendamentoCarregado();
 	ctrl.agendamento = agendamentoFactory.getAgendamento();
+	
+	
+	ctrl.funcionarioLogado = function(x) {
+		/*homeFactory.funcionarioLogado(nomeFuncionario).then(function successCallback(response){
+		Session.create(response.data);
+		ctrl.funcionario = response.data;
+		return ctrl.funcionario;
+	}, function errorCallback(response) {
+		console.log(response.data);
+		console.log(response.status);
+	});*/
+		$http({
+			  method: 'GET',
+			  url: 'http://localhost:8080/userLogado/'
+			}).then(function successCallback(response) {
+			    Session.create(response.data);
+			    ctrl.x = response.data;
+			  }, function errorCallback(response) {
+			    // called asynchronously if an error occurs
+			    // or server returns response with an error status.
+			  });
+		
+	}
+	ctrl.funcionarioLogado();
+	
 	
 	agendamentoFactory.listarClientes().then(
 			sucessCallback = function(response){
@@ -20,7 +46,7 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 		if (agendamento.consulta) {						
 			$location.path('/consulta');
 		} else {
-			if (agendamento.paciente) {								
+			if (agendamento.cliente) {								
 				consultaPacienteFactory.setConsulta({});
 				consultaPacienteFactory.setId(null);				
 				consultaPacienteFactory.setProntuario(null);
@@ -59,6 +85,19 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 		 return agendamento.descricao ? agendamento.cliente.nomeCompleto + " (" +
 				 agendamento.descricao + ")" : agendamento.cliente.nomeCompleto;			  
 	 };
+	 
+	 
+	 /**
+		 * Confirma com o usuário a remoção do evento
+		 */
+		ctrl.confirmarRemocaoEvento = function (agendamento) {		
+			modalAgendamentoFactory.setTipoConfirmacao(consts.TIPOS_CONFIRMACOES.REMOVER_EVENTO);
+			modalAgendamentoFactory.setMsgConfirmacao("Tem certeza que deseja excluir o agendamento?");
+			modalAgendamentoService.openConfirmModal();
+			
+			$uibModalInstance.close();
+		};	
+	 
 	 
 	ctrl.salvar = function (agendamento) {
 

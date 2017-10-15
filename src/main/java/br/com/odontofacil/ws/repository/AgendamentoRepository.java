@@ -15,6 +15,10 @@ public interface AgendamentoRepository extends JpaRepository <Agendamento, Long>
 			+ "INNER JOIN a.funcionario fun "					
 			+ "WHERE (DATE(a.start) BETWEEN DATE(?1) AND DATE(?2)) "
 			+ "AND fun = ?3)")
-	public List<Agendamento> listarPorPeriodo(Calendar dataInicial, Calendar dataFinal, Funcionario funcionario);
+	public List<Agendamento> listarPorPeriodoePorProfissional(Calendar dataInicial, Calendar dataFinal, Funcionario funcionario);
+	
+	@Query("SELECT a FROM Agendamento a "					
+			+ "WHERE (DATE(a.start) BETWEEN DATE(?1) AND DATE(?2))")
+	public List<Agendamento> listarAllPorPeriodo(Calendar dataInicial, Calendar dataFinal);
 
 }

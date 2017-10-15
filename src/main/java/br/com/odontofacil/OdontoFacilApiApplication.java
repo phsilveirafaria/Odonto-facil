@@ -71,8 +71,8 @@ public class OdontoFacilApiApplication extends SpringBootServletInitializer {
 
 		private static final String PERMISSAO_POR_USUARIO = "SELECT u.login,"
 				 + "u.nome_completo FROM permissoes_funcionarios up "
-				 + "JOIN usuario u ON u.id_Usuario = up.id " + 
-				 "JOIN permissao p ON p.id = up.id_permissao "
+				 + "JOIN usuario u ON u.id_Usuario = up.id_Usuario " 
+				 + "JOIN permissao p ON p.id = up.id_permissao "
 				 + "WHERE u.login = ?";		
 		
 		
@@ -115,7 +115,7 @@ public class OdontoFacilApiApplication extends SpringBootServletInitializer {
 		
 		
 		
-		@Override
+ 		@Override
 		public void configure(AuthenticationManagerBuilder builder) throws Exception {
 			builder
         	.jdbcAuthentication()
@@ -124,6 +124,7 @@ public class OdontoFacilApiApplication extends SpringBootServletInitializer {
         		.usersByUsernameQuery(USUARIO_POR_LOGIN)
         		.authoritiesByUsernameQuery(PERMISSAO_POR_USUARIO)
         	.rolePrefix("ROLE_");
+			System.out.println(builder);
 		}
 	}
 }
