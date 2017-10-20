@@ -13,7 +13,7 @@ import javax.mail.internet.MimeMessage;
 import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.odontofacil.pojo.Email;
+import br.com.odontofacil.model.Email;
 
 @RestController
 public class SendEmailController {
@@ -24,12 +24,14 @@ public class SendEmailController {
 	private static Properties properties;
 	
 	
-//	public SendEmailController(Email email) {
-//		this.host = "smtp.gmail.com";
-//		this.properties = System.getProperties();
-//		this.mountMail(email);
-//		this.sendMail(email);
-//	}
+	public SendEmailController(Email email) {
+		this.host = "smtp.gmail.com";
+		this.properties = System.getProperties();
+		//Aqui ele monta o email
+		this.mountMail(email);
+		//Aqui ele inicializa a api de email e faz o envio.
+		this.sendMail(email);
+	}
 
 	/**
 	 * Send mail from contato@keepupload.com to contato@keepupload.com
@@ -47,19 +49,23 @@ public class SendEmailController {
 				  });
 		try {
 			MimeMessage message = new MimeMessage(session);
+			if(email.getFrom() != null){
 			message.setFrom(new InternetAddress(email.getFrom()));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(email.getTo()));
+			//ISSO é o titulo do EMAIL
 			message.setSubject("[Contato-Site]KeepUpload");
 			message.setContent(this.corpo, "text/html");
 
 			Transport.send(message);
-			logger.info("Email eviado com sucesso!");
+			//Esses logger tu pode tirar.. eu usava log4J no keepupload.
+			//logger.info("Email eviado com sucesso!");
+			}
 		} catch (MessagingException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public void mountMail(Email email){
+	private void mountMail(Email email){
 		this.corpo = email.getEmailFormatado();
 	}
 /*	public static void main(String[] args) {

@@ -1,11 +1,21 @@
 angular.module('odontoFacil').controller('dashboardController', ['$scope', '$rootScope', '$http', '$location', 
-	'$mdDialog', 'funcionarioFactory' , 'Session', 'homeFactory',	function($scope, $rootScope, 
-			$http, $location, $mdDialog, funcionarioFactory, Session, homeFactory) {
+	'$mdDialog', 'funcionarioFactory' , 'Session', 'homeFactory', 'agendamentoFactory',	function($scope, $rootScope, 
+			$http, $location, $mdDialog, funcionarioFactory, Session, homeFactory, agendamentoFactory) {
 	
 	var ctrl = this;
 	ctrl.funcionario = {};
 	ctrl.x = Session.usuario;
+//	ctrl.agendamentosMes = {};
 
+	
+//	ctrl.agendamentosDoMes = function() {
+//		agendamentoFactory.agendamentosDoMes().then(function successCallback(response) {
+//			ctrl.agendamentosMes = response.data;
+//		}, function errorCallback(response) {
+//			console.log(response.data);
+//			console.log(response.status);
+//		});
+//	}
 	
 	ctrl.funcionarioLogado = function(x) {
 		/*homeFactory.funcionarioLogado(nomeFuncionario).then(function successCallback(response){
@@ -18,7 +28,7 @@ angular.module('odontoFacil').controller('dashboardController', ['$scope', '$roo
 	});*/
 		$http({
 			  method: 'GET',
-			  url: 'http://localhost:8080/userLogado/'
+			  url: 'https://localhost:8443/userLogado/'
 			}).then(function successCallback(response) {
 			    Session.create(response.data);
 			    ctrl.x = response.data;
@@ -28,5 +38,6 @@ angular.module('odontoFacil').controller('dashboardController', ['$scope', '$roo
 			  });
 		
 	}
+//	ctrl.agendamentosDoMes();
 	ctrl.funcionarioLogado();
 }]);

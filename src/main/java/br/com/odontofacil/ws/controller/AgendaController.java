@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.odontofacil.model.Agendamento;
 import br.com.odontofacil.model.Consulta;
+import br.com.odontofacil.model.Email;
 import br.com.odontofacil.model.Funcionario;
 import br.com.odontofacil.ws.service.AgendamentoService;
 import br.com.odontofacil.ws.service.FuncionarioService;
@@ -86,7 +87,28 @@ public class AgendaController {
 			
 			System.out.println("listarAgendamentos: fim");
 			return agendamentos;		
-		}	
+		}
+	    
+//	    @RequestMapping(value = "/agendamentosDoMes", 
+//				method={RequestMethod.POST}, 
+//				produces = MediaType.APPLICATION_JSON_VALUE,
+//				consumes = MediaType.APPLICATION_JSON_VALUE
+//				)
+//		public int agendamentosDoMes() throws Exception {
+//			
+//			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+//			Calendar di = Calendar.getInstance();
+//			Calendar df = Calendar.getInstance();
+//			
+//			try {
+//				di.setTime(format.parse(dataInicial));
+//				df.setTime(format.parse(dataFinal));
+//			} catch (ParseException e) {
+//				throw new Exception("Erro ao listar agendamentos: formato de data inválido.");
+//			}	
+//			
+//			return agendamentoService.agendamentosDoMes(di, df);
+//	    }
 		
 		
 		@RequestMapping(value = "/salvarAgendamento", 
@@ -129,13 +151,35 @@ public class AgendaController {
 				agendamento.setColor(COR_AGENDAMENTO_NAO_COMPARECEU);
 			}
 					
-								
+			//Ta, entao depois que ele terminar de salvar, se tudo ocorrer bem
+			//nos vamos popular a entidade Email e depois chamar o controller do mesmo modo que eu chamo no Service.
+			
 			agendamento = agendamentoService.salvar(agendamento);
 			
 			if (agendamento == null) {
 				System.out.println("Erro ao salvar no BD.");
 				throw new Exception("Não foi possível salvar o agendamento!");
-			}			
+			} else {
+				/*
+				 * Isso tu pode fazer dum jeito melhor e mais organizar depois... aqui vou fazer só pra mostrar
+				 */
+				Email email = new Email();
+				//Pra que vai mandar
+				email.setTo("contato@keepupload.com");
+				//Quem ta mandando
+				email.setFrom("contato@keepupload.com");
+				//senha
+				email.setPass("SENHA");
+				//Texto do email... o ideal é tu ir num "montador de HTML" e montar o texto.
+				email.setEmailFormatado("<h2 style=\"text-align: left;\">Nome: "+email.getNome()+"</h2>"
+										+"<h2 style=\"text-align: left;\">Email: "+email.getEmail()+"</h2>"
+										+"<h2 style=\"text-align: center;\">Texto&nbsp;</h2>"
+										+"<h2 style=\"text-align: center;\">"+email.getTexto()+"</h2>");
+				
+				//Depois que tu popúlou a entidade EMAIL como foi feito ali encima, tu inicializa o construtor da classe
+				//SendEmailController e ela vai "montar" pra ti o email e enviar.
+				SendEmailController sendMail = new SendEmailController(email);
+			}
 			
 			if (agendamento.getColor() != null && agendamento.getColor().equals(COR_AGENDAMENTO_NAO_COMPARECEU)) {
 				agendamento.setNaoCompareceu(true);

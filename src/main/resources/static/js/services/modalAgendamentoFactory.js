@@ -7,17 +7,17 @@ angular.module('odontoFacil').factory('agendamentoFactory', ['$http',  function(
 	
 	var _listarClientes = function() {
 		return $http.get(
-			'http://localhost:8080/listarClientes'
+			'https://localhost:8443/listarClientes'
 		);
 	};
 	
 	var _listarFuncionarios = function() {
 		return $http.get(
-			'http://localhost:8080/listarFuncionarios'
+			'https://localhost:8443/listarFuncionarios'
 		);
 	};
 	
-	console.log(_listarClientes);
+
 	return {		
 		getAgendamento: function() { return _agendamento; },
 		setAgendamento: function(agendamento) { _agendamento = agendamento; },		

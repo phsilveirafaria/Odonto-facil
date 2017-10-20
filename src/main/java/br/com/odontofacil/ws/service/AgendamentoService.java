@@ -27,6 +27,11 @@ public class AgendamentoService {
 		return agendamentos;
 	}
 	
+	public int agendamentosDoMes(Calendar dataInicial,Calendar dataFinal){
+		int agendamentosDoMes = agendamentoRepository.agendamentosDoMes(dataInicial, dataFinal);
+		return agendamentosDoMes;
+	}
+	
 	public List<Agendamento> listarAllPorPeriodo(Calendar dataInicial,Calendar dataFinal){
 		List<Agendamento> agendamentos = agendamentoRepository.listarAllPorPeriodo(dataInicial, dataFinal);
 		return agendamentos;

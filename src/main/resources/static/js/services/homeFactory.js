@@ -6,7 +6,7 @@ angular.module('odontoFacil').factory('homeFactory',['$http', function($http) {
 	
 	homeFactory.funcionarioLogado = function(funcionario) {
 		return $http.get(
-			'http://localhost:8080/userLogado',
+			'https://localhost:8443/userLogado',
 			funcionario
 				
 		);

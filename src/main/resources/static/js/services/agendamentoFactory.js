@@ -4,24 +4,29 @@ angular.module('odontoFacil').factory('agendamentoFactory', ['$http',  function(
 	
 	var _listarClientes = function() {
 		return $http.get(
-			'http://localhost:8080/listarClientes'
+			'https://localhost:8443/listarClientes'
 		);
 	};
 	
 	var _listarFuncionarios = function() {
 		return $http.get(
-			'http://localhost:8080/listarFuncionarios'
+			'https://localhost:8443/listarFuncionarios'
 		);
+	};
+	
+	var _agendamentosDoMes = function() {
+		return $http.get(
+			'https://localhost:8443/agendamentosDoMes');
 	};
 	
 	var _listarAgendamentos = function(dataInicial, dataFinal) {
 		var params = {dataInicial: dataInicial.format(), dataFinal: dataFinal.format()};
-		return $http.get('http://localhost:8080/listarAgendamentos', {params});
+		return $http.get('https://localhost:8443/listarAgendamentos', {params});
 	};
 	
 	var _salvarAgendamento = function(ag) {
 		var agendamento = angular.copy(ag);
-		return $http.post('http://localhost:8080/salvarAgendamento', angular.copy(agendamento));
+		return $http.post('https://localhost:8443/salvarAgendamento', angular.copy(agendamento));
 	};
 	
 	return {		
@@ -34,6 +39,7 @@ angular.module('odontoFacil').factory('agendamentoFactory', ['$http',  function(
 		salvarAgendamento: _salvarAgendamento,
 		listarClientes: _listarClientes,
 		listarAgendamentos: _listarAgendamentos,
+		agendamentosDoMes: _agendamentosDoMes,
 		listarFuncionarios: _listarFuncionarios,
 		getAgendamentoCarregado: function() { return _agendamentoCarregado; },
 		setAgendamentoCarregado: function(agendamentoCarregado) { _agendamentoCarregado = agendamentoCarregado; },

@@ -1,6 +1,11 @@
+var lazyModules = ['ui.calendar', 'ui.bootstrap']; 
+angular.forEach(lazyModules, function(dependency) {
+	angular.module('odontoFacil').requires.push(dependency);
+});
+
 angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope', '$http',
-	'$location', '$mdDialog', 'agendamentoFactory', 'Session', 
-	function ($scope, $http, $location, $mdDialog,	agendamentoFactory, Session) {
+	'$location', '$mdDialog', 'agendamentoFactory', 'Session', '$uibModal' , '$uibModalInstance', 'modalAgendamentoService', 
+	function ($scope, $http, $location, $mdDialog,	agendamentoFactory, Session, $uibModal, $uibModalInstance, modalAgendamentoService) {
 	
 	var ctrl = this;		
 	ctrl.x = Session.usuario;
@@ -20,7 +25,7 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 	});*/
 		$http({
 			  method: 'GET',
-			  url: 'http://localhost:8080/userLogado/'
+			  url: 'https://localhost:8443/userLogado/'
 			}).then(function successCallback(response) {
 			    Session.create(response.data);
 			    ctrl.x = response.data;
@@ -86,17 +91,82 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 				 agendamento.descricao + ")" : agendamento.cliente.nomeCompleto;			  
 	 };
 	 
+		ctrl.cancel = function () {				
+			$uibModalInstance.dismiss('cancel');				
+		};	
+	 
 	 
 	 /**
 		 * Confirma com o usuário a remoção do evento
 		 */
 		ctrl.confirmarRemocaoEvento = function (agendamento) {		
-			modalAgendamentoFactory.setTipoConfirmacao(consts.TIPOS_CONFIRMACOES.REMOVER_EVENTO);
-			modalAgendamentoFactory.setMsgConfirmacao("Tem certeza que deseja excluir o agendamento?");
 			modalAgendamentoService.openConfirmModal();
 			
 			$uibModalInstance.close();
 		};	
+		
+		var removerEvento = function(agendamento) {	
+			//utilService.setMessage("Removendo agendamento ...");
+			//utilService.showWait();		
+			agendamentoFactory.removerAgendamento(agendamento).then(
+					successCallback = function(response) {					
+						if (agendamento.grupo > 0 && agendamento.eventoPrincipal) {
+							agendamentoFactory.atribuirNovoEventoPrincipal(agendamento).then(
+									successCallback = function(response) {
+										//utilService.hideWait();
+										angular.element('.calendar').fullCalendar('removeEvents',agendamento.id);				
+									},
+									errorCallback = function (error, status){
+										//utilService.hideWait();
+										utilService.tratarExcecao(error);			  						
+									}
+							);
+						} else {
+							//utilService.hideWait();
+						}
+						angular.element('.calendar').fullCalendar('removeEvents',agendamento.id);				
+					},
+					errorCallback = function (error, status){	
+						//utilService.hideWait();
+						utilService.tratarExcecao(error);			  						
+					}
+				);				
+			$uibModalInstance.close();
+							
+			if ((!psicologoFactory.isVinculadoGCal() && agendamento.grupo > 0) || agendamento.eventoPrincipal) {
+				modalAgendamentoFactory.setTipoConfirmacao(consts.TIPOS_CONFIRMACOES.REMOVER_EVENTOS_FUTUROS);
+				modalAgendamentoFactory.setMsgConfirmacao("Remover também os eventos futuros?");
+				modalAgendamentoService.openConfirmModal();
+			}		 				
+		};
+		
+		ctrl.iniciarConsulta = function(agendamento) {		
+			consultaFactory.setAgendamento(agendamento);
+			if (agendamento.consulta) {						
+				$location.path('/consulta');
+			} else {
+				if (agendamento.paciente) {								
+					consultaFactory.setConsulta({});
+					consultaFactory.setId(null);				
+					consultaFactory.setProntuario(null);
+					consultaFactory.setValor(0);
+					consultaFactory.setRecibo(false);
+					consultaFactory.setInicio(new Date());
+					consultaFactory.setFim(null);
+					$location.path('/consulta');
+				} else {
+					$mdDialog.show(
+						$mdDialog.alert()
+							.clickOutsideToClose(true)
+							.title('Algo saiu errado ...')
+							.textContent("Não foi possível localizar o paciente da consulta!")
+							.ariaLabel('Alerta')
+							.ok('Ok')						
+					);							
+				}
+			}
+			$uibModalInstance.close();			
+		};
 	 
 	 
 	ctrl.salvar = function (agendamento) {

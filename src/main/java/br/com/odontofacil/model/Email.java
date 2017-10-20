@@ -1,8 +1,11 @@
-package br.com.odontofacil.pojo;
+package br.com.odontofacil.model;
 
 import javax.xml.bind.annotation.XmlRootElement;
 
+import org.springframework.stereotype.Component;
+
 @XmlRootElement(name="Email")
+@Component
 public class Email {
 
 	private String nome;
@@ -19,6 +22,8 @@ public class Email {
 	 */
 	public Email() {
 	}
+	
+	
 
 	public String getNome() {
 		return nome;

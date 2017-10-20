@@ -1,6 +1,16 @@
 angular.module('odontoFacil', ['ngRoute', 'ngMaterial', 'ngTable']).constant("consts", {
-	BASE_URL: "http://localhost:8080"
-})
+	BASE_URL: "http://localhost:8443",
+		TIPOS_CONFIRMACOES: {
+			'REMOVER_EVENTOS_FUTUROS': 1,
+			'MOVER_EVENTOS': 2,
+			'ALTERAR_DADOS_FUTUROS': 3,
+			'REMOVER_EVENTO': 4,
+			'REMOVER_EVENTOS_GRUPO': 5
+		}})
+
+
+
+
 .config(['$routeProvider', '$httpProvider', '$mdDateLocaleProvider' ,function($routeProvider, $httpProvider, $mdDateLocaleProvider) {		
 		$routeProvider.
 			when('/home', { 
@@ -69,6 +79,5 @@ angular.module('odontoFacil', ['ngRoute', 'ngMaterial', 'ngTable']).constant("co
 		
 	}]).run(['$rootScope', function($rootScope){
 		// start watching when the app runs. also starts the Keepalive service by default.
-		
-		
+
 	}]);

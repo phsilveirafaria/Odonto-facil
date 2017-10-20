@@ -20,5 +20,8 @@ public interface AgendamentoRepository extends JpaRepository <Agendamento, Long>
 	@Query("SELECT a FROM Agendamento a "					
 			+ "WHERE (DATE(a.start) BETWEEN DATE(?1) AND DATE(?2))")
 	public List<Agendamento> listarAllPorPeriodo(Calendar dataInicial, Calendar dataFinal);
+	
+	@Query("select count(*) from Agendamento")
+	public int agendamentosDoMes(Calendar di, Calendar df);
 
 }

@@ -6,19 +6,19 @@ angular.module('odontoFacil').factory('funcionarioFactory',['$http', function($h
 	
 	var _listarFuncionarios = function() {
 		return $http.get(
-			'http://localhost:8080/listarFuncionarios'
+			'https://localhost:8443/listarFuncionarios'
 		);
 	};
 	
 	var _listarPermissoes = function() {
 		return $http.get(
-		'http://localhost:8080/listarPermissoes');
+		'https://localhost:8443/listarPermissoes');
 	};
 	
 	
 	var _excluirFuncionarios = function(funcionario) {
 		return $http.post(
-			'http://localhost:8080/excluirFuncionarios/',
+			'https://localhost:8443/excluirFuncionarios/',
 			funcionario
 		);
 	};
@@ -39,7 +39,7 @@ angular.module('odontoFacil').factory('funcionarioFactory',['$http', function($h
 		
 		
 		return $http.post(
-			'http://localhost:8080/salvarFuncionarios',
+			'https://localhost:8443/salvarFuncionarios',
 			CredenciaisFuncionario
 		);
 	};

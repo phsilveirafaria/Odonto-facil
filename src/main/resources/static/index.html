@@ -15,6 +15,7 @@
 	rel='stylesheet' type="text/css" media='print' />
 	  <!-- bootstrap wysihtml5 - text editor -->
   <link rel="stylesheet" href="lib/bootstrap-wysihtml5/bootstrap3-wysihtml5.min.css">
+  <link href="/lib/ui-select/select.css" rel="stylesheet" type="text/css"/>
 <!-- Font Awesome -->
 <link rel="stylesheet"
 	href="./lib/font-awesome/css/font-awesome.min.css">
@@ -251,7 +252,7 @@ desired effect
 					<li class="header">Menu</li>
 					<!-- Optionally, you can add icons to the links -->
 					<li><a href="#/home"><i class="fa fa-home"></i> <span>Home</span></a></li>
-					<li class="treeview"><a href="#"><i class="fa fa-user-md"></i>
+			<li class="treeview"><a href="#"><i class="fa fa-user-md"></i>
 							<span>Funcionários</span> <span class="pull-right-container">
 								<i class="fa fa-angle-left pull-right"></i>
 						</span> </a>
@@ -437,6 +438,10 @@ desired effect
 	<script type="text/javascript"
 		src='lib/fullcalendar/dist/fullcalendar-3.1.0.min.js'></script>
 	<script type="text/javascript" src='lib/fullcalendar/dist/calendar.js'></script>
+	<!-- TODO -->
+	<script src="/lib/ui-select/angular-sanitize.min.js"></script>
+	<script src="/lib/ui-select/select.js" type="text/javascript"></script>
+	
 	<script type="text/javascript"
 		src='lib/fullcalendar/dist/locale-all.js'></script>
 	<!-- Bootstrap WYSIHTML5 -->
@@ -464,6 +469,7 @@ desired effect
 	<script src="js/services/consultaFactory.js"></script>
 	<script src="js/services/funcionarioFactory.js"></script>
 	<script src="js/services/modalAgendamentoFactory.js"></script>
+	<script src="js/services/modalAgendamentoService.js"></script>
 	<script src="js/services/loginFactory.js"></script>
 	<script src="js/services/agendamentoFactory.js"></script>
 	<script src="js/services/financeiroFactory.js"></script>

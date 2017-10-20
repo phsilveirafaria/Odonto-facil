@@ -26,8 +26,7 @@
 	                    	<div class="col-lg-4">                    		
 								<select name="tipoPesquisa" class="form-control"
 									ng-init="ctrl.pesquisa.tipoPesquisa='1'" 
-									ng-model="ctrl.pesquisa.tipoPesquisa"
-									ng-change="ctrl.carregarConvenios()">																											
+									ng-model="ctrl.pesquisa.tipoPesquisa">																											
 									<option value="1">Ativos</option>
 									<option value="2">Inativos</option>
 									<option value="3">Todos</option>
@@ -48,7 +47,6 @@
 						            <a class="btn btn-warning btn-xs" ng-click="ctrl.editarCliente(cliente)" title="Editar Cliente"><i class="fa fa-pencil fa-fw"></i></a>					                        
 						            <a class="btn btn-danger btn-xs" ng-click="ctrl.excluirClientes(cliente)" title="Excluir Cliente"><i class="fa fa-times fa-fw"></i></a> 					                        						                        
 						            <a class="btn btn-success btn-xs" ng-click="ctrl.iniciarConsulta(cliente)" title="Iniciar Consulta"><i class="fa fa-calendar-check-o fa-fw"></i></a>
-						            <a class="btn btn-info btn-xs" ng-if="convenio.ativo" ng-click="ctrl.ativarDesativarConvenio(convenio)" title="Desativar Convênio"><i class="fa fa-minus fa-fw"></i></a>
 						            <a class="btn btn-info btn-xs" ng-if="cliente.ativo" ng-click="ctrl.ativarDesativarCliente(cliente)" title="Desativar Cliente"><i class="fa fa-refresh fa-fw"></i></a>
 						            <a class="btn btn-info btn-xs" ng-if="!cliente.ativo" ng-click="ctrl.ativarDesativarCliente(cliente)" title="Ativar Cliente"><i class="fa fa-refresh fa-fw"></i></a>
 					            </td>					                    		

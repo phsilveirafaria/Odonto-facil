@@ -5,20 +5,20 @@ angular.module('odontoFacil').factory('clienteFactory',['$http', function($http)
 	
 	var _listarClientes = function() {
 		return $http.get(
-			'http://localhost:8080/listarClientes'
+			'https://localhost:8443/listarClientes'
 		);
 	};
 	
 	var _salvarClientes = function(cliente) {
 		return $http.post(
-			'http://localhost:8080/salvarClientes',
+			'https://localhost:8443/salvarClientes',
 			cliente
 		);
 	};
 	
 	var _excluirClientes = function(cliente) {
 		return $http.post(
-			'http://localhost:8080/excluirClientes/',
+			'https://localhost:8443/excluirClientes/',
 			cliente
 		);
 	};

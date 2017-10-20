@@ -1,6 +1,6 @@
 angular.module('odontoFacil').factory('loginFactory', ['$http', 'consts', function($http, consts) {		
 	var _login = function(headers) {
-		return $http.get(consts.BASE_URL + '/user', {headers : headers});				
+		return $http.get('https://localhost:8443/user', {headers : headers});				
 	};
 	
 	var _logout = function() {

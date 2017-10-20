@@ -5,7 +5,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import br.com.odontofacil.pojo.Email;
+import br.com.odontofacil.model.Email;
 import br.com.odontofacil.ws.controller.SendEmailController;
 
 /**
