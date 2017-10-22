@@ -21,6 +21,10 @@ public class AgendamentoService {
 			agendamentoRepository.save(agendamento);
 			return agendamento;
 		}
+		
+		public void excluir(Agendamento agendamento){
+			agendamentoRepository.delete(agendamento);
+		}
 	
 	public List<Agendamento> listarPorPeriodoePorProfissional(Calendar dataInicial,Calendar dataFinal,Funcionario funcionario){
 		List<Agendamento> agendamentos = agendamentoRepository.listarPorPeriodoePorProfissional(dataInicial, dataFinal, funcionario);

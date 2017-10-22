@@ -55,7 +55,6 @@ public class Agendamento {
 	
 	private String title;
 	
-	@Transient
 	private boolean naoCompareceu;
 	
 	// Apenas para JPA
@@ -158,6 +157,23 @@ public class Agendamento {
 	public void setTitle(String title) {
 		this.title = title;
 	}
+
+	public String getIdGCalendar() {
+		return idGCalendar;
+	}
+
+	public void setIdGCalendar(String idGCalendar) {
+		this.idGCalendar = idGCalendar;
+	}
+
+	public String getIdRecurring() {
+		return idRecurring;
+	}
+
+	public void setIdRecurring(String idRecurring) {
+		this.idRecurring = idRecurring;
+	}
+	
 	
 	
 }

@@ -2,10 +2,18 @@ package br.com.odontofacil.util;
 
 import java.util.InputMismatchException;
 
+import javax.crypto.Cipher;
 import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import org.apache.commons.codec.binary.Base64;
+
+import br.com.odontofacil.model.Funcionario;
+
 
 public class Util {
+	
+	private static String key = "$tM4l8OhfQ6&6f%#";
 	
 	public static void validarCPF(String cpf) throws Exception {
 		// considera-se erro CPF's formados por uma sequencia de numeros iguais
@@ -63,10 +71,38 @@ public class Util {
 	    }
 	}
 	
+	public static String encrypt(String texto, Funcionario funcionario) throws Exception {
+		System.out.println("Util.encrypt(texto, psicologo): início");
+		byte[] key = funcionario.getChave();		
+		
+        SecretKeySpec skeySpec = new SecretKeySpec(key, "AES");
+
+        Cipher cipher = Cipher.getInstance("AES");        
+        cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
+
+        byte[] encrypted = cipher.doFinal(texto.getBytes());        
+
+        System.out.println("Util.encrypt(texto, psicologo): fim");
+        return Base64.encodeBase64String(encrypted);
+    }
+	
 	public static String gerarChave() throws Exception {
 		SecretKey secretKey = KeyGenerator.getInstance("AES").generateKey();	
 		
 		return java.util.Base64.getEncoder().encodeToString(secretKey.getEncoded()).substring(0, 16);
 	}
+	
+	public static String encrypt(String texto) throws Exception {
+		System.out.println("Util.encrypt(texto): início");
+        SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(), "AES");
+
+        Cipher cipher = Cipher.getInstance("AES");        
+        cipher.init(Cipher.ENCRYPT_MODE, skeySpec);
+
+        byte[] encrypted = cipher.doFinal(texto.getBytes());        
+
+        System.out.println("Util.encrypt(texto): fim");
+        return Base64.encodeBase64String(encrypted);
+    }
 
 }

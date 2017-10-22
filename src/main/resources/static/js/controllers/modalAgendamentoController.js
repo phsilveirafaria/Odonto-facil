@@ -4,8 +4,8 @@ angular.forEach(lazyModules, function(dependency) {
 });
 
 angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope', '$http',
-	'$location', '$mdDialog', 'agendamentoFactory', 'Session', '$uibModal' , '$uibModalInstance', 'modalAgendamentoService', 
-	function ($scope, $http, $location, $mdDialog,	agendamentoFactory, Session, $uibModal, $uibModalInstance, modalAgendamentoService) {
+	'$location', '$mdDialog', 'agendamentoFactory', 'modalAgendamentoFactory', 'Session', '$uibModal' , '$uibModalInstance', 'modalAgendamentoService', 
+	function ($scope, $http, $location, $mdDialog,	agendamentoFactory, modalAgendamentoFactory, Session, $uibModal, $uibModalInstance, modalAgendamentoService) {
 	
 	var ctrl = this;		
 	ctrl.x = Session.usuario;
@@ -92,7 +92,7 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 	 };
 	 
 		ctrl.cancel = function () {				
-			$uibModalInstance.dismiss('cancel');				
+			$uibModalInstance.dismiss('cancel');
 		};	
 	 
 	 
@@ -103,8 +103,34 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 			modalAgendamentoService.openConfirmModal();
 			
 			$uibModalInstance.close();
+							
 		};	
 		
+		ctrl.removerAgendamento = function(agendamento){
+			
+			agendamentoFactory.removerAgendamento(agendamento).then(
+					successCallback = function(response) {					
+										angular.element('.calendar').fullCalendar('removeEvents',agendamento.id);				
+					},errorCallback = function (error, status){
+										//utilService.hideWait();
+										utilService.tratarExcecao(error);			  						
+									}
+							);
+						angular.element('.calendar').fullCalendar('removeEvents',agendamento.id);				
+			$uibModalInstance.close();
+							
+		
+			
+		$mdDialog.show(
+				$mdDialog.alert()
+					.clickOutsideToClose(true)
+					.title('Removido com Sucesso')
+					.textContent("Agendamento Removido com Sucesso!")
+					.ariaLabel('Alerta')
+					.ok('Ok')						
+			);
+		
+		};
 		var removerEvento = function(agendamento) {	
 			//utilService.setMessage("Removendo agendamento ...");
 			//utilService.showWait();		
@@ -133,9 +159,9 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 				);				
 			$uibModalInstance.close();
 							
-			if ((!psicologoFactory.isVinculadoGCal() && agendamento.grupo > 0) || agendamento.eventoPrincipal) {
-				modalAgendamentoFactory.setTipoConfirmacao(consts.TIPOS_CONFIRMACOES.REMOVER_EVENTOS_FUTUROS);
-				modalAgendamentoFactory.setMsgConfirmacao("Remover também os eventos futuros?");
+			if (!funcionarioFactory.isVinculadoGCal()) {
+//				modalAgendamentoFactory.setTipoConfirmacao(consts.TIPOS_CONFIRMACOES.REMOVER_EVENTOS_FUTUROS);
+//				modalAgendamentoFactory.setMsgConfirmacao("Remover também os eventos futuros?");
 				modalAgendamentoService.openConfirmModal();
 			}		 				
 		};
@@ -176,6 +202,16 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 						var event = angular.element('.calendar').fullCalendar('clientEvents',agendamento.id);																								
 						if (event.length > 0) {
 							agendamento.title = updateTitle(agendamento);
+							$uibModalInstance.close();
+							$mdDialog.show(
+									$mdDialog.alert()
+										.clickOutsideToClose(false)
+										.title('Agendamento salvo com sucesso!')
+										.textContent("Agendamento salvo com sucesso para " + agendamento.start)
+										.ariaLabel('Alerta')
+										.ok('Ok')						
+								);
+							
 						} function errorCallback(response) {								
 							$mdDialog.show(
 								$mdDialog.alert()
@@ -186,10 +222,21 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 									.ok('Ok')						
 							);
 							
-						}	
+						}
+						
+//						agendamentoFactory.salvarAgendamentoTemporarioGCalendar(agendamento).then(
+//								successCallback = function(response) {
+//									//utilService.hideWait();
+//									atualizarViewFC();						
+//								},
+//								errorCallback = function(error) {
+//									//utilService.hideWait();
+//									utilService.tratarExcecao(error);
+//								}
+//						);			
 
 		// Novo agendamento
-		if (agendamento.paciente) {						
+		if (agendamento.cliente) {						
 			agendamento.title = updateTitle(agendamento);
 			var horarioConsulta = agendamento.formatedStart.split(":");
 			agendamento.start = moment(agendamento.start).hour(horarioConsulta[0]).minute(horarioConsulta[60]).second(0).millisecond(0);			
@@ -215,5 +262,23 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 	});			
 	
 	}
+	
+	 var atualizarViewFC = function() {	
+		 utilService.setMessage("Carregando agendamentos ...");
+		 utilService.showWait();		 		 
+		 angular.element('.calendar').fullCalendar('removeEvents');
+		 // Atualiza a view para o caso de haver algum evento semanal
+		 view = angular.element('.calendar').fullCalendar('getView');
+		 agendamentoFactory.listarAgendamentos(view.start, view.end).then(
+				 successCallback = function (response) {					 					 
+					 angular.element('.calendar').fullCalendar('renderEvents',response.data);
+					 utilService.hideWait();
+				 },
+				 errorCallback = function (error) {	
+					 utilService.hideWait();
+					 utilService.tratarExcecao(error);
+				 }
+		 );		
+	 };
 	
 }]);

@@ -1,4 +1,4 @@
-angular.module('odontoFacil').factory('agendamentoFactory', ['$http',  function($http) {
+angular.module('odontoFacil').factory('modalAgendamentoFactory', ['$http',  function($http) {
 	var _agendamento = {};
 	var _agendamentoCarregado = {};	
 	var _msgErro;

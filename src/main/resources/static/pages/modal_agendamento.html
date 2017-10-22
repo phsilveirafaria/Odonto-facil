@@ -1,82 +1,92 @@
-<head>		
-	<meta charset="UTF-8" />		
-</head>	
+<head>
+<meta charset="UTF-8" />
+</head>
 <div class="modal-header">
 	<h3 class="modal-title" id="modal-title">Agendamento</h3>
 </div>
 
-<div class="modal-body" id="modal-body"> 		
+<div class="modal-body" id="modal-body">
 	<form name="agendamentoForm">
 		<div class="form-group">
 			<div class="col-md12">
-				<label for="selClientes">Nome do Paciente:</label> 
-			</div>
-			<div class="col-md12">
-				<label for="text" class="col-sm-2 control-label">Cliente: </label> 
+				<label for="selClientes">Nome do Paciente:</label>
 			</div>
 			<div clas="col-md12">
-				<ui-select ng-model="colaboractrl.agendamento.cliente" name="cliente" id="cliente" >
-					<ui-select-match>{{$item.nomeCompleto}}</ui-select-match> 
-					<ui-select-choices repeat="cliente in ctrl.comboClientes | filter: $select.search" >
-						<small> {{cliente.nomeCompleto}} </small> 
-					</ui-select-choices> 
-				</ui-select>
+				<ui-select ng-model="ctrl.agendamento.cliente" theme="bootstrap"
+					style="width: 450px;" title="Choose a country"> <ui-select-match
+					placeholder="Select or search a country in the list...">{{ctrl.agendamento.cliente.nomeCompleto}}</ui-select-match>
+				<ui-select-choices
+					repeat="cliente in ctrl.comboClientes | filter: $select.search">
+				<span
+					ng-bind-html="cliente.nomeCompleto | highlight: $select.search"></span>
+				</ui-select-choices> </ui-select>
 			</div>
-		</div>																						
 		<div class="form-group">
-			<div class="col-md12">					
+			<div class="col-md12">
 				<label ng-show="ctrl.x.permissao.id != 1" for="selFuncionarios">Dentista:</label>
-			</div> 
-			<div class="col-md12">
-				<ui-select
-					id="funcionario" ng-show="ctrl.x.permissao.id != 1" name="funcionario"					
-					ng-model="colaboractrl.agendamento.funcionario">
-					<ui-select-match>{{$funcionario.nomeCompleto}}</ui-select-match> 
-					<ui-select-choices repeat="funcionario in ctrl.comboFuncionarios | filter: $select.search" >
-					<small> {{funcionario.nomeCompleto}} </small> 
-					</ui-select-choices>
-					<option value="">Selecione o Dentista</option>
-				</ui-select>
-			</div>																										
+			</div>
+			<div clas="col-md12">
+				<ui-select ng-model="ctrl.agendamento.funcionario" theme="bootstrap"
+					style="width: 450px;" title="Choose a country"> <ui-select-match
+					placeholder="Selecione um Dentista">{{ctrl.agendamento.funcionario.nomeCompleto}}</ui-select-match>
+				<ui-select-choices
+					repeat="funcionario in ctrl.comboFuncionarios | filter: $select.search">
+				<span
+					ng-bind-html="funcionario.nomeCompleto | highlight: $select.search"></span>
+				</ui-select-choices> </ui-select>
+			</div>
 		</div>
-		
-			
+
+		<div class="clockpicker" ng-class="agendamentoForm.inicio.$error.pattern || 
+				agendamentoForm.inicio.$error.required ? 
+				'form-group has-error has-feedback' : ''">
+				<label for="inicio">Horário da consulta:</label>
+				<input id="inicio" name="inicio" type="text" class="form-control" 
+					ng-model="ctrl.agendamento.formatedStart"
+					ng-disabled="!ctrl.agendamento.editable"
+					maxlength="5" ng-required="true" onKeyPress="mascara(this, '##:##')" 
+					ng-pattern="/^([01]\d|2[0-3]):?([0-5]\d)$/" ng-required="true">												 					
+			</div>	
+
 		<div class="form-group">
 			<div class="col-md12">
-				<label for="observacao">Observação: </label> 
+				<label for="observacao">Observação: </label>
 			</div>
 			<div class="col-md12">
-				<textarea id="observacao" ng-disabled="!ctrl.agendamento.editable" 
+				<textarea id="observacao" ng-disabled="!ctrl.agendamento.editable"
 					class="form-control" ng-model="ctrl.agendamento.descricao"></textarea>
 			</div>
 			<div class="col-md12">
 				<div class="checkbox">
-				<label><input type="checkbox" value="true" ng-model="ctrl.agendamento.naoCompareceu">Não compareceu</label>
-				</div>				
+					<label><input type="checkbox" value="true"
+						ng-model="ctrl.agendamento.naoCompareceu">Não compareceu</label>
+				</div>
 			</div>
 		</div>
-	</form>			
+	</form>
 </div>
 
-	<div class="modal-footer"> 
-	<div class="form-group">		
-		<button id="btnIniciarConsulta" type="button" class="btn btn-info" style="width: 154px;"
-			ng-if="ctrl.agendamento.id" ng-click="ctrl.iniciarConsulta(ctrl.agendamento)">
-			Iniciar Consulta</button>	
-		<button id="btnProntuarios" type="button" class="btn btn-primary" style="width: 154px;"
-			ng-if="ctrl.agendamento.id"	ng-disabled="!ctrl.agendamento.paciente" 
+<div class="modal-footer">
+	<div class="form-group">
+		<button id="btnIniciarConsulta" type="button" class="btn btn-info"
+			style="width: 154px;" ng-if="ctrl.agendamento.id && !ctrl.agendamento.naoCompareceu"
+			ng-click="ctrl.iniciarConsulta(ctrl.agendamento)">Iniciar
+			Consulta</button>
+		<button id="btnProntuarios" type="button" class="btn btn-primary"
+			style="width: 154px;" ng-if="ctrl.agendamento.id"
+			ng-disabled="!ctrl.agendamento.paciente"
 			ng-click="ctrl.verProntuarios(ctrl.agendamento.paciente)">
-			Ver Prontuários</button>		
+			Ver Prontuários</button>
 	</div>
 	<div class="form-group">
-		<button id="btnSalvar" type="button" class="btn btn-success" style="width: 100px;" 
-			ng-click="ctrl.salvar(ctrl.agendamento)">
+		<button id="btnSalvar" type="button" class="btn btn-success"
+			style="width: 100px;" ng-click="ctrl.salvar(ctrl.agendamento)">
 			Salvar</button>
-		<button id="btnRemove" type="button" class="btn btn-danger"	style="width: 100px;"
-			ng-click="ctrl.confirmarRemocaoEvento(ctrl.agendamento)" 
-			ng-if="ctrl.agendamento.id">
-			Remover</button>		
-		<button id="btnCancel" type="button" class="btn btn-default" ng-click="ctrl.cancel()" style="width: 100px;">
-			Cancelar</button>
-	</div>	 	 
+		<button id="btnRemove" type="button" class="btn btn-danger"
+			style="width: 100px;"
+			ng-click="ctrl.confirmarRemocaoEvento(ctrl.agendamento)"
+			ng-if="ctrl.agendamento.id">Remover</button>
+		<button id="btnCancel" type="button" class="btn btn-default"
+			ng-click="ctrl.cancel()" style="width: 100px;">Cancelar</button>
+	</div>
 </div>

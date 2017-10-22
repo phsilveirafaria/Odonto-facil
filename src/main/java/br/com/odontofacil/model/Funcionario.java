@@ -1,5 +1,6 @@
 package br.com.odontofacil.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
@@ -28,6 +29,11 @@ public class Funcionario extends Usuario{
 	private byte[] chave;
 	
 	private String pis;
+	
+	@Column(name="vinculadogcal")
+	private boolean vinculadoGCal;
+	
+	private boolean ativo;
 	
 	//private Permissao permissao;
 	
@@ -76,4 +82,20 @@ public class Funcionario extends Usuario{
 		this.permissao = permissao;
 	}
 
+	public boolean isVinculadoGCal() {
+		return vinculadoGCal;
+	}
+
+	public void setVinculadoGCal(boolean vinculadoGCal) {
+		this.vinculadoGCal = vinculadoGCal;
+	}
+
+	public boolean isAtivo() {
+		return ativo;
+	}
+
+	public void setAtivo(boolean ativo) {
+		this.ativo = ativo;
+	}
+	
 }

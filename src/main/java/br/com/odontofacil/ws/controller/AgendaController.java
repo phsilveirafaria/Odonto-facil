@@ -1,9 +1,12 @@
 package br.com.odontofacil.ws.controller;
 
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -15,10 +18,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.api.client.auth.oauth2.Credential;
+import com.google.api.client.extensions.java6.auth.oauth2.AuthorizationCodeInstalledApp;
+import com.google.api.client.extensions.jetty.auth.oauth2.LocalServerReceiver;
+import com.google.api.client.googleapis.auth.oauth2.GoogleAuthorizationCodeFlow;
+import com.google.api.client.googleapis.auth.oauth2.GoogleClientSecrets;
+import com.google.api.client.http.HttpTransport;
+import com.google.api.client.json.JsonFactory;
+import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.util.store.FileDataStoreFactory;
+import com.google.api.services.calendar.CalendarScopes;
+
+import br.com.odontofacil.exception.GCalendarException;
 import br.com.odontofacil.model.Agendamento;
 import br.com.odontofacil.model.Consulta;
 import br.com.odontofacil.model.Email;
 import br.com.odontofacil.model.Funcionario;
+import br.com.odontofacil.util.Util;
 import br.com.odontofacil.ws.service.AgendamentoService;
 import br.com.odontofacil.ws.service.FuncionarioService;
 
@@ -35,6 +51,34 @@ public class AgendaController {
 	    public static String COR_AGENDAMENTO_NAO_COMPARECEU = "#FF0000";
 	    
 	    private List<Agendamento> listaAgendamentos;
+	    
+		/** Application name. */
+	    private static final String APPLICATION_NAME = "odontofacil";
+
+	    /** Directory to store user credentials for this application. */
+	    private static final java.io.File DATA_STORE_DIR = new java.io.File(
+	        System.getProperty("user.home"), ".credentials/odontofacil");
+
+	    /** Global instance of the {@link FileDataStoreFactory}. */
+	    private static FileDataStoreFactory DATA_STORE_FACTORY;
+
+	    /** Global instance of the JSON factory. */
+	    private static final JsonFactory JSON_FACTORY =
+	        JacksonFactory.getDefaultInstance();
+
+	    /** Global instance of the HTTP transport. */
+	    private static HttpTransport HTTP_TRANSPORT;
+	        
+
+	    /** Global instance of the scopes required by this quickstart.
+	     *
+	     * If modifying these scopes, delete your previously saved credentials
+	     * at ~/.credentials/syspsi
+	     */
+	    private static final List<String> SCOPES =
+	        Arrays.asList(CalendarScopes.CALENDAR,
+	        		"https://www.googleapis.com/auth/userinfo.profile");
+
 	    
 	    
 	    
@@ -109,6 +153,112 @@ public class AgendaController {
 //			
 //			return agendamentoService.agendamentosDoMes(di, df);
 //	    }
+	    @RequestMapping(value = "/removerAgendamento", method={RequestMethod.POST}, produces = MediaType.APPLICATION_JSON_VALUE)
+	    public void removerAgendamento(@RequestBody Agendamento agendamento, Principal user) throws Exception {
+			System.out.println("removerAgendamento: início");
+			if (agendamento == null) {
+				System.out.println("Agendamento recebido nulo");
+				throw new Exception("Não foi possível remover o agendamento.");
+			}
+			
+			Funcionario funcionario;
+			if (user != null) {				
+				System.out.println("user.getName(): " + user.getName());
+				funcionario = this.funcionarioService.buscaPorLogin(user.getName());
+				if (funcionario == null) {
+					System.out.println("Funcionario nulo em getPsicologoLogado");
+					throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
+				}
+			} else {
+				System.out.println("user nulo em getFuncionarioLogado");
+				throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
+			}				
+			
+				if (agendamento.getConsulta() == null) {
+					this.agendamentoService.excluir(agendamento);
+					System.out.println("Agendamento removido. Id" + agendamento.getId());
+				} else {
+					// O agendamento possui uma consulta associada. Apenas inativa o agendamento
+					System.out.println("Consulta associada. Agendamento marcado como inativo. Id" + agendamento.getId());
+				}
+			
+			
+//			if (agendamento.getConsulta() != null) {							
+//				agendamento.setAtivo(false);
+//				agendamento.getConsulta().setProntuario(Util.encrypt(agendamento.getConsulta().getProntuario(), funcionario));
+//				this.agendamentoService.salvar(agendamento);			
+//			}
+					
+			if ((funcionario.isVinculadoGCal()) && (agendamento.getIdGCalendar() != null || agendamento.getIdRecurring() != null)) {
+				try {				
+					this.excluirAgendamentoNoGoogleCalendar(agendamento, false);
+				} catch(GCalendarException ex) {						
+				}
+			}
+			
+			System.out.println("removerAgendamento: fim");
+		}			
+	    
+	    
+	    private void excluirAgendamentoNoGoogleCalendar(Agendamento agendamento, boolean excluirFuturos) throws GCalendarException {
+	    	System.out.println("AgendaController.excluirAgendamentoNoGoogleCalendar: início");
+	    	System.out.println("getCalendarService");
+	    	com.google.api.services.calendar.Calendar service =
+	            getCalendarService();
+	    	System.out.println("getCalendarService: OK");
+	                       
+	    	System.out.println("AgendaController.excluirAgendamentoNoGoogleCalendar: início");
+		}
+		
+	    
+	    /**
+	     * Build and return an authorized Calendar client service.
+	     * @return an authorized Calendar client service
+	     * @throws GCalendarException
+	     */
+	    public static com.google.api.services.calendar.Calendar
+	        getCalendarService() throws GCalendarException {
+	    	System.out.println("getCalendarService: authorize");
+	    	
+	        Credential credential = authorize();
+	        System.out.println("getCalendarService: authorize sem erros");    	
+	        return new com.google.api.services.calendar.Calendar.Builder(
+	                HTTP_TRANSPORT, JSON_FACTORY, credential) 
+	                .setApplicationName(APPLICATION_NAME)
+	                .build();
+	    }  
+	    
+	    /**
+	     * Creates an authorized Credential object.
+	     * @return an authorized Credential object.
+	     * @throws IOException
+	     */  
+	    public static Credential authorize() throws GCalendarException {        
+	    	try {
+	    		// Load client secrets.
+		        InputStream in =
+		            AgendaController.class.getResourceAsStream("/client_secret.json");
+		        GoogleClientSecrets clientSecrets =
+		            GoogleClientSecrets.load(JSON_FACTORY, new InputStreamReader(in));
+		
+		        // Build flow and trigger user authorization request.
+		        GoogleAuthorizationCodeFlow flow =
+		                new GoogleAuthorizationCodeFlow.Builder(
+		                        HTTP_TRANSPORT, JSON_FACTORY, clientSecrets, SCOPES)
+		                .setDataStoreFactory(DATA_STORE_FACTORY)
+		                .setAccessType("offline")
+		                .build();
+
+		        Credential credential = new AuthorizationCodeInstalledApp(
+		            flow, new LocalServerReceiver()).authorize("user");	        
+		        
+		        return credential;
+	    	} catch(Exception ex) {
+	    		System.out.println("Message: " + ex.getMessage());
+	    		System.out.println("authorize(): Não foi possível carregar o arquivo client_secret.json.");
+	        	throw new GCalendarException("Não foi possível carregar o arquivo client_secret.json.");
+	        }
+	    }
 		
 		
 		@RequestMapping(value = "/salvarAgendamento", 
