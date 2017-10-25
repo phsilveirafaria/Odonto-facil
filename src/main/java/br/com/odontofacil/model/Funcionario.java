@@ -6,6 +6,7 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
@@ -16,10 +17,8 @@ public class Funcionario extends Usuario{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinTable(name= "permissoes_funcionarios", joinColumns = {
-	@JoinColumn(name = "id_usuario", nullable = false, updatable = false)}, inverseJoinColumns = {
-	@JoinColumn(name= "id_permissao", nullable = false, updatable = false)})
+	@ManyToOne
+	@JoinColumn(name= "id_permissao", nullable = false, updatable = false)
 	private Permissao permissao;
 	
 	private String login;

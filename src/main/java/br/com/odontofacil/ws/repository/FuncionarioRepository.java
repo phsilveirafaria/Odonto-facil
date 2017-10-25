@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import br.com.odontofacil.model.Funcionario;
-import br.com.odontofacil.model.Permissao;
 
 @Repository
 public interface FuncionarioRepository extends JpaRepository <Funcionario, Long>{
@@ -19,5 +18,7 @@ public interface FuncionarioRepository extends JpaRepository <Funcionario, Long>
 	@Query("SELECT COALESCE(MAX(id),0)+1 FROM Usuario u")
 	public Long nextId();
 
-
+	@Query("SELECT f FROM Usuario f "
+			+ "WHERE id_permissao = 1")
+	public List<Funcionario> buscarDentistas();
 }

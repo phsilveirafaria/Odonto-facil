@@ -43,5 +43,9 @@ public class FuncionarioService {
 	public 	List<Funcionario> buscarTodos(){
 		return funcionarioRepository.findAll();
 	}
+	
+	public 	List<Funcionario> buscarDentistas(){
+		return funcionarioRepository.buscarDentistas();
+	}
 
 }

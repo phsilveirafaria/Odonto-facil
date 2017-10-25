@@ -39,6 +39,11 @@ angular.module('odontoFacil').controller('agendaController', ['$scope', '$mdDial
   };
   
   
+  $scope.$watch(function () { return agendamentoFactory.getAgendamento(); }, function (newValue, oldValue) {
+   	  ctrl.agendamento = newValue;
+  });
+  
+  
 //  /**
 //	 * Abre janela modal de erro
 //	 */	

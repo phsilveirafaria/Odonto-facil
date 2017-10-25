@@ -77,6 +77,12 @@ private final static Logger logger = Logger.getLogger(FuncionarioController.clas
 			return new ResponseEntity<>(funcionarios, HttpStatus.OK);
 		}
 		
+		@RequestMapping(method=RequestMethod.GET, value="/listarDentistas", produces=MediaType.APPLICATION_JSON_VALUE)
+		public ResponseEntity<Collection<Funcionario>> listarDentistas() {
+			Collection<Funcionario> funcionarios = funcionarioService.buscarDentistas();
+			return new ResponseEntity<>(funcionarios, HttpStatus.OK);
+		}
+		
 		@RequestMapping(method=RequestMethod.POST, value = "/deletarFuncionario")
 		public ResponseEntity<Funcionario> excluirfuncionario(@RequestBody Funcionario funcionario) {
 			

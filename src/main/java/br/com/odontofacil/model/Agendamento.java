@@ -62,6 +62,11 @@ public class Agendamento {
 		super();
 	}
 
+	public Agendamento(Cliente cliente2, String idGCalendar2, String idRecurring2, Calendar start2, Calendar end2,
+			String descricao2, String color2, boolean ativo2) {
+		// TODO Auto-generated constructor stub
+	}
+
 	public Long getId() {
 		return id;
 	}

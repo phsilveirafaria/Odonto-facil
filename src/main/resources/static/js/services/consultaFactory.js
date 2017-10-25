@@ -5,7 +5,7 @@ angular.module('odontoFacil').factory('consultaFactory',['$http', function($http
 	var _conteudoProntuarioMudou;
 
 	var _salvarConsulta = function(agendamento) {
-		return $http.post(consts.BASE_URL + '/salvarConsulta', angular.copy(agendamento));
+		return $http.post('https://localhost:8443/salvarConsulta', angular.copy(agendamento));
 	};	
 	
 	

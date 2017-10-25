@@ -12,6 +12,7 @@ public class Email {
 	private String email;
 	private String texto;
 	private String to;
+	private String cc;
 	private String from;
 	private String pass;
 	private String emailFormatado;
@@ -94,5 +95,19 @@ public class Email {
 		return "Email [nome=" + nome + ", email=" + email + ", texto=" + texto + ", to=" + to + ", from=" + from
 				+ ", pass=" + pass + ", emailFormatado=" + emailFormatado + ", url=" + url + "]";
 	}
+
+
+
+	public String getCc() {
+		return cc;
+	}
+
+
+
+	public void setCc(String cc) {
+		this.cc = cc;
+	}
+	
+	
 
 }

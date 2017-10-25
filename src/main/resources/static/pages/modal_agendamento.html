@@ -14,7 +14,7 @@
 			<div clas="col-md12">
 				<ui-select ng-model="ctrl.agendamento.cliente" theme="bootstrap"
 					style="width: 450px;" title="Choose a country"> <ui-select-match
-					placeholder="Select or search a country in the list...">{{ctrl.agendamento.cliente.nomeCompleto}}</ui-select-match>
+					placeholder="Selecione um Paciente">{{ctrl.agendamento.cliente.nomeCompleto}}</ui-select-match>
 				<ui-select-choices
 					repeat="cliente in ctrl.comboClientes | filter: $select.search">
 				<span
@@ -25,7 +25,7 @@
 			<div class="col-md12">
 				<label ng-show="ctrl.x.permissao.id != 1" for="selFuncionarios">Dentista:</label>
 			</div>
-			<div clas="col-md12">
+			<div clas="col-md12" ng-show="ctrl.x.permissao.id != 1">
 				<ui-select ng-model="ctrl.agendamento.funcionario" theme="bootstrap"
 					style="width: 450px;" title="Choose a country"> <ui-select-match
 					placeholder="Selecione um Dentista">{{ctrl.agendamento.funcionario.nomeCompleto}}</ui-select-match>
@@ -43,7 +43,6 @@
 				<label for="inicio">Horário da consulta:</label>
 				<input id="inicio" name="inicio" type="text" class="form-control" 
 					ng-model="ctrl.agendamento.formatedStart"
-					ng-disabled="!ctrl.agendamento.editable"
 					maxlength="5" ng-required="true" onKeyPress="mascara(this, '##:##')" 
 					ng-pattern="/^([01]\d|2[0-3]):?([0-5]\d)$/" ng-required="true">												 					
 			</div>	
@@ -53,7 +52,7 @@
 				<label for="observacao">Observação: </label>
 			</div>
 			<div class="col-md12">
-				<textarea id="observacao" ng-disabled="!ctrl.agendamento.editable"
+				<textarea id="observacao" 
 					class="form-control" ng-model="ctrl.agendamento.descricao"></textarea>
 			</div>
 			<div class="col-md12">
@@ -75,7 +74,7 @@
 		<button id="btnProntuarios" type="button" class="btn btn-primary"
 			style="width: 154px;" ng-if="ctrl.agendamento.id"
 			ng-disabled="!ctrl.agendamento.paciente"
-			ng-click="ctrl.verProntuarios(ctrl.agendamento.paciente)">
+			ng-click="ctrl.verProntuarios(ctrl.agendamento.cliente)">
 			Ver Prontuários</button>
 	</div>
 	<div class="form-group">

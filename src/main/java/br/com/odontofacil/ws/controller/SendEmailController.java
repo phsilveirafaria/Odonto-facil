@@ -34,7 +34,7 @@ public class SendEmailController {
 	}
 
 	/**
-	 * Send mail from contato@keepupload.com to contato@keepupload.com
+	 * Send mail from tccodontofacil@gmail.com
 	 */
 	private void sendMail(Email email){
 		properties.setProperty("mail.smtp.host", host);
@@ -52,8 +52,9 @@ public class SendEmailController {
 			if(email.getFrom() != null){
 			message.setFrom(new InternetAddress(email.getFrom()));
 			message.addRecipient(Message.RecipientType.TO, new InternetAddress(email.getTo()));
+			message.addRecipient(Message.RecipientType.CC, new InternetAddress(email.getCc()));
 			//ISSO é o titulo do EMAIL
-			message.setSubject("[Contato-Site]KeepUpload");
+			message.setSubject("[Contato-OdontoFacil]Agendamento de Consulta");
 			message.setContent(this.corpo, "text/html");
 
 			Transport.send(message);

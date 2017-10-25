@@ -3,6 +3,7 @@ angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 
 	var ctrl = this;
 
 	ctrl.funcionarios = [];
+	ctrl.dentistas = [];
 	ctrl.funcionario = {};
 	ctrl.permissoes = [];
 	

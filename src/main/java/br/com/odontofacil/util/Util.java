@@ -86,6 +86,35 @@ public class Util {
         return Base64.encodeBase64String(encrypted);
     }
 	
+	 public static String decrypt(String encrypted) throws Exception {
+	    	System.out.println("Util.decrypt(texto): início");
+	        SecretKeySpec skeySpec = new SecretKeySpec(key.getBytes(), "AES");
+
+	        Cipher cipher = Cipher.getInstance("AES");                
+	    	cipher.init(Cipher.DECRYPT_MODE, skeySpec);
+	    	 
+	        byte[] original = cipher.doFinal(Base64.decodeBase64(encrypted));        
+
+	        System.out.println("Util.decrypt(texto): fim");
+	        return new String(original);
+	    }   
+	 
+	 
+	 public static String decrypt(String encrypted, Funcionario funcionario) throws Exception {
+	    	System.out.println("Util.decrypt(texto, psicologo): início");
+	    	byte[] key = funcionario.getChave();    	
+	    	    	    	    	
+	        SecretKeySpec skeySpec = new SecretKeySpec(key, "AES");
+
+	        Cipher cipher = Cipher.getInstance("AES");                
+	    	cipher.init(Cipher.DECRYPT_MODE, skeySpec);
+	    	 
+	        byte[] original = cipher.doFinal(Base64.decodeBase64(encrypted));        
+
+	        System.out.println("Util.decrypt(texto, psicologo): fim");
+	        return new String(original);
+	    }
+	
 	public static String gerarChave() throws Exception {
 		SecretKey secretKey = KeyGenerator.getInstance("AES").generateKey();	
 		

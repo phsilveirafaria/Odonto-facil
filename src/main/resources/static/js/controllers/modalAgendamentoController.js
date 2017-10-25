@@ -4,8 +4,8 @@ angular.forEach(lazyModules, function(dependency) {
 });
 
 angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope', '$http',
-	'$location', '$mdDialog', 'agendamentoFactory', 'modalAgendamentoFactory', 'Session', '$uibModal' , '$uibModalInstance', 'modalAgendamentoService', 
-	function ($scope, $http, $location, $mdDialog,	agendamentoFactory, modalAgendamentoFactory, Session, $uibModal, $uibModalInstance, modalAgendamentoService) {
+	'$location', '$mdDialog', 'agendamentoFactory', 'modalAgendamentoFactory', 'Session', '$uibModal' , '$uibModalInstance', 'modalAgendamentoService', 'consultaFactory', 'funcionarioFactory',
+	function ($scope, $http, $location, $mdDialog,	agendamentoFactory, modalAgendamentoFactory, Session, $uibModal, $uibModalInstance, modalAgendamentoService, consultaFactory, funcionarioFactory) {
 	
 	var ctrl = this;		
 	ctrl.x = Session.usuario;
@@ -52,13 +52,12 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 			$location.path('/consulta');
 		} else {
 			if (agendamento.cliente) {								
-				consultaPacienteFactory.setConsulta({});
-				consultaPacienteFactory.setId(null);				
-				consultaPacienteFactory.setProntuario(null);
-				consultaPacienteFactory.setValor(0);
-				consultaPacienteFactory.setRecibo(false);
-				consultaPacienteFactory.setInicio(new Date());
-				consultaPacienteFactory.setFim(null);
+				consultaFactory.setConsulta({});
+				consultaFactory.setId(null);				
+				consultaFactory.setProntuario(null);
+				consultaFactory.setValor(0);
+				consultaFactory.setInicio(new Date());
+				consultaFactory.setFim(null);
 				$location.path('/consulta');
 			} else {
 				$mdDialog.show(
@@ -75,7 +74,7 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 	};
 	
 	
-	agendamentoFactory.listarFuncionarios().then(
+	funcionarioFactory.listarDentistas().then(
 			sucessCallback = function(response){
 				ctrl.comboFuncionarios = response.data;
 			},
@@ -166,34 +165,7 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 			}		 				
 		};
 		
-		ctrl.iniciarConsulta = function(agendamento) {		
-			consultaFactory.setAgendamento(agendamento);
-			if (agendamento.consulta) {						
-				$location.path('/consulta');
-			} else {
-				if (agendamento.paciente) {								
-					consultaFactory.setConsulta({});
-					consultaFactory.setId(null);				
-					consultaFactory.setProntuario(null);
-					consultaFactory.setValor(0);
-					consultaFactory.setRecibo(false);
-					consultaFactory.setInicio(new Date());
-					consultaFactory.setFim(null);
-					$location.path('/consulta');
-				} else {
-					$mdDialog.show(
-						$mdDialog.alert()
-							.clickOutsideToClose(true)
-							.title('Algo saiu errado ...')
-							.textContent("Não foi possível localizar o paciente da consulta!")
-							.ariaLabel('Alerta')
-							.ok('Ok')						
-					);							
-				}
-			}
-			$uibModalInstance.close();			
-		};
-	 
+		 
 	 
 	ctrl.salvar = function (agendamento) {
 
@@ -239,10 +211,8 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 		if (agendamento.cliente) {						
 			agendamento.title = updateTitle(agendamento);
 			var horarioConsulta = agendamento.formatedStart.split(":");
-			agendamento.start = moment(agendamento.start).hour(horarioConsulta[0]).minute(horarioConsulta[60]).second(0).millisecond(0);			
-			agendamento.end = moment(agendamento.start).add(ctrl.tempoSessao, 'm');
 			agendamento.ativo = true;
-					
+			
 			
 			agendamentoFactory.salvarAgendamento(agendamento).then(
 					successCallback = function(response) {
