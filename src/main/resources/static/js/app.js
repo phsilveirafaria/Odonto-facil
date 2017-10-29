@@ -53,6 +53,14 @@ angular.module('odontoFacil', ['ngRoute', 'ngMaterial', 'ngTable']).constant("co
 				templateUrl: "pages/consultarFuncionario.html",
 				controller: "funcionarioController",
 				controllerAs: "ctrl"			
+			}).when('/despesas', { 
+				templateUrl: "pages/despesas.html",
+				controller: "financeiroController",
+				controllerAs: "ctrl"			
+			}).when('/receitas', { 
+				templateUrl: "pages/receitas.html",
+				controller: "financeiroController",
+				controllerAs: "ctrl"			
 			}).when('/index', { 
 				templateUrl: "index.html",
 				controller: "loginController",

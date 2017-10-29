@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,12 +42,9 @@ import com.google.api.services.calendar.model.Events;
 import br.com.odontofacil.exception.GCalendarEvtNotChangeException;
 import br.com.odontofacil.exception.GCalendarException;
 import br.com.odontofacil.model.Agendamento;
-import br.com.odontofacil.model.Cliente;
-import br.com.odontofacil.model.Consulta;
 import br.com.odontofacil.model.Email;
 import br.com.odontofacil.model.Funcionario;
 import br.com.odontofacil.model.TmpGCalendarEvent;
-import br.com.odontofacil.util.Util;
 import br.com.odontofacil.ws.service.AgendamentoService;
 import br.com.odontofacil.ws.service.ClienteService;
 import br.com.odontofacil.ws.service.FuncionarioService;
@@ -237,15 +233,6 @@ public class AgendaController {
 			throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
 		}
 
-		if (agendamento.getConsulta() == null) {
-			this.agendamentoService.delete(agendamento);
-			System.out.println("Agendamento removido. Id" + agendamento.getId());
-		} else {
-			// O agendamento possui uma consulta associada. Apenas inativa o
-			// agendamento
-			System.out.println("Consulta associada. Agendamento marcado como inativo. Id" + agendamento.getId());
-		}
-
 		// if (agendamento.getConsulta() != null) {
 		// agendamento.setAtivo(false);
 		// agendamento.getConsulta().setProntuario(Util.encrypt(agendamento.getConsulta().getProntuario(),
@@ -312,7 +299,6 @@ public class AgendaController {
 		System.out.println("salvarAgendamento: início");
 
 		Funcionario funcionario;
-		Consulta consulta;
 
 		if (user != null) {
 			System.out.println("user.getName(): " + user.getName());
@@ -387,97 +373,8 @@ public class AgendaController {
 		return agendamento;
 	}
 
-	@RequestMapping(value = "/listarAgendamentosComConsulta", method = {
-			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
-	public List<Agendamento> listarAgendamentosComConsulta(@RequestBody Cliente cliente, Principal user)
-			throws Exception {
-		System.out.println("listarAgendamentosComConsulta: início");
+	
 
-		if (cliente == null) {
-			System.out.println("Cliente recebido nulo");
-			throw new Exception("Não foi possível listar agendamentos.");
-		}
-
-		Funcionario funcionario;
-		if (user != null) {
-			funcionario = this.funcionarioService.buscaPorLogin(user.getName());
-			if (funcionario == null) {
-				System.out.println("Psicólogo nulo em getfuncionarioLogado");
-				throw new Exception("Erro ao carregar psicólogo. Faça login novamente.");
-			}
-		} else {
-			System.out.println("user nulo em getfuncionarioLogado");
-			throw new Exception("Erro ao carregar psicólogo. Faça login novamente.");
-		}
-
-		List<Agendamento> lstAgendamento = new ArrayList<>();
-		for (Agendamento ag : this.agendamentoService.listarAgendamentosComConsulta(cliente, funcionario)) {
-			if (ag.getConsulta() != null && ag.getConsulta().getProntuario() != null
-					&& !ag.getConsulta().getProntuario().isEmpty()) {
-				ag.getConsulta().setProntuario(Util.decrypt(ag.getConsulta().getProntuario(), funcionario));
-			}
-			lstAgendamento.add(ag);
-		}
-
-		System.out.println("listarAgendamentosComConsulta: fim");
-		return lstAgendamento;
-	}
-
-	@RequestMapping(value = "/listarAgendamentosComConsultaPeriodo", method = {
-			RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Agendamento> listarAgendamentosComConsultaPeriodo(@RequestParam("dataInicial") String dataInicial,
-			@RequestParam("dataFinal") String dataFinal, @RequestParam("idcliente") Long idcliente, Principal user)
-			throws Exception {
-		System.out.println("AgendaController.listarAgendamentosComConsultaPeriodo: início");
-
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		Calendar di = Calendar.getInstance();
-		Calendar df = Calendar.getInstance();
-
-		try {
-			di.setTime(format.parse(dataInicial));
-			df.setTime(format.parse(dataFinal));
-		} catch (ParseException e) {
-			System.out.println("Formato de data inválido");
-			throw new Exception("Não foi possível listar os prontuários.");
-		}
-
-		if (idcliente == null) {
-			System.out.println("idcliente recebido nulo");
-			throw new Exception("Não foi possível listar os prontuários.");
-		}
-
-		Funcionario funcionario;
-		if (user != null) {
-			funcionario = this.funcionarioService.buscaPorLogin(user.getName());
-			if (funcionario == null) {
-				System.out.println("Funcionario nulo em getFuncionarioLogado");
-				throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
-			}
-		} else {
-			System.out.println("user nulo em getFuncionarioLogado");
-			throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
-		}
-
-		Cliente cliente = this.clienteService.buscarPorId(idcliente);
-		if (cliente == null) {
-			System.out.println("cliente com id " + idcliente + " não encontrado!");
-			throw new Exception("Não foi possível listar os prontuários.");
-		}
-
-		List<Agendamento> lstAgendamento = new ArrayList<>();
-		for (Agendamento ag : this.agendamentoService.listarAgendamentosComConsultaPeriodo(di, df, cliente,
-				funcionario)) {
-			if (ag.getConsulta() != null && ag.getConsulta().getProntuario() != null
-					&& !ag.getConsulta().getProntuario().isEmpty()) {
-				ag.getConsulta().setProntuario(Util.decrypt(ag.getConsulta().getProntuario(), funcionario));
-			}
-			lstAgendamento.add(ag);
-		}
-
-		System.out.println("AgendaController.listarAgendamentosComConsultaPeriodo: fim");
-		return lstAgendamento;
-	}
 
 	@RequestMapping(value = "/listarAgendamentosDoDia", method = {
 			RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -497,11 +394,6 @@ public class AgendaController {
 			}
 
 			List<Agendamento> lstAgendamentos = this.agendamentoService.listarAposHorario(funcionario);
-			for (Agendamento ag : lstAgendamentos) {
-				if (ag.getConsulta() != null && ag.getConsulta().getProntuario() != null) {
-					ag.getConsulta().setProntuario(Util.decrypt(ag.getConsulta().getProntuario(), funcionario));
-				}
-			}
 
 			System.out.println("AgendaController.listarAgendamentosDoDia: fim");
 			return lstAgendamentos;
@@ -842,227 +734,4 @@ public class AgendaController {
 
 		return agendamento;
 	}
-
-	public List<TmpGCalendarEvent> listarAgendamentosGCalendar(Calendar di, Calendar df, Funcionario funcionario,
-			com.google.api.services.calendar.Calendar service) throws GCalendarException {
-		try {
-			System.out.println("listarAgendamentosGCalendar: início");
-
-			for (Agendamento ag : this.agendamentoService.listarEventosPrincipaisPorPeriodo(df, funcionario)) {
-				if (ag.isAtivo() && ag.getIdRecurring() != null) {
-					// Evento repetido exportado para o GCal (quando da
-					// configuração da vinculação)
-					// com data anterior ao dia da exportação. O usuário, nesse
-					// caso, excluiu o
-					// agendamento repetitivo no GCal. Assim, no sistema, os
-					// eventos anteriores
-					// ao dia da exportação ficam ainda configurados como
-					// repetidos.
-					// Logo, precisamos desconfigurar esses eventos anteriores
-					// de modo que eles
-					// passem a ser eventos simples
-					Events events = service.events().instances("primary", ag.getIdRecurring()).setPageToken(null)
-							.setMaxResults(1).execute();
-
-					List<Event> items = events.getItems();
-					if (items.isEmpty()) {
-						List<Agendamento> lstAgendamento = this.agendamentoService.listarPorFuncionario(funcionario);
-						for (Agendamento agendamento : lstAgendamento) {
-							agendamento.setIdRecurring(null);
-						}
-						this.agendamentoService.salvarListaAgendamentos(lstAgendamento);
-					}
-				}
-			}
-
-			List<TmpGCalendarEvent> lstAgendamentosGCalendar = new ArrayList<>();
-
-			// Build a new authorized API client service.
-			// Note: Do not confuse this class with the
-			// com.google.api.services.calendar.model.Calendar class.
-			/*
-			 * logMessage("getCalendarService", false);
-			 * com.google.api.services.calendar.Calendar service =
-			 * getCalendarService(); logMessage("getCalendarService: OK",
-			 * false);
-			 */
-
-			System.out.println("Transforma di e df");
-			df.add(Calendar.DATE, -1);
-			DateTime timeMin = new DateTime(di.getTimeInMillis());
-			DateTime timeMax = new DateTime(df.getTimeInMillis());
-			System.out.println("Transforma di e df: OK");
-
-			Events events = service.events().list("primary").setTimeMin(timeMin).setTimeMax(timeMax)
-					.setOrderBy("startTime").setSingleEvents(true).execute();
-			List<Event> items = events.getItems();
-			List<String> lstGCalendarId = new ArrayList<>();
-			for (Event evt : items) {
-				lstGCalendarId.add(evt.getId());
-			}
-
-			System.out.println("Qtd itens encontrados GCal: " + (items != null ? items.size() : 0));
-			// Para verificar se o evento já não está salvo na tabela
-			// TmpGCalendarEvent
-			List<String> lstGCalendarIds_TmpGCalendarTable = this.gCalendarEventService.listarIdGCalendarPorPeriodo(di,
-					df);
-			// Lista de eventos removidos no GCal a serem removidos na tabela
-			// TmpGCalendarEvent
-			List<String> lstGCalendarIdsParaRemover_TmpGCalendarTable = new ArrayList<String>(
-					lstGCalendarIds_TmpGCalendarTable);
-			System.out.println("Qtd itens encontrados lstGCalendarIds_TmpGCalendarTable: "
-					+ (lstGCalendarIds_TmpGCalendarTable != null ? lstGCalendarIds_TmpGCalendarTable.size() : 0));
-			// Para verificar se o evento já não está salvo na tabela
-			// Agendamento
-			List<String> lstGCalendarIds_AgendamentoTable = this.agendamentoService.listarIdGCalendarPorPeriodo(di, df);
-			// Lista de eventos removidos no GCal a serem removidos na tabela
-			// Agendamento
-			List<String> lstGCalendarIdsParaRemover_AgendamentoTable = new ArrayList<String>(
-					lstGCalendarIds_AgendamentoTable);
-			System.out.println("Qtd itens encontrados lstGCalendarIds_AgendamentoTable: "
-					+ (lstGCalendarIds_AgendamentoTable != null ? lstGCalendarIds_AgendamentoTable.size() : 0));
-
-			int qtdItemsGCal = 0;
-			if (items != null) {
-				qtdItemsGCal = items.size();
-			}
-
-			if (qtdItemsGCal > 0) {
-				TmpGCalendarEvent tmpGCalendarEvent;
-				for (Event event : items) {
-					// Exclui da lista de remoção eventos encontrados no GCal
-					if (lstGCalendarIdsParaRemover_TmpGCalendarTable != null) {
-						lstGCalendarIdsParaRemover_TmpGCalendarTable.remove(event.getId());
-					}
-
-					if (lstGCalendarIdsParaRemover_AgendamentoTable != null) {
-						lstGCalendarIdsParaRemover_AgendamentoTable.remove(event.getId());
-					}
-
-					if (event.getRecurringEventId() != null) {
-						Calendar inicio = Calendar.getInstance();
-						inicio.setTime(new Date(event.getStart().getDateTime().getValue()));
-						Agendamento ag = this.agendamentoService.localizarAgendamentoRepetitivo(inicio,
-								event.getRecurringEventId());
-						if (ag == null) {
-							Agendamento agPrincipal = this.agendamentoService
-									.localizarAgendamentoPrincipalRepetitivo(event.getRecurringEventId());
-							if (agPrincipal != null) {
-								// O usuário pode ter movido o evento de uma
-								// série no GCal. Como
-								// o calendar mantém o mesmo id para o evento
-								// movido, precisamos
-								// tratar a duplicação desse id no sistema
-								boolean eventoPrincipal = false;
-								Agendamento agIdDuplicado = this.agendamentoService
-										.findByIdGCalendarAndAtivo(event.getId(), true);
-								if (agIdDuplicado != null) {
-									agIdDuplicado.setIdGCalendar(null);
-									agIdDuplicado.setIdRecurring(null);
-									agIdDuplicado.setAtivo(false);
-									this.agendamentoService.save(agIdDuplicado);
-								}
-
-								Calendar start = Calendar.getInstance();
-								Calendar end = Calendar.getInstance();
-								start.setTimeInMillis(event.getStart().getDateTime().getValue());
-								end.setTimeInMillis(event.getEnd().getDateTime().getValue());
-
-								Agendamento novoAgendamento = new Agendamento(agPrincipal.getCliente(), event.getId(),
-										event.getRecurringEventId(), start, end, null, agPrincipal.getColor(), true);
-								novoAgendamento = this.agendamentoService.save(novoAgendamento);
-								lstGCalendarIds_AgendamentoTable.add(novoAgendamento.getIdGCalendar());
-							} else {
-								// Agendamentos que não foram configurados como
-								// semanais
-								Agendamento agendamento = this.agendamentoService
-										.findFirstByIdRecurringAndAtivo(event.getRecurringEventId(), true);
-								if (agendamento != null) {
-									Calendar start = Calendar.getInstance();
-									Calendar end = Calendar.getInstance();
-									start.setTimeInMillis(event.getStart().getDateTime().getValue());
-									end.setTimeInMillis(event.getEnd().getDateTime().getValue());
-
-									Agendamento novoAgendamento = new Agendamento(agendamento.getCliente(),
-											event.getId(), event.getRecurringEventId(), start, end, null,
-											agendamento.getColor(), true);
-									novoAgendamento = this.agendamentoService.save(novoAgendamento);
-									lstGCalendarIds_AgendamentoTable.add(novoAgendamento.getIdGCalendar());
-								}
-							}
-						}
-					}
-
-					// Não serão importados eventos:
-					// Já importados anteriormente
-					// all-day: Quando event.getEnd().getDate() != null
-					if (!lstGCalendarIds_TmpGCalendarTable.contains(event.getId())
-							&& (!lstGCalendarIds_AgendamentoTable.contains(event.getId()))
-							&& (event.getEnd().getDate() == null)) {
-						DateTime start = event.getStart().getDateTime();
-						if (start == null) {
-							start = event.getStart().getDate();
-						}
-						Calendar startEvent = Calendar.getInstance();
-						Calendar endEvent = Calendar.getInstance();
-						startEvent.setTimeInMillis(event.getStart().getDateTime().getValue());
-						endEvent.setTimeInMillis(event.getEnd().getDateTime().getValue());
-
-						tmpGCalendarEvent = new TmpGCalendarEvent(funcionario, event.getId(),
-								event.getRecurringEventId(), startEvent, endEvent, event.getSummary(),
-								event.getDescription());
-						lstAgendamentosGCalendar.add(tmpGCalendarEvent);
-					} else if ((lstGCalendarIds_TmpGCalendarTable.contains(event.getId()))
-							&& (event.getEnd().getDate() == null)) {
-						tmpGCalendarEvent = this.gCalendarEventService.findByIdGCalendar(event.getId());
-						try {
-							this.gCalendarEventService.save(this.verificarAlteracoesGCal(event, tmpGCalendarEvent));
-						} catch (GCalendarEvtNotChangeException ex) {
-
-						}
-						lstAgendamentosGCalendar.add(tmpGCalendarEvent);
-					} else if ((lstGCalendarIds_AgendamentoTable.contains(event.getId()))
-							&& (event.getEnd().getDate() == null)) {
-						Agendamento ag = this.agendamentoService.findByIdGCalendarAndAtivo(event.getId(), true);
-						try {
-							this.agendamentoService.save(this.verificarAlteracoesGCal(event, ag, funcionario));
-						} catch (GCalendarEvtNotChangeException ex) {
-
-						}
-					}
-				}
-			}
-
-			// Remove da tabela TmpGCalendarEvents eventos removidos no gcal
-			for (String idGCalendar : lstGCalendarIdsParaRemover_TmpGCalendarTable) {
-				// Remove da tabela temporária os eventos removidos no GCalendar
-				this.gCalendarEventService.deleteByIdGCalendar(idGCalendar);
-				System.out.println("Evento " + idGCalendar + " removido de lstGCalendarIds_TmpGCalendarTable");
-			}
-
-			// Remove da tabela Agendamento eventos removidos no gcal
-			for (String idGCalendar : lstGCalendarIdsParaRemover_AgendamentoTable) {
-				Agendamento ag = this.agendamentoService.findByIdGCalendarAndAtivo(idGCalendar, true);
-				if (ag.getConsulta() == null) {
-					this.agendamentoService.deleteByIdGCalendar(idGCalendar);
-				} else {
-					ag.setAtivo(false);
-					this.agendamentoService.save(ag);
-				}
-				System.out.println("Evento " + idGCalendar + " removido de lstGCalendarIds_AgendamentoTable");
-			}
-
-			if (lstAgendamentosGCalendar != null && !lstAgendamentosGCalendar.isEmpty()) {
-				System.out.println("Qtd items salvos em tmpGCalendar: " + lstAgendamentosGCalendar.size());
-				gCalendarEventService.save(lstAgendamentosGCalendar);
-			}
-
-			System.out.println("listarAgendamentosGCalendar: fim");
-			return lstAgendamentosGCalendar;
-		} catch (Exception ex) {
-			System.out.println("listarAgendamentosGCalendar: " + ex.getMessage());
-			throw new GCalendarException("Problemas ao carregar os eventos do Google Calendar");
-		}
-	}
-
 }

@@ -135,7 +135,7 @@ angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 
 				);	
 			ctrl.funcionario = {};	
 			ctrl.funcionarios = response.data;
-			$scope.frmFuncionario.$setPristine();
+			$scope.cadastroDespesaForm.$setPristine();
 		}, function errorCallback(response) {
 			console.log(response.data);
 			console.log(response.status);

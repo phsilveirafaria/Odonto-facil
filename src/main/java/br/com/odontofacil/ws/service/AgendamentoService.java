@@ -63,9 +63,14 @@ public class AgendamentoService {
 		return agendamento;
 	}
 	
-	public Agendamento findByIdGCalendarAndAtivo(String idGCalendar, boolean ativo){	
-		Agendamento agendamento = agendamentoRepository.findByIdGCalendarAndAtivo(idGCalendar, ativo);
-		return agendamento;
+	public List<Agendamento> listarConsultasNaoFinalizadasPorPeriodo(Calendar dataInicial, Calendar dataFinal){	
+		List<Agendamento> agendamentos = agendamentoRepository.listarConsultasNaoFinalizadasPorPeriodo(dataInicial, dataFinal);
+		return agendamentos;
+	}
+	
+	public List<Agendamento> listarConsultasPorPeriodo(Calendar dataInicial, Calendar dataFinal){	
+		List<Agendamento> agendamentos = agendamentoRepository.listarConsultasPorPeriodo(dataInicial, dataFinal);
+		return agendamentos;
 	}
 	
 	public Agendamento save(Agendamento agendamento){	

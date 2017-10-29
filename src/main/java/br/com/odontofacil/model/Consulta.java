@@ -8,117 +8,97 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-@Entity
-public class Consulta implements Serializable{
-	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 
+@Entity
+public class Consulta implements Serializable {
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private long idConsulta;
-	
-	@ManyToOne
-	@JoinColumn(name="idCliente")
-	private Cliente cliente;
-	
-	@ManyToOne
-	@JoinColumn(name="idFuncionario")
-	private Funcionario funcionario;
-	
-	@ManyToOne
-	@JoinColumn(name="idConsultorio")
-	private Consultorio consultorio;
-	
-	private String prontuario;
-	
+	private long id;
 	private BigDecimal valor;
-	
+	private boolean recibo;
 	private Calendar inicio;
+	private Calendar fim;		
+	private String descricao;
 	
-	private Calendar fim;
+	/**
+	 * @return the id
+	 */
+	public long getId() {
+		return id;
+	}
 	
-	private String observacoes;
-
-	public long getIdConsulta() {
-		return idConsulta;
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(long id) {
+		this.id = id;
 	}
-
-	public void setIdConsulta(long idConsulta) {
-		this.idConsulta = idConsulta;
-	}
-
-	public Cliente getCliente() {
-		return cliente;
-	}
-
-	public void setCliente(Cliente cliente) {
-		this.cliente = cliente;
-	}
-
-	public Funcionario getFuncionario() {
-		return funcionario;
-	}
-
-	public void setFuncionario(Funcionario funcionario) {
-		this.funcionario = funcionario;
-	}
-
-	public Consultorio getConsultorio() {
-		return consultorio;
-	}
-
-	public void setConsultorio(Consultorio consultorio) {
-		this.consultorio = consultorio;
-	}
-
-	public String getProntuario() {
-		return prontuario;
-	}
-
-	public void setProntuario(String prontuario) {
-		this.prontuario = prontuario;
-	}
-
+	
+	/**
+	 * @return the valor
+	 */
 	public BigDecimal getValor() {
 		return valor;
 	}
 
+	/**
+	 * @param valor the valor to set
+	 */
 	public void setValor(BigDecimal valor) {
-		this.valor = valor;
+		this.valor = valor;	
 	}
 
+	/**
+	 * @return the recibo
+	 */
+	public boolean isRecibo() {
+		return recibo;
+	}
+
+	/**
+	 * @param recibo the recibo to set
+	 */
+	public void setRecibo(boolean recibo) {
+		this.recibo = recibo;
+	}
+
+	/**
+	 * @return the inicio
+	 */
 	public Calendar getInicio() {
 		return inicio;
 	}
-
+	
+	/**
+	 * @param inicio the inicio to set
+	 */
 	public void setInicio(Calendar inicio) {
 		this.inicio = inicio;
 	}
-
+	
+	/**
+	 * @return the fim
+	 */
 	public Calendar getFim() {
 		return fim;
 	}
-
+	
+	/**
+	 * @param fim the fim to set
+	 */
 	public void setFim(Calendar fim) {
 		this.fim = fim;
 	}
 
-	public String getObservacoes() {
-		return observacoes;
+	public String getDescricao() {
+		return descricao;
 	}
 
-	public void setObservacoes(String observacoes) {
-		this.observacoes = observacoes;
-	}
-
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
+	}		
 	
-
+	
 }

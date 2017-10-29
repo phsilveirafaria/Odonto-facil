@@ -269,8 +269,14 @@ desired effect
 							<li><a href="#/cliente">Cadastrar</a></li>
 							<li><a href="#/consultarCliente">Pesquisar</a></li>
 						</ul></li>
-					<li><a href="#/financeiro" ng-show="ctrl.x.permissao.id == 2"><i
-							class="fa fa-money"></i> <span>Financeiro</span></a></li>
+					<li class="treeview"><a href="#"><i class="fa fa-money"></i>
+							<span>Financeiro</span> <span class="pull-right-container">
+								<i class="fa fa-angle-left pull-right"></i>
+						</span> </a>
+						<ul class="treeview-menu">
+							<li><a href="#/despesas">Despesas</a></li>
+							<li><a href="#/receitas">Receitas</a></li>
+						</ul></li>
 					<li><a href="#"><i class="fa fa-user"></i> <span>Perfil</span></a></li>
 				</ul>
 				<!-- /.sidebar-menu -->
@@ -465,6 +471,7 @@ desired effect
 	<script src="js/controllers/loginController.js"></script>
 	<script src="js/services/clienteFactory.js"></script>
 	<script src="js/services/SessionService.js"></script>
+	<script src="js/services/utilService.js"></script>
 	<script src="js/services/homeFactory.js"></script>
 	<script src="js/services/consultaFactory.js"></script>
 	<script src="js/services/funcionarioFactory.js"></script>

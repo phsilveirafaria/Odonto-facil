@@ -85,18 +85,16 @@ public interface AgendamentoRepository extends JpaRepository <Agendamento, Long>
 			+ "ORDER BY a.start ASC")
 	public List<Agendamento> listarAgendamentosComConsultaPeriodo(Calendar dataInicial, Calendar dataFinal, Funcionario funcionario);
 	@Query("SELECT a FROM Agendamento a "			
-			+ "INNER JOIN a.cliente p "
 			+ "WHERE (DATE(a.start) BETWEEN DATE(?1) AND DATE(?2)) "
-			+ "AND a.consulta IS NOT NULL "
-			+ "AND a.consulta.valor > 0 "
-			+ "AND ps = ?2")
+			+ "AND a.naoCompareceu = false "
+			+ "AND a.consulta.valor > 0 ")
 	public List<Agendamento> listarConsultasPorPeriodo(Calendar dataInicial, Calendar dataFinal);
 	@Query("SELECT a FROM Agendamento a "			
 			+ "INNER JOIN a.funcionario f "							
 			+ "WHERE (DATE(a.start) BETWEEN DATE(?1) AND DATE(?2)) "
 			+ "AND a.consulta IS NOT NULL "			
 			+ "AND f = ?3")
-	public List<Agendamento> listarConsultasNaoFinalizadasPorPeriodo(Calendar dataInicial, Calendar dataFinal, Funcionario funcionario);
+	public List<Agendamento> listarConsultasNaoFinalizadasPorPeriodoeFuncionario(Calendar dataInicial, Calendar dataFinal, Funcionario funcionario);
 	@Query("SELECT a FROM Agendamento a "
 			+ "WHERE DATE(a.start) = DATE(?1) "
 			+ "AND a.idRecurring = ?2 "
@@ -145,5 +143,9 @@ public interface AgendamentoRepository extends JpaRepository <Agendamento, Long>
 			+ "AND a.ativo = true "
 			+ "AND f = ?1")
 	public List<Agendamento> listarAgendamentosRepetitivosParaNaoVincular(Funcionario funcioanrio, Calendar dataInicial);
+	@Query("SELECT a FROM Agendamento a "
+			+ "WHERE (DATE(a.start) BETWEEN DATE(?1) AND DATE(?2)) "
+			+ "AND a.naoCompareceu = true ")			
+	public List<Agendamento> listarConsultasNaoFinalizadasPorPeriodo(Calendar dataInicial, Calendar dataFinal);
 }
 

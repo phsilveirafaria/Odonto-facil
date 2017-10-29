@@ -21,6 +21,7 @@ public class Usuario implements Serializable{
 	@GeneratedValue
 	private long idUsuario;
 	
+	@Column(unique = true)
 	private String nomeCompleto;
 	
 	private Calendar dataNascimento;
