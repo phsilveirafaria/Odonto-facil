@@ -64,8 +64,9 @@ angular.module('odontoFacil').controller("clienteController", ['clienteFactory',
 	ctrl.excluirClientes = function(cliente) {
 		console.log(cliente);
 		var confirm = $mdDialog.confirm()
+		.multiple(true)
 		.title('Atenção')
-		.textContent('Todas as informações do paciente, incluindo os prontuários, serão perdidas. Tem certeza que deseja continuar?')				
+		.textContent('Todas as informações do paciente, serão perdidas. Tem certeza que deseja continuar?')				
 		.ok('Sim')
 		.cancel('Não');
 		
@@ -121,15 +122,17 @@ angular.module('odontoFacil').controller("clienteController", ['clienteFactory',
 	
 	
 	ctrl.salvarClientes = function(cliente) {
-		clienteFactory.salvarClientes(cliente).then(function successCallback(response) {
-			$mdDialog.show(
-					$mdDialog.alert()
-						.clickOutsideToClose(true)
-						.title('Cadastro de Clientes')
-						.textContent('Cliente cadastrado com sucesso!')
-						.ariaLabel('Alerta')
-						.ok('Ok')						
-				);	
+		clienteFactory.salvarClientes(cliente).then(function successCallback(response) {	
+			alert('Cliente cadastrado com sucesso!');
+//			$mdDialog.alert(
+//					$mdDialog.alert()
+//						.multiple(true)
+//						.clickOutsideToClose(true)
+//						.title('Cadastro de Clientes')
+//						.textContent('Cliente cadastrado com sucesso!')
+//						.ariaLabel('Alerta')
+//						.ok('Ok')						
+//				);	
 			ctrl.cliente = {};	
 			ctrl.clientes = response.data;
 			$scope.frmCliente.$setPristine();

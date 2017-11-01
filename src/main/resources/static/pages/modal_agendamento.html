@@ -12,7 +12,7 @@
 				<label for="selClientes">Nome do Paciente:</label>
 			</div>
 			<div clas="col-md12">
-				<ui-select ng-model="ctrl.agendamento.cliente" theme="bootstrap"
+				<ui-select ng-model="ctrl.agendamento.cliente" theme="bootstrap" ng-disabled="ctrl.editable(ctrl.agendamento.start)"
 					style="width: 450px;" title="Choose a country"> <ui-select-match
 					placeholder="Selecione um Paciente">{{ctrl.agendamento.cliente.nomeCompleto}}</ui-select-match>
 				<ui-select-choices
@@ -26,7 +26,7 @@
 				<label ng-show="ctrl.x.permissao.id != 1" for="selFuncionarios">Dentista:</label>
 			</div>
 			<div clas="col-md12" ng-show="ctrl.x.permissao.id != 1">
-				<ui-select ng-model="ctrl.agendamento.funcionario" theme="bootstrap"
+				<ui-select ng-model="ctrl.agendamento.funcionario" theme="bootstrap" ng-disabled="ctrl.editable(ctrl.agendamento.start)"
 					style="width: 450px;" title="Choose a country"> <ui-select-match
 					placeholder="Selecione um Dentista">{{ctrl.agendamento.funcionario.nomeCompleto}}</ui-select-match>
 				<ui-select-choices
@@ -43,6 +43,7 @@
 				<label for="inicio">Horário da consulta:</label>
 				<input id="inicio" name="inicio" type="text" class="form-control" 
 					ng-model="ctrl.agendamento.formatedStart"
+					ng-disabled="ctrl.editable(ctrl.agendamento.start)"
 					maxlength="5" ng-required="true" onKeyPress="mascara(this, '##:##')" 
 					ng-pattern="/^([01]\d|2[0-3]):?([0-5]\d)$/" ng-required="true">												 					
 			</div>	
@@ -52,12 +53,12 @@
 				<label for="observacao">Observação: </label>
 			</div>
 			<div class="col-md12">
-				<textarea id="observacao" 
+				<textarea id="observacao" ng-disabled="ctrl.editable(ctrl.agendamento.start)"
 					class="form-control" ng-model="ctrl.agendamento.descricao"></textarea>
 			</div>
 			<div class="col-md12">
 				<div class="checkbox">
-					<label><input type="checkbox" value="true"
+					<label><input type="checkbox" value="true" ng-disabled="ctrl.editableNaoCompareceu(ctrl.agendamento.start)"
 						ng-model="ctrl.agendamento.naoCompareceu">Não compareceu</label>
 				</div>
 			</div>
@@ -66,17 +67,6 @@
 </div>
 
 <div class="modal-footer">
-	<div class="form-group">
-		<button id="btnIniciarConsulta" type="button" class="btn btn-info"
-			style="width: 154px;" ng-if="ctrl.agendamento.id && !ctrl.agendamento.naoCompareceu"
-			ng-click="ctrl.iniciarConsulta(ctrl.agendamento)">Iniciar
-			Consulta</button>
-		<button id="btnProntuarios" type="button" class="btn btn-primary"
-			style="width: 154px;" ng-if="ctrl.agendamento.id"
-			ng-disabled="!ctrl.agendamento.paciente"
-			ng-click="ctrl.verProntuarios(ctrl.agendamento.cliente)">
-			Ver Prontuários</button>
-	</div>
 	<div class="form-group">
 		<button id="btnSalvar" type="button" class="btn btn-success"
 			style="width: 100px;" ng-click="ctrl.salvar(ctrl.agendamento)">

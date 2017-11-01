@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -219,35 +220,8 @@ public class AgendaController {
 			System.out.println("Agendamento recebido nulo");
 			throw new Exception("Não foi possível remover o agendamento.");
 		}
-
-		Funcionario funcionario;
-		if (user != null) {
-			System.out.println("user.getName(): " + user.getName());
-			funcionario = this.funcionarioService.buscaPorLogin(user.getName());
-			if (funcionario == null) {
-				System.out.println("Funcionario nulo em getfuncionarioLogado");
-				throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
-			}
-		} else {
-			System.out.println("user nulo em getFuncionarioLogado");
-			throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
-		}
-
-		// if (agendamento.getConsulta() != null) {
-		// agendamento.setAtivo(false);
-		// agendamento.getConsulta().setProntuario(Util.encrypt(agendamento.getConsulta().getProntuario(),
-		// funcionario));
-		// this.agendamentoService.salvar(agendamento);
-		// }
-
-		if ((funcionario.isVinculadoGCal())
-				&& (agendamento.getIdGCalendar() != null || agendamento.getIdRecurring() != null)) {
-			try {
-				this.excluirAgendamentoNoGoogleCalendar(agendamento, false);
-			} catch (GCalendarException ex) {
-			}
-		}
-
+		agendamentoService.delete(agendamento);		
+		
 		System.out.println("removerAgendamento: fim");
 	}
 
@@ -339,9 +313,7 @@ public class AgendaController {
 			System.out.println("Erro ao salvar no BD.");
 			throw new Exception("Não foi possível salvar o agendamento!");
 		} else {
-			/*
-			 * Isso tu pode fazer de um jeito melhor e mais organizar depois...
-			 */
+			if(agendamento.getStart().before(new Date())){
 			Email email = new Email();
 			// Pra quem vai mandar
 			email.setTo(agendamento.getCliente().getEmail());
@@ -362,6 +334,7 @@ public class AgendaController {
 			// tu inicializa o construtor da classe
 			// SendEmailController e ela vai "montar" pra ti o email e enviar.
 			SendEmailController sendMail = new SendEmailController(email);
+			}
 		}
 
 		if (agendamento.getColor() != null && agendamento.getColor().equals(COR_AGENDAMENTO_NAO_COMPARECEU)) {

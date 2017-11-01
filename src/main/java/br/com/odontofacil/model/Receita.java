@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
@@ -23,7 +24,8 @@ public class Receita {
 	private BigDecimal valor;
 	
 	@OneToOne
-	private Agendamento consulta;
+	@JoinColumn(name="idAgendamento")	
+	private Agendamento agendamento;
 	
 	private String descricao;
 	
@@ -53,12 +55,13 @@ public class Receita {
 		this.valor = valor;
 	}
 
-	public Agendamento getConsulta() {
-		return consulta;
+	
+	public Agendamento getAgendamento() {
+		return agendamento;
 	}
 
-	public void setConsulta(Agendamento consulta) {
-		this.consulta = consulta;
+	public void setAgendamento(Agendamento agendamento) {
+		this.agendamento = agendamento;
 	}
 
 	public String getDescricao() {

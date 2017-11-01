@@ -101,16 +101,14 @@ angular.module('odontoFacil').controller('financeiroController',['$scope', '$mdD
 		
 		financeiroFactory.setDespesa(edtDespesa);		
 		
-		$mdDialog.show({
-			controller: 'DialogCtrl',			
-		    templateUrl: 'templates/despesa.html',
-		    parent: angular.element(document.body),		    
-		    clickOutsideToClose: true		    
-		}).then(function() {	
+//		$mdDialog.show({
+//			controller: 'financeiroController',			
+//		    templateUrl: 'pages/despesas.html',
+//		    parent: angular.element(document.body),
+//		    clickOutsideToClose: true		    
+		
 			financeiroFactory.setDespesa({});
-		}, function() {
-			financeiroFactory.setDespesa({});
-		});
+
 	};	
 	
 	ctrl.pesquisarDespesasPeriodo = function(dataInicial, dataFinal) {		

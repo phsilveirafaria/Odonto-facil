@@ -29,6 +29,11 @@ public class AgendamentoService {
 		return agendamentos;
 	}
 	
+	public Agendamento findById(Agendamento agendamento){
+		agendamento = agendamentoRepository.findOne(agendamento.getId());
+		return agendamento;
+	}
+	
 	public List<Agendamento> listarAllPorPeriodo(Calendar dataInicial,Calendar dataFinal){
 		List<Agendamento> agendamentos = agendamentoRepository.listarAllPorPeriodo(dataInicial, dataFinal);
 		return agendamentos;
