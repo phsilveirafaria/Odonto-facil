@@ -72,8 +72,8 @@
 		    <groupId>net.sf.jasperreports</groupId>
 		    <artifactId>jasperreports</artifactId>
 		    <version>6.2.0</version>
-		</dependency>			
-
+		</dependency>	
+		
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>

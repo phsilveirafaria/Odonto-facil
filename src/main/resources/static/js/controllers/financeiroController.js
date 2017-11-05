@@ -1,5 +1,5 @@
 // Modulos desta controller
-var lazyModules = ['ngTable'];
+var lazyModules = ['ngTable', 'ngMaterial', 'ngMessages'];
   
 angular.forEach(lazyModules, function(dependency) {
 	angular.module('odontoFacil').requires.push(dependency);
@@ -8,7 +8,8 @@ angular.forEach(lazyModules, function(dependency) {
 angular.module('odontoFacil').controller('financeiroController',['$scope', '$mdDialog', 'financeiroFactory', 
 	'NgTableParams', 'utilService', function($scope, $mdDialog,	financeiroFactory, NgTableParams, 
 			utilService) {
-	var ctrl = this;							 	 		
+	var ctrl = this;			
+	var listFormaPagamento = [];
 	
 	$scope.$watch(function () { return financeiroFactory.getLstReceitas(); }, function (newValue, oldValue) {
 		ctrl.tableReceitasParams = new NgTableParams({ count: 5, sorting: { start: "asc" } }, { counts: [], dataset: newValue });		
@@ -47,7 +48,13 @@ angular.module('odontoFacil').controller('financeiroController',['$scope', '$mdD
 	
 	ctrl.searchDisabled = false;
 	
-	ctrl.cadastrarDespesa  = function(despesa) {
+	
+	$scope.cancel = function() {
+		$mdDialog.cancel();
+	};
+	
+	
+	ctrl.salvarDespesa  = function(despesa) {
 		financeiroFactory.salvarDespesa(despesa).then(function successCallback(response) {
 			$mdDialog.show(
 					$mdDialog.alert()
@@ -59,7 +66,7 @@ angular.module('odontoFacil').controller('financeiroController',['$scope', '$mdD
 				);	
 			ctrl.despesa = {};	
 			ctrl.despesa = response.data;
-			$scope.frmFuncionario.$setPristine();
+			ctrl.pesquisarDespesasPeriodo(ctrl.dtInicio, ctrl.dtFim);
 		}, function errorCallback(response) {
 			console.log(response.data);
 			console.log(response.status);
@@ -212,6 +219,19 @@ angular.module('odontoFacil').controller('financeiroController',['$scope', '$mdD
 		);
 	};
 	
+	ctrl.carregaFormaPagamento = function() {
+				
+		financeiroFactory.carregaFormaPagamento().then(
+				successCallback = function(response) {
+					listFormaPagamento = response.data;
+				},
+				errorCallback = function(error) {
+					utilService.tratarExcecao(error);
+				}
+		);		
+	};
+	
+	ctrl.carregaFormaPagamento();
 	ctrl.dtInicio = new Date(moment().startOf('month').local());
 	ctrl.dtFim = new Date(moment().endOf('month').local());	
 	ctrl.pesquisarDespesasPeriodo(ctrl.dtInicio, ctrl.dtFim);

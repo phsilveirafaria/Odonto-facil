@@ -21,4 +21,5 @@ public interface FuncionarioRepository extends JpaRepository <Funcionario, Long>
 	@Query("SELECT f FROM Usuario f "
 			+ "WHERE id_permissao = 1")
 	public List<Funcionario> buscarDentistas();
+	
 }

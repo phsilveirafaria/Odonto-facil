@@ -62,14 +62,14 @@
           <!-- small box -->
           <div class="small-box bg-red">
             <div class="inner">
-              <h3>65</h3>
+              <h3>{{ctrl.totalDespesasMesCorrente | monetarioFormat}}</h3>
 
-              <p>Despesas Cadastradas</p>
+              <p>Despesas Cadastradas do Mês</p>
             </div>
             <div class="icon">
               <i class="ion ion-pie-graph"></i>
             </div>
-            <a href="#" class="small-box-footer">
+            <a href="#/despesas" class="small-box-footer">
               Detalhes <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
@@ -79,42 +79,26 @@
       
   <div class="row">
 	<div class="col-md-4 col-sm-4 col-xs-6">
-		<div class="box box-default">
-			<div class="box-header with-border">
-				<h3 class="box-title">Despesas do Mes</h3>
-
-				<div class="box-tools pull-right">
-					<button type="button" class="btn btn-box-tool"
-						data-widget="collapse">
-						<i class="fa fa-minus"></i>
-					</button>
-					<button type="button" class="btn btn-box-tool" data-widget="remove">
-						<i class="fa fa-times"></i>
-					</button>
-				</div>
-			</div>
-			<!-- /.box-header -->
-            <div class="box-body">
-              <div class="row">
-                <div class="col-md-8">
-                  <div class="chart-responsive">
-                    <canvas id="pieChart" height="100"></canvas>
-                  </div>
-                  <!-- ./chart-responsive -->
-                </div>
-					<div class="col-md-4">
-						<ul class="chart-legend clearfix">
-							<li><i class="fa fa-circle-o text-red"></i> Luz</li>
-							<li><i class="fa fa-circle-o text-green"></i> Telefone</li>
-							<li><i class="fa fa-circle-o text-yellow"></i>Material</li>
-							<li><i class="fa fa-circle-o text-aqua"></i> Água</li>
-						</ul>
-					</div>
-					<!-- /.col -->
-				</div>
-				<!-- /.row -->
-			</div>
-		</div>
+          <!-- Widget: user widget style 1 -->
+          <div class="box box-widget widget-user-2">
+            <!-- Add the bg color to the header using any of the bg-* classes -->
+            <div class="widget-user-header bg-yellow">
+              <div class="widget-user-image">
+                <img class="img-circle" src="lib/dist/img/user7-128x128.jpg" alt="User Avatar">
+              </div>
+              <!-- /.widget-user-image -->
+              <h3 class="widget-user-username">Nadia Carmichael</h3>
+              <h5 class="widget-user-desc">Dentista em Destaque</h5>
+            </div>
+            <div class="box-footer no-padding">
+              <ul class="nav nav-stacked">
+                <li><a href="#">Consultas <span class="pull-right badge bg-blue">31</span></a></li>
+                <li><a href="#">Faturamento <span class="pull-right badge bg-green">5</span></a></li>
+                <li><a href="#">Faltas<span class="pull-right badge bg-red">842</span></a></li>
+              </ul>
+            </div>
+          </div>
+		
 	</div>
 
 	<div class="col-md-4 col-sm-4 col-xs-6">
@@ -137,25 +121,16 @@
 			<div class="box-body">
 				<ul class="products-list product-list-in-box">
 					<li class="item">
-						<div class="product-img">
-							<img
-								src="https://yt3.ggpht.com/-3YGn4reoO5c/AAAAAAAAAAI/AAAAAAAAAAA/zLqOw91Omy4/s900-c-k-no-mo-rj-c0xffffff/photo.jpg"
-								alt="Product Image">
-						</div>
-						<div class="product-info">
-							<a href="javascript:void(0)" class="product-title"> Paulo
-								Henrique S. Faria <span class="label label-warning pull-right">28/08</span>
-							</a> <span class="product-description"> Desenvolvedor Java,
-								campeão dos Estados Unidos. </span>
-						</div>
+							<a ng-repeat="usuario in ctrl.lstAniversariantes" href="mailto:{{usuario.email}}" target="_blank" class="list-group-item">
+								
+								<span class="badge" ng-if="usuario.email"><i class="fa fa-envelope fa-fw"></i></span>
+            					<div class="product-title">{{usuario.dataNascimento | date:'dd'}} - {{usuario.nomeCompleto}}</div> 
+          					</a>
 					</li>
 					<!-- /.item -->
 			</div>
 			<!-- /.box-body -->
-			<div class="box-footer text-center">
-				<a href="javascript:void(0)" class="uppercase">Ver Todos
-					Aniversariantes</a>
-			</div>
+			
 			<!-- /.box-footer -->
 		</div>
 		<!-- /.box -->

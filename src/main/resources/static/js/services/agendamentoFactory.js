@@ -33,6 +33,10 @@ angular.module('odontoFacil').factory('agendamentoFactory', ['$http',  function(
 		return $http.post('https://localhost:8443/removerAgendamento', angular.copy(agendamento));
 	};
 	
+	var _listarAgendamentosDoDia = function() {
+		return $http.get('https://localhost:8443/listarAgendamentosDoDia');
+	}
+	
 	return {		
 		getAgendamento: function() { return _agendamento; },
 		setAgendamento: function(agendamento) { _agendamento = agendamento; },		
@@ -52,5 +56,6 @@ angular.module('odontoFacil').factory('agendamentoFactory', ['$http',  function(
 		setEditable: function(editable) { _agendamento.editable = editable; },
 		getFormatedStart: function() { return _agendamento.formatedStart; },
 		setFormatedStart: function(formatedStart) { _agendamento.formatedStart = formatedStart; },
+		listarAgendamentosDoDia: _listarAgendamentosDoDia
 	};
 }]);

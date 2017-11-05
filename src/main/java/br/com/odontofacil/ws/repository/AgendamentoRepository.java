@@ -88,6 +88,11 @@ public interface AgendamentoRepository extends JpaRepository <Agendamento, Long>
 			+ "WHERE (DATE(a.start) BETWEEN DATE(?1) AND DATE(?2)) "
 			+ "AND a.naoCompareceu = false "
 			+ "AND a.consulta.valor > 0 ")
+	public List<Agendamento> listarReceitasPorPeriodo(Calendar dataInicial, Calendar dataFinal);
+	@Query("SELECT a FROM Agendamento a "			
+			+ "WHERE (DATE(a.start) BETWEEN DATE(?1) AND DATE(?2)) "
+			+ "AND a.naoCompareceu = false "
+			+ "AND a.fechado = true ")
 	public List<Agendamento> listarConsultasPorPeriodo(Calendar dataInicial, Calendar dataFinal);
 	@Query("SELECT a FROM Agendamento a "			
 			+ "INNER JOIN a.funcionario f "							

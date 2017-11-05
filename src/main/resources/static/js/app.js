@@ -1,15 +1,6 @@
 angular.module('odontoFacil', ['ngRoute', 'ngMaterial', 'ngTable']).constant("consts", {
 	BASE_URL: "http://localhost:8443",
-		TIPOS_CONFIRMACOES: {
-			'REMOVER_EVENTOS_FUTUROS': 1,
-			'MOVER_EVENTOS': 2,
-			'ALTERAR_DADOS_FUTUROS': 3,
-			'REMOVER_EVENTO': 4,
-			'REMOVER_EVENTOS_GRUPO': 5
-		}})
-
-
-
+		})
 
 .config(['$routeProvider', '$httpProvider', '$mdDateLocaleProvider' ,function($routeProvider, $httpProvider, $mdDateLocaleProvider) {		
 		$routeProvider.
@@ -60,6 +51,10 @@ angular.module('odontoFacil', ['ngRoute', 'ngMaterial', 'ngTable']).constant("co
 			}).when('/receitas', { 
 				templateUrl: "pages/receitas.html",
 				controller: "financeiroController",
+				controllerAs: "ctrl"			
+			}).when('/orcamento', { 
+				templateUrl: "pages/orcamento.html",
+				controller: "orcamentoController",
 				controllerAs: "ctrl"			
 			}).when('/index', { 
 				templateUrl: "index.html",

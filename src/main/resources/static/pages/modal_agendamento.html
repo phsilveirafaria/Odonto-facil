@@ -56,9 +56,22 @@
 				<textarea id="observacao" ng-disabled="ctrl.editable(ctrl.agendamento.start)"
 					class="form-control" ng-model="ctrl.agendamento.descricao"></textarea>
 			</div>
+		</div>
+			<div class="form-group" ng-if="ctrl.editable(ctrl.agendamento.start)">
+				<div class="col-md12">
+					<label>Valor</label>
+				</div>
+				<div class="col-md12">
+					<input id="valor" maxlength="7" class="form-control" ng-model="ctrl.agendamento.valor" 
+						ng-pattern="/^\$?[\d]+(\,\d{1,2})?$/"
+						ng-disabled="ctrl.agendamento.fechado || ctrl.agendamento.naoCompareceu"
+						formatted-valor>
+				</div>
+			</div>
+						
 			<div class="col-md12">
 				<div class="checkbox">
-					<label><input type="checkbox" value="true" ng-disabled="ctrl.editableNaoCompareceu(ctrl.agendamento.start)"
+					<label><input type="checkbox" value="true" ng-if="ctrl.agendamento.valor == null" ng-disabled="ctrl.editableNaoCompareceu(ctrl.agendamento.start)"
 						ng-model="ctrl.agendamento.naoCompareceu">Não compareceu</label>
 				</div>
 			</div>
@@ -69,13 +82,16 @@
 <div class="modal-footer">
 	<div class="form-group">
 		<button id="btnSalvar" type="button" class="btn btn-success"
+			ng-if="!ctrl.agendamento.fechado"
 			style="width: 100px;" ng-click="ctrl.salvar(ctrl.agendamento)">
 			Salvar</button>
-		<button id="btnRemove" type="button" class="btn btn-danger"
-			style="width: 100px;"
-			ng-click="ctrl.confirmarRemocaoEvento(ctrl.agendamento)"
-			ng-if="ctrl.agendamento.id">Remover</button>
 		<button id="btnCancel" type="button" class="btn btn-default"
 			ng-click="ctrl.cancel()" style="width: 100px;">Cancelar</button>
+	</div>
+	<div class="form-group">
+	<button id="btnAtestado" type="button" class="btn bg-purple btn-flat margin"
+			ng-if="ctrl.agendamento.fechado"
+			style="width: 200px;" ng-click="ctrl.gerarAtestado(ctrl.agendamento)">
+			Gerar Atestado</button>
 	</div>
 </div>

@@ -49,21 +49,21 @@
 						</div>
 						<div class="col-md-4"
 							style="text-align: right; color: #0A6CAC; font-weight: bold;">
-							<h4>{{ctrl.totalDespesasPagasPeriodo}}</h4>
+							<h4>{{ctrl.totalDespesasPagasPeriodo | monetarioFormat}}</h4>
 						</div>
 						<div class="col-md-8">
 							<h4>Total de valores não pagos no período:</h4>
 						</div>
 						<div class="col-md-4"
 							style="text-align: right; color: #0A6CAC; font-weight: bold;">
-							<h4>{{ctrl.totalDespesasNaoPagasPeriodo}}</h4>
+							<h4>{{ctrl.totalDespesasNaoPagasPeriodo | monetarioFormat}}</h4>
 						</div>
 						<div class="col-md-8">
 							<h4>Total de despesas no período:</h4>
 						</div>
 						<div class="col-md-4"
 							style="text-align: right; color: #E4004D; font-weight: bold;">
-							<h4>{{ctrl.totalDespesasPeriodo}}</h4>
+							<h4>{{ctrl.totalDespesasPeriodo | monetarioFormat}}</h4>
 						</div>
 					</div>
 
@@ -76,8 +76,8 @@
 								<td data-title="'Descrição'">{{despesa.descricao}}</td>
 								<td data-title="'Dt Vencimento'" class="text-center">{{despesa.vencimento
 									| date: 'dd/MM/yyyy'}}</td>
-								<td data-title="'Valor'" class="text-center">{{despesa.valor}}</td>
-								<td data-title="'Pago'" class="text-center">{{despesa.pago}}</td>
+								<td data-title="'Valor'" class="text-center">{{despesa.valor | monetarioFormat}}</td>
+								<td data-title="'Pago'" class="text-center">{{despesa.pago | booleanFormat}}</td>
 								<td data-title="'Observação'">{{despesa.observacao}}</td>
 								<td data-title="'Ações'" class="text-center"><a
 									class="btn btn-warning btn-xs"
@@ -132,6 +132,11 @@
 						formatted-valor>
 				</md-input-container>
 				<md-input-container class="md-block">
+					<label>Quantidade</label>
+					<input name="quantidade" ng-model="ctrl.despesa.quantidade" 
+						ng-required="true">
+				</md-input-container>
+				<md-input-container class="md-block">
 					<label>Data de Vencimento</label>
 					<input type="date" class="form-control" autofocus
 									ng-required="true" ng-model="ctrl.despesa.vencimento"
@@ -152,7 +157,7 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline pull-left"
 					data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline" ng-disabled="cadastroDespesaForm.$invalid" ng-click="ctrl.cadastrarDespesa(ctrl.despesa)" data-dismiss="modal"> Salvar</button>
+				<button type="button" class="btn btn-outline" ng-disabled="cadastroDespesaForm.$invalid" ng-click="ctrl.salvarDespesa(ctrl.despesa)" data-dismiss="modal"> Salvar</button>
 			</div>
 		</div>
 		<!-- /.modal-content -->

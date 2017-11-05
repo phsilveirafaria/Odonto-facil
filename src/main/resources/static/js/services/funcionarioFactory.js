@@ -10,6 +10,11 @@ angular.module('odontoFacil').factory('funcionarioFactory',['$http', function($h
 		);
 	};
 	
+	var _listarAniversariantesDoMes = function() {
+		return $http.get('https://localhost:8443/listarAniversariantesDoMes'
+		);
+	};
+	
 	var _listarDentistas = function() {
 		return $http.get(
 			'https://localhost:8443/listarDentistas'
@@ -62,5 +67,6 @@ angular.module('odontoFacil').factory('funcionarioFactory',['$http', function($h
 		listarPermissoes: _listarPermissoes,
 		salvarFuncionarios: _salvarFuncionarios,
 		excluirFuncionarios: _excluirFuncionarios,
+		listarAniversariantesDoMes: _listarAniversariantesDoMes
 	}
 }]);

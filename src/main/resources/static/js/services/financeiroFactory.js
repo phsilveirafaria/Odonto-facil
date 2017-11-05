@@ -43,6 +43,9 @@ angular.module('odontoFacil').factory('financeiroFactory',['$http', 'consts', fu
 		var params = {dataInicial: dataInicial, dataFinal: dataFinal};
 		return $http.get('https://localhost:8443/listarConsultasNaoFinalizadasPorPeriodo', {params});
 	};
+	var _carregaFormaPagamento = function() {
+		return $http.get('https://localhost:8443/carregaFormaPagamento');
+	};
 		
 	var _imprimirRelatorioReceitas = function(dataInicial, dataFinal) {
 		var inRelatorioDTO = {
@@ -98,6 +101,7 @@ angular.module('odontoFacil').factory('financeiroFactory',['$http', 'consts', fu
 		getTotalDespesasNaoPagasPeriodo: function() { return _totalDespesasNaoPagasPeriodo; },
 		setTotalDespesasNaoPagasPeriodo: function(totalDespesasNaoPagasPeriodo) { _totalDespesasNaoPagasPeriodo = totalDespesasNaoPagasPeriodo; },
 		salvarDespesa: _salvarDespesa,
+		carregaFormaPagamento: _carregaFormaPagamento,
 		excluirDespesa: _excluirDespesa,
 		listarDespesasPorPeriodo: _listarDespesasPorPeriodo,
 		listarConsultasPorPeriodo: _listarConsultasPorPeriodo,

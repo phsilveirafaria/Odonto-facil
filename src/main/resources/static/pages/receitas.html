@@ -1,5 +1,5 @@
 <head>
-	<meta charset="utf-8">
+<meta charset="utf-8">
 </head>
 <div id="page-wrapper">
 	<div class="row">
@@ -13,33 +13,23 @@
 		<div class="col-lg-12">
 			<div class="panel panel-default">
 				<div class="panel-body">
-					<div class="row">
-						<div class="col-lg-4"></div>
-						<div class="col-lg-8">
-							<button type="button" class="btn btn-info"
-								 data-toggle="modal"
-								data-target="#modal-info">Cadastrar Nova Despesa</button>
-						</div>
-					</div>
-					<hr />
-	<!-- /.row -->
-	<div class="row">
-		<div class="col-lg-12">
-			<div class="panel panel-default">					
-				<div class="panel-body">
+				  <hr />
 					<div class="row">
 						<div class="col-md-2">
-							<h4>Período:</h4> 
+							<h4>Período:</h4>
 						</div>
 						<div class="col-md-4">
-							<md-datepicker ng-change="ctrl.searchDisabled = false;" ng-model="ctrl.dtInicio" md-placeholder="Informe a data"></md-datepicker>
+							<md-datepicker ng-change="ctrl.searchDisabled = false;"
+								ng-model="ctrl.dtInicio" md-placeholder="Informe a data"></md-datepicker>
 						</div>
-						<div class="col-md-4"> 
-							<md-datepicker ng-change="ctrl.searchDisabled = false;" ng-model="ctrl.dtFim" md-placeholder="Informe a data" md-min-date="ctrl.dtInicio"></md-datepicker>
+						<div class="col-md-4">
+							<md-datepicker ng-change="ctrl.searchDisabled = false;"
+								ng-model="ctrl.dtFim" md-placeholder="Informe a data"
+								md-min-date="ctrl.dtInicio"></md-datepicker>
 						</div>
-						<div class="col-md-2"> 
-							<button type="button" ng-disabled="ctrl.searchDisabled" 
-								ng-click="ctrl.pesquisarReceitasPeriodo(ctrl.dtInicio, ctrl.dtFim)" 
+						<div class="col-md-2">
+							<button type="button" ng-disabled="ctrl.searchDisabled"
+								ng-click="ctrl.pesquisarreceitasPeriodo(ctrl.dtInicio, ctrl.dtFim)"
 								class="btn btn-primary btn-block">Pesquisar</button>
 						</div>
 					</div>
@@ -49,39 +39,43 @@
 							<h4>Total de valores pagos em consultas no período: </h4>
 						</div>
 						<div class="col-md-4" style="text-align: right; color: #00B768; font-weight: bold;">
-							<h4>{{ctrl.totalConsultasPeriodo}}</h4>
+							<h4>{{ctrl.totalConsultasPeriodo | monetarioFormat}}</h4>
 						</div>												
 					</div>
-					
-                 	<div id="list" class="row">                 		 
-						<table ng-table="ctrl.tableReceitasParams" class="table table-condensed table-bordered table-striped">
-							<caption style="text-align: center;">Receitas no período</caption>							
-    						<tr ng-repeat="agendamento in $data">
-        						<td data-title="'Paciente'">{{agendamento.paciente.nomeExibicao}}</td>
-        						<td data-title="'Convenio'" class="text-center">{{agendamento.convenio.nome}}</td>
-					            <td data-title="'Dt Consulta'" class="text-center">{{agendamento.consulta.inicio | date: 'dd/MM/yyyy'}}</td>
-					            <td data-title="'Hora Consulta'" class="text-center">{{agendamento.consulta.inicio | date: 'HH:mm'}}</td>
-					       		<td data-title="'Valor'" class="text-center">{{agendamento.consulta.valor}}</td>
-					       		<td data-title="'Recibo Entregue'" class="text-center">{{agendamento.consulta.recibo}}</td>					            					            					            					                    	
-					            <td data-title="'Ações'" class="text-center">
-					            	<a class="btn btn-warning btn-xs" ng-click="ctrl.editarConsulta(agendamento)" title="Editar Consulta"><i class="fa fa-pencil fa-fw"></i></a>					            	
-					            </td>
-    						</tr>    						    						    						    					
+
+					<div id="list" class="row">
+						<table ng-table="ctrl.tableReceitasParams"
+							class="table table-condensed table-bordered table-striped">
+							<caption style="text-align: center;">Receitas no
+								período</caption>
+							<tr ng-repeat="receita in $data">
+								<td data-title="'Funcionario'" class="text-center">{{receita.funcionario.nomeCompleto}}</td>
+									<td data-title="'Paciente'" class="text-center">{{receita.cliente.nomeCompleto}}</td>
+								<td data-title="'Descrição'" class="text-center">{{receita.descricao}}</td>
+								<td data-title="'Data Consulta'" class="text-center">{{receita.start | date: 'dd/MM/yyyy'}}</td>
+								<td data-title="'Valor'" class="text-center">{{receita.valor
+									| monetarioFormat}}</td>
+								<td data-title="'Pago'" class="text-center">{{receita.fechado | booleanFormat}}</td>
+								
+							</tr>
 						</table>
-					 </div> <!-- /#list -->
-					 
-					 <div class="form-group">
-  					<button id="btnImprimir" name="btnImprimir" type="button" style="float: right;"
-	  						ng-disabled="ctrl.totalConsultasPeriodo == 0"
-	  						ng-click="ctrl.imprimirRelatorioReceitas(ctrl.dtInicio, ctrl.dtFim)"	  						
-	  						class="btn btn-primary">
-	  						Imprimir receitas do período</button>   						
-	 				</div>                      		                                 																			                             		                                 																																	
+					</div>
+					<!-- /#list -->
+
+					<div class="form-group">
+						<button id="btnImprimir" name="btnImprimir" type="button"
+							style="float: right;"
+							ng-disabled="ctrl.totalreceitasPeriodo == 0"
+							ng-click="ctrl.imprimirRelatorioreceitas(ctrl.dtInicio, ctrl.dtFim)"
+							class="btn btn-primary">Imprimir receitas do período</button>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>		
+</div>
+
+
 <div class="modal modal-info fade" id="modal-info">
 	<div class="modal-dialog">
 		<div class="modal-content">
@@ -90,10 +84,10 @@
 					aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
-				<h4 class="modal-title">Cadastrar Nova Receita</h4>
+				<h4 class="modal-title">Cadastrar Nova receita</h4>
 			</div>
 			<div class="modal-body">
-			<form name="cadastroDespesaForm">
+			<form name="cadastroReceitaForm">
 				<md-input-container class="md-block">
   					<label>Descrição</label>
   					<input name="descricao" maxlength="30" ng-model="ctrl.receita.descricao" md-autofocus ng-required="true">
@@ -105,18 +99,27 @@
 						ng-required="true"
 						formatted-valor>
 				</md-input-container>
+				<div class="form-group">
+						<label for="text" class="col-sm-2 control-label">Permissão: </label> 
+						<div class="col-sm-5">
+						<select name="formaPagamento" class="form-control" ng-model="ctrl.receita.formaPagamento"
+							ng-options="formaPagamento for formaPagamento in ctrl.listFormaPagamento track by formaPagamento.id"
+							ng-required="true">
+							<option value="">Selecione a Forma de Pagamento</option>
+						</select>
+						</div>
 				<md-input-container class="md-block">
 					<label>Data de Vencimento</label>
 					<input type="date" class="form-control" autofocus
-									ng-required="true" ng-model="ctrl.receita.formaPagamento"
+									ng-required="true" ng-model="ctrl.receita.vencimento"
 									data-inputmask="'alias': 'dd/mm/yyyy'" data-mask>
 				</md-input-container>				
 				<md-input-container>
 				    <label>Observação</label>
-				    <textarea name="observacao" ng-model="ctrl.despesa.observacao"></textarea>				    
+				    <textarea name="observacao" ng-model="ctrl.receita.observacao"></textarea>				    
 				</md-input-container>
 				<br />								
-				<md-checkbox ng-model="ctrl.despesa.pago" aria-label="Conta paga">
+				<md-checkbox ng-model="ctrl.receita.pago" aria-label="Conta paga">
   					Conta paga
 				</md-checkbox>
 			</form>
@@ -126,7 +129,7 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-outline pull-left"
 					data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline" ng-disabled="cadastroDespesaForm.$invalid" ng-click="ctrl.cadastrarDespesa(ctrl.despesa)" data-dismiss="modal"> Salvar</button>
+				<button type="button" class="btn btn-outline" ng-disabled="cadastroReceitaForm.$invalid" ng-click="ctrl.salvarReceita(ctrl.receita)" data-dismiss="modal"> Salvar</button>
 			</div>
 		</div>
 		<!-- /.modal-content -->
@@ -134,4 +137,3 @@
 	<!-- /.modal-dialog -->
 </div>
 <!-- /.modal -->
-							

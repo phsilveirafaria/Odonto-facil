@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 
@@ -18,14 +19,13 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.odontofacil.dto.EntradaDespesaDTO;
 import br.com.odontofacil.dto.EntradaReceitaDTO;
 import br.com.odontofacil.dto.SaidaDespesaDTO;
+import br.com.odontofacil.enuns.FormaPagamento;
 import br.com.odontofacil.model.Agendamento;
 import br.com.odontofacil.model.Despesa;
 import br.com.odontofacil.model.Funcionario;
-import br.com.odontofacil.util.Util;
 import br.com.odontofacil.ws.service.AgendamentoService;
 import br.com.odontofacil.ws.service.DespesaService;
 import br.com.odontofacil.ws.service.FuncionarioService;
-import br.com.odontofacil.ws.service.ReceitaService;
 
 @RestController
 public class FinanceiroController {
@@ -35,9 +35,6 @@ public class FinanceiroController {
 	
 	@Autowired
 	AgendamentoService agendamentoService;
-	
-	@Autowired
-	ReceitaService receitaService;
 	
 	@Autowired
 	DespesaService despesaService;
@@ -93,6 +90,19 @@ public class FinanceiroController {
 			throw new Exception("Não foi possível salvar a despesa.");
 		}
 	}
+	
+	@RequestMapping(
+			value="/carregaFormaPagamento",
+			method={RequestMethod.GET},
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public List<FormaPagamento> carregaFormaPagamento() throws Exception {
+		
+		System.out.println("FinanceitoController.carregaFormaPagamento: início");
+		List<FormaPagamento> listFormaPagamento = Arrays.asList(FormaPagamento.values());
+		return listFormaPagamento;
+	}
+	
 	
 	@RequestMapping(
 			value="/excluirDespesa",
@@ -197,7 +207,6 @@ public class FinanceiroController {
 			throw new Exception("Erro ao listar agendamentos: formato de data inválido.");
 		}		
 		
-		//Psicologo psicologo = LoginController.getPsicologoLogado();
 		Funcionario funcionario = this.funcionarioService.buscaPorLogin(user.getName());
 		if (funcionario == null) {
 			System.out.println("Funcionario nulo em getFuncionarioLogado");
@@ -207,6 +216,57 @@ public class FinanceiroController {
 		try {
 			EntradaReceitaDTO entradaReceitaDTO = new EntradaReceitaDTO();
 			entradaReceitaDTO.setLstAgendamentos(this.agendamentoService.listarConsultasPorPeriodo(di, df));
+			
+			BigDecimal totalConsultas = new BigDecimal(0);
+			for (Agendamento agendamento : entradaReceitaDTO.getLstAgendamentos()) {				
+				totalConsultas = totalConsultas.add(agendamento.getValor());
+			}
+			entradaReceitaDTO.setTotalConsultas(totalConsultas);
+			System.out.println("ConsultaController.listarConsultasPorPeriodo: Fim");
+		
+			return entradaReceitaDTO;
+		} catch(Exception ex) {
+			System.out.println("Erro ao listar consultas: " + ex.getMessage());
+			throw new Exception("Não foi possível listar as receitas!");
+		}
+	}
+	
+	@RequestMapping(
+			value = "/listarReceitasPorPeriodo", 
+			method={RequestMethod.GET},
+			produces = MediaType.APPLICATION_JSON_VALUE			
+			)
+	public EntradaReceitaDTO listarReceitasPorPeriodo(@RequestParam("dataInicial") String dataInicial, 
+			@RequestParam("dataFinal") String dataFinal, Principal user) throws Exception {
+		System.out.println("ConsultaController.listarConsultasPorPeriodo: início");
+		
+		if (user == null) {
+			System.out.println("user nulo");
+			throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
+		}						
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar di = Calendar.getInstance();
+		Calendar df = Calendar.getInstance();		
+		
+		try {
+			di.setTime(format.parse(dataInicial));
+			df.setTime(format.parse(dataFinal));
+		} catch (ParseException e) {
+			System.out.println("Formato de data inválido");
+			throw new Exception("Erro ao listar agendamentos: formato de data inválido.");
+		}		
+		
+		//Psicologo psicologo = LoginController.getPsicologoLogado();
+		Funcionario funcionario = this.funcionarioService.buscaPorLogin(user.getName());
+		if (funcionario == null) {
+			System.out.println("Funcionario nulo em getFuncionarioLogado");
+			throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
+		}
+				
+		try {
+			EntradaReceitaDTO entradaReceitaDTO = new EntradaReceitaDTO();
+			entradaReceitaDTO.setLstAgendamentos(this.agendamentoService.listarReceitasPorPeriodo(di, df));
 			
 			BigDecimal totalConsultas = new BigDecimal(0);
 			for (Agendamento agendamento : entradaReceitaDTO.getLstAgendamentos()) {				

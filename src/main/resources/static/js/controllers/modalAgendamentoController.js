@@ -4,8 +4,8 @@ angular.forEach(lazyModules, function(dependency) {
 });
 
 angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope', '$http',
-	'$location', '$mdDialog', 'agendamentoFactory', 'modalAgendamentoFactory', 'Session', '$uibModal' , '$uibModalInstance', 'modalAgendamentoService', 'consultaFactory', 'funcionarioFactory',
-	function ($scope, $http, $location, $mdDialog,	agendamentoFactory, modalAgendamentoFactory, Session, $uibModal, $uibModalInstance, modalAgendamentoService, consultaFactory, funcionarioFactory) {
+	'$location', '$mdDialog', 'agendamentoFactory', 'modalAgendamentoFactory', 'Session', '$uibModal' , '$uibModalInstance', 'modalAgendamentoService', 'consultaFactory', 'funcionarioFactory', 'utilService',
+	function ($scope, $http, $location, $mdDialog,	agendamentoFactory, modalAgendamentoFactory, Session, $uibModal, $uibModalInstance, modalAgendamentoService, consultaFactory, funcionarioFactory, utilService) {
 	
 	var ctrl = this;		
 	ctrl.x = Session.usuario;
@@ -154,8 +154,13 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 						var event = angular.element('.calendar').fullCalendar('clientEvents',agendamento.id);																								
 						if (event.length > 0) {
 							agendamento.title = updateTitle(agendamento);
-							$uibModalInstance.dismiss();
-							alert("Agendamento salvo com sucesso");
+							$uibModalInstance.close();
+							atualizarViewFC();
+							if(agendamento.valor){
+								alert("Valor cadastrado com sucesso");
+							}else{
+								alert("Agendamento salvo com sucesso");
+							}
 //							$mdDialog.show(
 //									$mdDialog.alert()
 //										.multiple(true)
@@ -210,7 +215,6 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 //			);																
 //		}							
 		
-		angular.element('.calendar').fullCalendar('unselect');												
 	});			
 	
 	}

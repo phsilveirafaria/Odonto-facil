@@ -1,5 +1,6 @@
 package br.com.odontofacil.model;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 
 import javax.persistence.CascadeType;
@@ -51,11 +52,15 @@ public class Agendamento {
 	
 	private String color;
 	
+	private BigDecimal valor;
+	
 	private boolean ativo;	
 	
 	private String title;
 	
 	private boolean naoCompareceu;
+	
+	private boolean fechado;
 	
 	// Apenas para JPA
 	protected Agendamento() {
@@ -178,7 +183,21 @@ public class Agendamento {
 	public void setIdRecurring(String idRecurring) {
 		this.idRecurring = idRecurring;
 	}
-	
-	
+
+	public BigDecimal getValor() {
+		return valor;
+	}
+
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
+	}
+
+	public boolean isFechado() {
+		return fechado;
+	}
+
+	public void setFechado(boolean fechado) {
+		this.fechado = fechado;
+	}
 	
 }

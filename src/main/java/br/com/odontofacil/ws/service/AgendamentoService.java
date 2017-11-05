@@ -78,6 +78,11 @@ public class AgendamentoService {
 		return agendamentos;
 	}
 	
+	public List<Agendamento> listarReceitasPorPeriodo(Calendar dataInicial, Calendar dataFinal){	
+		List<Agendamento> agendamentos = agendamentoRepository.listarReceitasPorPeriodo(dataInicial, dataFinal);
+		return agendamentos;
+	}
+	
 	public Agendamento save(Agendamento agendamento){	
 		agendamento = agendamentoRepository.save(agendamento);
 		return agendamento;

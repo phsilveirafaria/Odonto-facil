@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import br.com.odontofacil.model.Funcionario;
 import br.com.odontofacil.model.Usuario;
 import br.com.odontofacil.ws.repository.UsuarioRepository;
 
@@ -25,6 +26,10 @@ public class UsuarioService {
 	public Usuario salvar(Usuario usuario){
 		usuarioRepository.save(usuario);
 		return usuario;
+	}
+	
+	public List<Usuario> listarAniversariantesDoMes() {
+		return usuarioRepository.listarAniversariantesDoMes();
 	}
 	
 	public void excluir(Usuario usuario){

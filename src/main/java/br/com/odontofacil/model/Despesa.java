@@ -24,7 +24,7 @@ public class Despesa {
 		private Calendar vencimento;
 		private boolean pago;
 		private String observacao;
-		
+		private int quantidade;
 		
 		
 		public long getIdDespesa() {
@@ -117,6 +117,14 @@ public class Despesa {
 		 */
 		public void setObservacao(String observacao) {
 			this.observacao = observacao;
-		}	
+		}
 
+		public int getQuantidade() {
+			return quantidade;
+		}
+
+		public void setQuantidade(int quantidade) {
+			this.quantidade = quantidade;
+		}	
+		
 }

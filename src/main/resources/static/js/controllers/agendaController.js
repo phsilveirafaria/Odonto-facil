@@ -74,7 +74,7 @@ angular.module('odontoFacil').controller('agendaController', ['$scope', '$mdDial
 		});
 		
 		modalInstance.result.then(function (selectedItem) {}, function () {			
-			agendamentoFactory.setAgendamento({});					
+			agendamentoFactory.setAgendamento({});		
 		});
 	};
 	
@@ -110,7 +110,7 @@ angular.module('odontoFacil').controller('agendaController', ['$scope', '$mdDial
 	  event.formatedStart = event.start.format('HH:mm');							
 	  agendamentoFactory.setAgendamento(angular.copy(event));
 	  agendamentoFactory.setAgendamentoCarregado(angular.copy(event));	  	  
-	  
+	 
 	  ctrl.openEventModal();											
   };
   

@@ -49,6 +49,8 @@ public class Usuario implements Serializable{
 	
 	private String cep;
 	
+	private char sexo;
+	
 	public Usuario(){
 		super();
 	}
@@ -164,6 +166,14 @@ public class Usuario implements Serializable{
 
 	public void setCep(String cep) {
 		this.cep = cep;
+	}
+
+	public char getSexo() {
+		return sexo;
+	}
+
+	public void setSexo(char sexo) {
+		this.sexo = sexo;
 	}
 
 }

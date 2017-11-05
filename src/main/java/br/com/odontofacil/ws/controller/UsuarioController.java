@@ -1,7 +1,10 @@
 package br.com.odontofacil.ws.controller;
 
+import java.security.Principal;
 import java.util.Collection;
+import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.odontofacil.model.Funcionario;
 import br.com.odontofacil.model.Usuario;
 import br.com.odontofacil.ws.service.UsuarioService;
 
@@ -20,6 +24,19 @@ public class UsuarioController {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	
+private final static Logger logger = Logger.getLogger(FuncionarioController.class);
+	
+	private static void logMessage(String msg, boolean error) {
+    	if(!error && logger.isDebugEnabled()){
+    	    logger.debug(msg);
+    	}
+
+    	//logs an error message with parameter
+    	if (error) {
+    		logger.error(msg);
+    	}
+    }
 	
 	//Serve para inserir e alterar
 	@RequestMapping(method=RequestMethod.POST, value="/salvar", consumes=MediaType.APPLICATION_JSON_VALUE)
@@ -32,6 +49,26 @@ public class UsuarioController {
 	public ResponseEntity<Collection<Usuario>> listar() {
 		Collection<Usuario> usuarios = usuarioService.buscarTodos();
 		return new ResponseEntity<>(usuarios, HttpStatus.OK);
+	}
+	
+	
+	@RequestMapping(
+			value = "/listarAniversariantesDoMes", 
+			method={RequestMethod.GET},
+			produces = MediaType.APPLICATION_JSON_VALUE
+			)
+	public List<Usuario> listarAniversariantesDoMes(Principal user) throws Exception {
+		logMessage("FuncionarioController.listarAniversariantesDoMes: início", false);
+		try {
+			
+			List<Usuario> lstAniversariantes = 
+					usuarioService.listarAniversariantesDoMes(); 
+			logMessage("UsuarioController.listarAniversariantesDoMes: fim", false);
+			return lstAniversariantes;
+		} catch(Exception ex) {
+			logMessage("Erro ao buscar aniversariantes: " + ex.getMessage(), true);
+			throw new Exception();
+		}
 	}
 	
 	@RequestMapping(method=RequestMethod.DELETE, value = "/deletar/{id}")

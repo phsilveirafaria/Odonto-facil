@@ -68,6 +68,7 @@ public class AgendaController {
 
 	public static String COR_AGENDAMENTO_DEFAULT = "#0A6CAC";
 	public static String COR_AGENDAMENTO_NAO_COMPARECEU = "#FF0000";
+	public static String COR_AGENDAMENTO_FECHADO = "#00FF00";
 	public static String password = "odontoFacil2017";
 
 	private List<Agendamento> listaAgendamentos;
@@ -293,14 +294,14 @@ public class AgendaController {
 			throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
 		}
 
-		if (agendamento == null) {
-			System.out.println("Agendamento recebido nulo.");
-			throw new Exception("Não foi possível salvar o agendamento!");
-		}
-
-		agendamento.setColor(COR_AGENDAMENTO_DEFAULT);
+		
 		if (agendamento.isNaoCompareceu()) {
 			agendamento.setColor(COR_AGENDAMENTO_NAO_COMPARECEU);
+		}else if(agendamento.getValor() != null){
+			agendamento.setFechado(true);
+			agendamento.setColor(COR_AGENDAMENTO_FECHADO);
+		}else{
+			agendamento.setColor(COR_AGENDAMENTO_DEFAULT);
 		}
 
 		// Ta, entao depois que ele terminar de salvar, se tudo ocorrer bem
