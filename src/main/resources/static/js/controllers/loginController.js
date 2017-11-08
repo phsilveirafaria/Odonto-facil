@@ -1,6 +1,6 @@
 angular.module('odontoFacil').controller('loginController', ['$scope', '$rootScope', '$http', '$location', 
-	'$mdDialog', 'loginFactory', 'funcionarioFactory' , 'Session', 'homeFactory',	function($scope, $rootScope, 
-			$http, $location, $mdDialog, loginFactory, funcionarioFactory, Session, homeFactory) {
+	'$mdDialog', 'loginFactory', 'funcionarioFactory' , 'Session', 'homeFactory', 'utilService', 	function($scope, $rootScope, 
+			$http, $location, $mdDialog, loginFactory, funcionarioFactory, Session, homeFactory, utilService) {
 	var ctrl = this;
 	ctrl.funcionario = {};
 	ctrl.x = {};
@@ -39,12 +39,12 @@ angular.module('odontoFacil').controller('loginController', ['$scope', '$rootSco
 			if ($rootScope.authenticated) {				
 				ctrl.error = false;
 				
-//				loginFactory.realizarBackup().then(
-//						successCallback = function(response) {},
-//						errorCallback = function(error) {														
-//							//utilService.tratarExcecao(error);
-//						}
-//				);
+				loginFactory.realizarBackup().then(
+						successCallback = function(response) {},
+						errorCallback = function(error) {														
+							utilService.tratarExcecao(error);
+						}
+				);
 		    } else {		    	
 		    	ctrl.error = true;
 				credentials = {};	

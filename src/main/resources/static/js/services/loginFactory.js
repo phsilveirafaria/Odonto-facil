@@ -8,7 +8,7 @@ angular.module('odontoFacil').factory('loginFactory', ['$http', 'consts', functi
 	};
 	
 	var _realizarBackup = function() {
-		return $http.get(consts.BASE_URL + '/realizarBackup');
+		return $http.get('https://localhost:8443/realizarBackup');
 	}
 	
 	return {		

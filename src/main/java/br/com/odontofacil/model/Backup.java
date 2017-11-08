@@ -12,17 +12,31 @@ public class Backup {
 	
 	@Id
 	@GeneratedValue (strategy = GenerationType.AUTO)
-	private long id;
+	private Long id;
 	
 	private Calendar inicio;
 	
 	private Calendar fim;
 
-	public long getId() {
+
+	// Apenas para JPA
+	protected Backup() {
+		
+	}
+	
+	public Backup(Calendar inicio, Calendar fim) {
+		this.id = null;
+		this.inicio = inicio;
+		this.fim = fim;
+	}
+
+	
+
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
