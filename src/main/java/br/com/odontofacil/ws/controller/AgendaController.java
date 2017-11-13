@@ -65,6 +65,8 @@ public class AgendaController {
 
 	@Autowired
 	private TmpGCalendarEventService gCalendarEventService;
+	
+	private SmsClientController smsController;
 
 	public static String COR_AGENDAMENTO_DEFAULT = "#0A6CAC";
 	public static String COR_AGENDAMENTO_NAO_COMPARECEU = "#FF0000";
@@ -323,18 +325,23 @@ public class AgendaController {
 			email.setFrom("tccodontofacil@gmail.com");
 			// senha
 			email.setPass(password);
-			// Texto do email... o ideal é tu ir num "montador de HTML" e montar
-			// o texto.
 			email.setTexto("");
-			email.setEmailFormatado("<h2 style=\"text-align: left;\">Nome: " + email.getNome() + "</h2>"
-					+ "<h2 style=\"text-align: left;\">Email: " + email.getEmail() + "</h2>"
-					+ "<h2 style=\"text-align: center;\">Texto&nbsp;</h2>" + "<h2 style=\"text-align: center;\">"
-					+ email.getTexto() + "</h2>");
+			email.setEmailFormatado("<html>"
+					+ "<body>"
+					+ "<div style=\"text-align: center;\">"
+					+ "<span style=\"font-size:16px;\">Ol&aacute;"+ agendamento.getCliente().getNomeCompleto()  +" ,</span></h2>"
+					+ "<span style=\"font-size:16px;\">Este &eacute; um e-mail autom&aacute;tico "
+							+ "para informar que seu agendamento esta marcado para #DATA, "
+							+ "&aacute;s #Horas, com o Profissional" + agendamento.getFuncionario().getNomeCompleto() + ".</span></h2>"
+							+ "<p>"
+							+ "<strong><span style=\"font-size:16px;\">Na Odonto F&aacute;cil,"
+							+ " avenida Jo&atilde;o Antonio da Silveira N&ordm; 1580.</span></strong></p>");
 
 			// Depois que tu popúlou a entidade EMAIL como foi feito ali encima,
 			// tu inicializa o construtor da classe
 			// SendEmailController e ela vai "montar" pra ti o email e enviar.
 			SendEmailController sendMail = new SendEmailController(email);
+			//smsController.EnviaSMS(agendamento);
 			}
 		}
 
@@ -371,6 +378,40 @@ public class AgendaController {
 
 			System.out.println("AgendaController.listarAgendamentosDoDia: fim");
 			return lstAgendamentos;
+		} catch (Exception ex) {
+			throw new Exception(ex.getMessage());
+		}
+	}
+	
+	
+	@RequestMapping(value = "/listarAgendamentosDoMesPorFuncionario", method = {
+			RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_VALUE)
+	public int listarAgendamentosDoMesPorFuncionario(Principal user) throws Exception {
+		System.out.println("AgendaController.listarAgendamentosDoMesPorFuncionario: início");
+		try {
+			Funcionario funcionario;
+			if (user != null) {
+				funcionario = this.funcionarioService.buscaPorLogin(user.getName());
+				if (funcionario == null) {
+					System.out.println("Funcionario nulo em getfuncionarioLogado");
+					throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
+				}
+			} else {
+				System.out.println("user nulo em getFuncionarioLogado");
+				throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
+			}
+			
+
+			Calendar dataInicial = Calendar.getInstance();
+			dataInicial.set(Calendar.DAY_OF_MONTH, 1);
+			
+			Calendar dataFinal = Calendar.getInstance();
+			dataFinal.set(Calendar.DAY_OF_MONTH, Calendar.getInstance().getActualMaximum(Calendar.DAY_OF_MONTH));
+
+			List<Agendamento> lstAgendamentos = this.agendamentoService.listarAgendamentosDoMesPorFuncionario(dataInicial, dataFinal, funcionario);
+
+			System.out.println("AgendaController.listarAgendamentosDoDia: fim");
+			return lstAgendamentos.size();
 		} catch (Exception ex) {
 			throw new Exception(ex.getMessage());
 		}

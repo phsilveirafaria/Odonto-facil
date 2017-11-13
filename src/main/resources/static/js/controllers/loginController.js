@@ -62,6 +62,14 @@ angular.module('odontoFacil').controller('loginController', ['$scope', '$rootSco
 		  });			
 	};
 	
+	ctrl.backup = function() {
+	loginFactory.realizarBackup().then(
+			successCallback = function(response) {},
+			errorCallback = function(error) {														
+				utilService.tratarExcecao(error);
+			}
+	);
+	}
 	
 	ctrl.logout = function() {
 		loginFactory.logout();

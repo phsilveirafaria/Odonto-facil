@@ -61,6 +61,13 @@
 			<artifactId>google-oauth-client-jetty</artifactId>
 			<version>1.22.0</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.twilio.sdk</groupId>
+			<artifactId>twilio</artifactId>
+			<version>(7.11.0,7.12.0]</version>
+		</dependency>
+
 		<!-- https://mvnrepository.com/artifact/com.google.apis/google-api-services-calendar -->
 		<dependency>
 			<groupId>com.google.apis</groupId>

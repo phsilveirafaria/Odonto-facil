@@ -84,11 +84,23 @@ public interface AgendamentoRepository extends JpaRepository <Agendamento, Long>
 			+ "AND a.consulta IS NOT NULL "					
 			+ "ORDER BY a.start ASC")
 	public List<Agendamento> listarAgendamentosComConsultaPeriodo(Calendar dataInicial, Calendar dataFinal, Funcionario funcionario);
+	@Query("SELECT a FROM Agendamento a "
+			+ "INNER JOIN a.funcionario f "
+			+ "WHERE DATE(a.start) BETWEEN DATE(?1) AND DATE(?2) "
+			+ "AND f = ?3 "
+			+ "ORDER BY a.start ASC")
+	public List<Agendamento> listarAgendamentosDoMesPorFuncionario(Calendar dataInicial, Calendar dataFinal, Funcionario funcionario);
 	@Query("SELECT a FROM Agendamento a "			
 			+ "WHERE (DATE(a.start) BETWEEN DATE(?1) AND DATE(?2)) "
 			+ "AND a.naoCompareceu = false "
 			+ "AND a.consulta.valor > 0 ")
 	public List<Agendamento> listarReceitasPorPeriodo(Calendar dataInicial, Calendar dataFinal);
+	@Query("SELECT a FROM Agendamento a "			
+			+ "WHERE (DATE(a.start) BETWEEN DATE(?1) AND DATE(?2)) "
+			+ "AND a.naoCompareceu = false "
+			+ "AND a.funcionario = ?3 "
+			+ "AND a.consulta.valor > 0 ")
+	public List<Agendamento> listarReceitasPorFuncionario(Calendar dataInicial, Calendar dataFinal, Funcionario funcionario);
 	@Query("SELECT a FROM Agendamento a "			
 			+ "WHERE (DATE(a.start) BETWEEN DATE(?1) AND DATE(?2)) "
 			+ "AND a.naoCompareceu = false "

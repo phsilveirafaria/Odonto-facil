@@ -26,7 +26,7 @@
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-green">
+          <div class="small-box bg-green" ng-show="ctrl.x.permissao.id != 1">
             <div class="inner">
               <h3>74</h3>
 
@@ -43,7 +43,7 @@
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-yellow">
+          <div class="small-box bg-yellow" ng-show="ctrl.x.permissao.id != 1">
             <div class="inner">
               <h3>44</h3>
 
@@ -60,7 +60,7 @@
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
-          <div class="small-box bg-red">
+          <div class="small-box bg-red" ng-show="ctrl.x.permissao.id != 1">
             <div class="inner">
               <h3>{{ctrl.totalDespesasMesCorrente | monetarioFormat}}</h3>
 
@@ -84,17 +84,17 @@
             <!-- Add the bg color to the header using any of the bg-* classes -->
             <div class="widget-user-header bg-yellow">
               <div class="widget-user-image">
-                <img class="img-circle" src="lib/dist/img/user7-128x128.jpg" alt="User Avatar">
+                <img class="img-circle" src="https://yt3.ggpht.com/-3YGn4reoO5c/AAAAAAAAAAI/AAAAAAAAAAA/zLqOw91Omy4/s900-c-k-no-mo-rj-c0xffffff/photo.jpg" alt="User Avatar">
               </div>
               <!-- /.widget-user-image -->
-              <h3 class="widget-user-username">Nadia Carmichael</h3>
-              <h5 class="widget-user-desc">Dentista em Destaque</h5>
+              <h3 class="widget-user-username">{{ctrl.x.nomeCompleto}}</h3>
+              <h5 class="widget-user-desc">Meus Dados do Mês</h5>
             </div>
             <div class="box-footer no-padding">
               <ul class="nav nav-stacked">
-                <li><a href="#">Consultas <span class="pull-right badge bg-blue">31</span></a></li>
-                <li><a href="#">Faturamento <span class="pull-right badge bg-green">5</span></a></li>
-                <li><a href="#">Faltas<span class="pull-right badge bg-red">842</span></a></li>
+                <li><a href="">Consultas <span class="pull-right badge bg-blue">{{ctrl.consultasDoMesFuncionario}}</span></a></li>
+                <li><a href="">Faturamento <span class="pull-right badge bg-green">{{ctrl.valores | monetarioFormat}}</span></a></li>
+                <li><a href="">Faltas<span class="pull-right badge bg-red">842</span></a></li>
               </ul>
             </div>
           </div>

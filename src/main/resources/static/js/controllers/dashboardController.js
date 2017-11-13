@@ -1,9 +1,11 @@
 angular.module('odontoFacil').controller('dashboardController', ['$scope', '$rootScope', '$http', '$location', 
-	'$mdDialog', 'funcionarioFactory' , 'Session', 'homeFactory', 'agendamentoFactory', 'financeiroFactory', 'utilService',	function($scope, $rootScope, 
-			$http, $location, $mdDialog, funcionarioFactory, Session, homeFactory, agendamentoFactory, financeiroFactory, utilService) {
+	'$mdDialog', 'funcionarioFactory' , 'Session', 'homeFactory', 'agendamentoFactory', 'financeiroFactory', 'utilService', 'dashboardFactory',	function($scope, $rootScope, 
+			$http, $location, $mdDialog, funcionarioFactory, Session, homeFactory, agendamentoFactory, financeiroFactory, utilService, dashboardFactory) {
 	
 	var ctrl = this;
 	ctrl.funcionario = {};
+	ctrl.valores = {};
+	ctrl.consultasDoMesFuncionario = {};
 	ctrl.x = Session.usuario;
 
 	
@@ -29,6 +31,27 @@ angular.module('odontoFacil').controller('dashboardController', ['$scope', '$roo
 				}
 		  );
 	  };
+	  
+	  
+	  var listarValores = function() {
+		  dashboardFactory.listarValores().then(
+			      successCallback = function(response) {		    	  
+			    	  ctrl.valores = response.data;	    	  
+			  	  },
+			  	  errorCallback = function (error, status){			  		
+			  	  }
+			  );
+	  }
+	  
+	  var listarAgendamentosDoMesPorFuncionario = function() {
+		  dashboardFactory.listarValores().then(
+			      successCallback = function(response) {		    	  
+			    	  ctrl.consultasDoMesFuncionario = response.data;	    	  
+			  	  },
+			  	  errorCallback = function (error, status){			  		
+			  	  }
+			  );
+	  }
 	  
 	  var carregarAniversariantesDoMes = function() {
 		  funcionarioFactory.listarAniversariantesDoMes().then(
@@ -72,6 +95,8 @@ angular.module('odontoFacil').controller('dashboardController', ['$scope', '$roo
 				  });
 			
 		}
+	listarAgendamentosDoMesPorFuncionario();
+	listarValores();
 	carregarContasDoMes();
 	carregarAniversariantesDoMes();
 	carregarAgendamentosDoDia();

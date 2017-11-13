@@ -83,6 +83,11 @@ public class AgendamentoService {
 		return agendamentos;
 	}
 	
+	public List<Agendamento> listarReceitasPorFuncionario(Calendar dataInicial, Calendar dataFinal, Funcionario funcionario){	
+		List<Agendamento> agendamentos = agendamentoRepository.listarReceitasPorFuncionario(dataInicial, dataFinal, funcionario);
+		return agendamentos;
+	}
+	
 	public Agendamento save(Agendamento agendamento){	
 		agendamento = agendamentoRepository.save(agendamento);
 		return agendamento;
@@ -118,6 +123,11 @@ public class AgendamentoService {
 	
 	public List<Agendamento> listarAgendamentosComConsultaPeriodo(Calendar dataInicial, Calendar dataFinal, Cliente cliente, Funcionario funcionario) {
 		List<Agendamento> agendamentos = agendamentoRepository.listarAgendamentosComConsultaPeriodo(dataInicial, dataFinal, funcionario);
+		return agendamentos;
+	}
+	
+	public List<Agendamento> listarAgendamentosDoMesPorFuncionario(Calendar dataInicial, Calendar dataFinal, Funcionario funcionario) {
+		List<Agendamento> agendamentos = agendamentoRepository.listarAgendamentosDoMesPorFuncionario(dataInicial, dataFinal, funcionario);
 		return agendamentos;
 	}
 	
