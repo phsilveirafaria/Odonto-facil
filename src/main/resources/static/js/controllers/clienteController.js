@@ -1,5 +1,5 @@
-angular.module('odontoFacil').controller("clienteController", ['clienteFactory', 'agendamentoFactory', 'consultaFactory', '$http', '$mdDialog', 'NgTableParams', '$scope' , '$location', 
-	function(clienteFactory, agendamentoFactory, consultaFactory, $http, $mdDialog, NgTableParams, $scope, $location) {
+angular.module('odontoFacil').controller("clienteController", ['clienteFactory', 'agendamentoFactory', 'consultaFactory', '$http', '$mdDialog', 'NgTableParams', '$scope' , '$location', 'Session', 
+	function(clienteFactory, agendamentoFactory, consultaFactory, $http, $mdDialog, NgTableParams, $scope, $location, Session) {
 	var ctrl = this;
 
 	/*
@@ -8,6 +8,7 @@ angular.module('odontoFacil').controller("clienteController", ['clienteFactory',
 	*/
 	ctrl.clientes = [];
 	ctrl.cliente = {};
+	ctrl.x = Session.usuario;
 	
 	$scope.$watch(function () { return ctrl.clientes; }, function (newValue, oldValue) {
 		ctrl.tableParams = new NgTableParams({ count: 10, sorting: { nomeCompleto: "asc" } }, { counts: [], dataset: ctrl.clientes });
@@ -105,5 +106,27 @@ angular.module('odontoFacil').controller("clienteController", ['clienteFactory',
 		
 	}
 	
+	ctrl.funcionarioLogado = function(x) {
+		/*homeFactory.funcionarioLogado(nomeFuncionario).then(function successCallback(response){
+		Session.create(response.data);
+		ctrl.funcionario = response.data;
+		return ctrl.funcionario;
+	}, function errorCallback(response) {
+		console.log(response.data);
+		console.log(response.status);
+	});*/
+		$http({
+			  method: 'GET',
+			  url: 'https://localhost:8443/userLogado/'
+			}).then(function successCallback(response) {
+			    Session.create(response.data);
+			    ctrl.x = response.data;
+			  }, function errorCallback(response) {
+			    // called asynchronously if an error occurs
+			    // or server returns response with an error status.
+			  });
+		
+	}
+	ctrl.funcionarioLogado();
 	ctrl.listarClientes();
 }]);

@@ -148,28 +148,43 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 		
 	 
 	ctrl.salvar = function (agendamento) {
-
+		$uibModalInstance.close();
+		if(!agendamento.valor){
+		utilService.setMessage("Salvando agendamento ...");
+		utilService.showWait();	
+		}
 		agendamentoFactory.salvarAgendamento(agendamento).then(
-					successCallback = function(response) {	  				   					
+					successCallback = function(response) {	
 						var event = angular.element('.calendar').fullCalendar('clientEvents',agendamento.id);																								
 						if (event.length > 0) {
 							agendamento.title = updateTitle(agendamento);
-							$uibModalInstance.close();
 							atualizarViewFC();
+//							if(agendamento.valor){
+//								alert("Valor cadastrado com sucesso");
+//							}else{
+//								alert("Agendamento salvo com sucesso");
+//							}
 							if(agendamento.valor){
-								alert("Valor cadastrado com sucesso");
+							$mdDialog.show(
+									$mdDialog.alert()
+										.multiple(true)
+										.clickOutsideToClose(false)
+										.title('Sucesso!')
+										.textContent("Agendamento salvo com sucesso")
+										.ariaLabel('Alerta')
+										.ok('Ok')						
+								);
 							}else{
-								alert("Agendamento salvo com sucesso");
+								$mdDialog.show(
+										$mdDialog.alert()
+											.multiple(true)
+											.clickOutsideToClose(false)
+											.title('Sucesso!')
+											.textContent("Valor salvo com sucesso")
+											.ariaLabel('Alerta')
+											.ok('Ok')						
+									);
 							}
-//							$mdDialog.show(
-//									$mdDialog.alert()
-//										.multiple(true)
-//										.clickOutsideToClose(false)
-//										.title('Agendamento salvo com sucesso!')
-//										.textContent("Agendamento salvo com sucesso para " + agendamento.start)
-//										.ariaLabel('Alerta')
-//										.ok('Ok')						
-//								);
 						} function errorCallback(response) {								
 							$mdDialog.show(
 								$mdDialog.alert()

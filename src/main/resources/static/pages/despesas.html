@@ -1,7 +1,7 @@
 <head>
 <meta charset="utf-8">
 </head>
-<div id="page-wrapper">
+<div id="page-wrapper" ng-show="ctrl.x.permissao.id != 1">
 	<div class="row">
 		<div class="col-lg-12">
 			<h1 class="page-header">Despesas</h1>
@@ -16,9 +16,9 @@
 					<div class="row">
 						<div class="col-lg-4"></div>
 						<div class="col-lg-8">
-							<button type="button" class="btn btn-info"
+							<button type="button" class="btn bg-purple btn-flat margin"
 								 data-toggle="modal"
-								data-target="#modal-info">Cadastrar Nova Despesa</button>
+								data-target="#modal-default">Cadastrar Nova Despesa</button>
 						</div>
 					</div>
 
@@ -39,7 +39,7 @@
 						<div class="col-md-2">
 							<button type="button" ng-disabled="ctrl.searchDisabled"
 								ng-click="ctrl.pesquisarDespesasPeriodo(ctrl.dtInicio, ctrl.dtFim)"
-								class="btn btn-primary btn-block">Pesquisar</button>
+								class="btn bg-purple btn-flat margin btn-block">Pesquisar</button>
 						</div>
 					</div>
 					<br />
@@ -99,7 +99,7 @@
 							style="float: right;"
 							ng-disabled="ctrl.totalDespesasPeriodo == 0"
 							ng-click="ctrl.imprimirRelatorioDespesas(ctrl.dtInicio, ctrl.dtFim)"
-							class="btn btn-primary">Imprimir despesas do período</button>
+							class="btn bg-purple btn-flat margin">Imprimir despesas do período</button>
 					</div>
 				</div>
 			</div>
@@ -108,7 +108,7 @@
 </div>
 
 
-<div class="modal modal-info fade" id="modal-info">
+<div class="modal fade" id="modal-default">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -155,9 +155,9 @@
 	</md-toolbar>
 			</div>
 			<div class="modal-footer">
-				<button type="button" class="btn btn-outline pull-left"
+				<button type="button" class="btn btn-default pull-left"
 					data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-outline" ng-disabled="cadastroDespesaForm.$invalid" ng-click="ctrl.salvarDespesa(ctrl.despesa)" data-dismiss="modal"> Salvar</button>
+				<button type="button" class="btn btn-primary" ng-disabled="cadastroDespesaForm.$invalid" ng-click="ctrl.salvarDespesa(ctrl.despesa)" data-dismiss="modal"> Salvar</button>
 			</div>
 		</div>
 		<!-- /.modal-content -->

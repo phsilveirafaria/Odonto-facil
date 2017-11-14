@@ -26,8 +26,8 @@ angular.module('odontoFacil').service('utilService', ['$rootScope', '$mdDialog',
 	
 	var _showWait = function(size) {		
 		$mdDialog.show({
-			controller: 'WaitCtrl',			
-		    templateUrl: 'templates/waiting.html',
+			controller: 'WaitController',			
+		    templateUrl: 'pages/waiting.html',
 		    parent: angular.element(document.body),		    
 		    clickOutsideToClose: false		    
 		});

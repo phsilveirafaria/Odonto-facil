@@ -12,7 +12,7 @@
 				<label for="selClientes">Nome do Paciente:</label>
 			</div>
 			<div clas="col-md12">
-				<ui-select ng-model="ctrl.agendamento.cliente" theme="bootstrap" ng-disabled="ctrl.editable(ctrl.agendamento.start)"
+				<ui-select ng-model="ctrl.agendamento.cliente" ng-required = "true" theme="bootstrap" ng-disabled="ctrl.editable(ctrl.agendamento.start)"
 					style="width: 450px;" title="Choose a country"> <ui-select-match
 					placeholder="Selecione um Paciente">{{ctrl.agendamento.cliente.nomeCompleto}}</ui-select-match>
 				<ui-select-choices
@@ -26,7 +26,7 @@
 				<label ng-show="ctrl.x.permissao.id != 1" for="selFuncionarios">Dentista:</label>
 			</div>
 			<div clas="col-md12" ng-show="ctrl.x.permissao.id != 1">
-				<ui-select ng-model="ctrl.agendamento.funcionario" theme="bootstrap" ng-disabled="ctrl.editable(ctrl.agendamento.start)"
+				<ui-select ng-model="ctrl.agendamento.funcionario" ng-required = "true" theme="bootstrap" ng-disabled="ctrl.editable(ctrl.agendamento.start)"
 					style="width: 450px;" title="Choose a country"> <ui-select-match
 					placeholder="Selecione um Dentista">{{ctrl.agendamento.funcionario.nomeCompleto}}</ui-select-match>
 				<ui-select-choices
@@ -82,7 +82,7 @@
 <div class="modal-footer">
 	<div class="form-group">
 		<button id="btnSalvar" type="button" class="btn btn-success"
-			ng-if="!ctrl.agendamento.fechado"
+			ng-if="!ctrl.agendamento.fechado" ng-disabled="agendamentoForm.$invalid"
 			style="width: 100px;" ng-click="ctrl.salvar(ctrl.agendamento)">
 			Salvar</button>
 		<button id="btnCancel" type="button" class="btn btn-default"

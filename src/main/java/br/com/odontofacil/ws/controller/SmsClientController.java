@@ -20,7 +20,7 @@ public class SmsClientController {
 	    // Declare To and From numbers and the Body of the SMS message
 	    PhoneNumber to = new PhoneNumber("+"+agendamento.getCliente().getTelefonePrincipal()); // Replace with a valid phone number for your account.
 	    PhoneNumber from = new PhoneNumber("+17472290974"); // Replace with a valid phone number for your account.
-	    String body = "Consulta agendada para "+ agendamento.getStart();
+	    String body = "Consulta agendada para "+ agendamento.getStart().getTime();
 
 	    // Create a Message creator passing From, To and Body values
 	    // then send the SMS message by calling the create() method

@@ -1,11 +1,12 @@
-angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 'funcionarioFactory', 'NgTableParams', '$scope', '$location', '$http',
-	function($mdDialog, funcionarioFactory, NgTableParams, $scope, $location, $http) {
+angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 'funcionarioFactory', 'NgTableParams', '$scope', '$location', '$http', 'Session',
+	function($mdDialog, funcionarioFactory, NgTableParams, $scope, $location, $http, Session) {
 	var ctrl = this;
 
 	ctrl.funcionarios = [];
 	ctrl.dentistas = [];
 	ctrl.funcionario = {};
 	ctrl.permissoes = [];
+	ctrl.x = Session.usuario;
 	
 	//ctrl.funcionarioLogado();
 	
@@ -142,6 +143,29 @@ angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 
 		});
 		
 	}
+	
+	ctrl.funcionarioLogado = function(x) {
+		/*homeFactory.funcionarioLogado(nomeFuncionario).then(function successCallback(response){
+		Session.create(response.data);
+		ctrl.funcionario = response.data;
+		return ctrl.funcionario;
+	}, function errorCallback(response) {
+		console.log(response.data);
+		console.log(response.status);
+	});*/
+		$http({
+			  method: 'GET',
+			  url: 'https://localhost:8443/userLogado/'
+			}).then(function successCallback(response) {
+			    Session.create(response.data);
+			    ctrl.x = response.data;
+			  }, function errorCallback(response) {
+			    // called asynchronously if an error occurs
+			    // or server returns response with an error status.
+			  });
+		
+	}
+	ctrl.funcionarioLogado();
 	carregarPermissoes();
 	ctrl.listarFuncionarios();
 }]);

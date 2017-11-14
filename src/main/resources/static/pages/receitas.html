@@ -1,7 +1,7 @@
 <head>
 <meta charset="utf-8">
 </head>
-<div id="page-wrapper">
+<div id="page-wrapper" ng-show="ctrl.x.permissao.id != 1">
 	<div class="row">
 		<div class="col-lg-12">
 			<h1 class="page-header">Receitas</h1>
@@ -30,7 +30,7 @@
 						<div class="col-md-2">
 							<button type="button" ng-disabled="ctrl.searchDisabled"
 								ng-click="ctrl.pesquisarreceitasPeriodo(ctrl.dtInicio, ctrl.dtFim)"
-								class="btn btn-primary btn-block">Pesquisar</button>
+								class="btn bg-purple btn-flat margin btn-block">Pesquisar</button>
 						</div>
 					</div>
 					<br />
@@ -67,7 +67,7 @@
 							style="float: right;"
 							ng-disabled="ctrl.totalreceitasPeriodo == 0"
 							ng-click="ctrl.imprimirRelatorioreceitas(ctrl.dtInicio, ctrl.dtFim)"
-							class="btn btn-primary">Imprimir receitas do período</button>
+							class="btn bg-purple btn-flat margin"">Imprimir receitas do período</button>
 					</div>
 				</div>
 			</div>

@@ -66,7 +66,7 @@ public class AgendaController {
 	@Autowired
 	private TmpGCalendarEventService gCalendarEventService;
 	
-	private SmsClientController smsController;
+	private SmsClientController smsController = new SmsClientController();
 
 	public static String COR_AGENDAMENTO_DEFAULT = "#0A6CAC";
 	public static String COR_AGENDAMENTO_NAO_COMPARECEU = "#FF0000";
@@ -316,7 +316,7 @@ public class AgendaController {
 			System.out.println("Erro ao salvar no BD.");
 			throw new Exception("Não foi possível salvar o agendamento!");
 		} else {
-			if(agendamento.getStart().before(new Date())){
+			if(agendamento.getStart().getTime().after(new Date())){
 			Email email = new Email();
 			// Pra quem vai mandar
 			email.setTo(agendamento.getCliente().getEmail());
@@ -329,19 +329,19 @@ public class AgendaController {
 			email.setEmailFormatado("<html>"
 					+ "<body>"
 					+ "<div style=\"text-align: center;\">"
-					+ "<span style=\"font-size:16px;\">Ol&aacute;"+ agendamento.getCliente().getNomeCompleto()  +" ,</span></h2>"
+					+ "<span style=\"font-size:16px;\">Olá, "+ agendamento.getCliente().getNomeCompleto()  +" ,</span></h2>"
 					+ "<span style=\"font-size:16px;\">Este &eacute; um e-mail autom&aacute;tico "
-							+ "para informar que seu agendamento esta marcado para #DATA, "
-							+ "&aacute;s #Horas, com o Profissional" + agendamento.getFuncionario().getNomeCompleto() + ".</span></h2>"
+							+ "para informar que seu agendamento esta marcado para "+ agendamento.getStart().HOUR_OF_DAY
+							+ ", com o Profissional " + agendamento.getFuncionario().getNomeCompleto() + ".</span></h2>"
 							+ "<p>"
 							+ "<strong><span style=\"font-size:16px;\">Na Odonto F&aacute;cil,"
-							+ " avenida Jo&atilde;o Antonio da Silveira N&ordm; 1580.</span></strong></p>");
+							+ " avenida João Antônio da Silveira Número 1580.</span></strong></p>");
 
 			// Depois que tu popúlou a entidade EMAIL como foi feito ali encima,
 			// tu inicializa o construtor da classe
 			// SendEmailController e ela vai "montar" pra ti o email e enviar.
 			SendEmailController sendMail = new SendEmailController(email);
-			//smsController.EnviaSMS(agendamento);
+			smsController.EnviaSMS(agendamento);
 			}
 		}
 

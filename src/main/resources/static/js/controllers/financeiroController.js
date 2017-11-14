@@ -6,10 +6,11 @@ angular.forEach(lazyModules, function(dependency) {
 });
 
 angular.module('odontoFacil').controller('financeiroController',['$scope', '$mdDialog', 'financeiroFactory', 
-	'NgTableParams', 'utilService', function($scope, $mdDialog,	financeiroFactory, NgTableParams, 
+	'NgTableParams', 'Session', '$http', 'utilService', function($scope, $mdDialog,	financeiroFactory, NgTableParams, Session, $http,
 			utilService) {
 	var ctrl = this;			
 	var listFormaPagamento = [];
+	ctrl.x = Session.usuario;
 	
 	$scope.$watch(function () { return financeiroFactory.getLstReceitas(); }, function (newValue, oldValue) {
 		ctrl.tableReceitasParams = new NgTableParams({ count: 5, sorting: { start: "asc" } }, { counts: [], dataset: newValue });		
@@ -231,6 +232,28 @@ angular.module('odontoFacil').controller('financeiroController',['$scope', '$mdD
 		);		
 	};
 	
+	ctrl.funcionarioLogado = function(x) {
+		/*homeFactory.funcionarioLogado(nomeFuncionario).then(function successCallback(response){
+		Session.create(response.data);
+		ctrl.funcionario = response.data;
+		return ctrl.funcionario;
+	}, function errorCallback(response) {
+		console.log(response.data);
+		console.log(response.status);
+	});*/
+		$http({
+			  method: 'GET',
+			  url: 'https://localhost:8443/userLogado/'
+			}).then(function successCallback(response) {
+			    Session.create(response.data);
+			    ctrl.x = response.data;
+			  }, function errorCallback(response) {
+			    // called asynchronously if an error occurs
+			    // or server returns response with an error status.
+			  });
+		
+	}
+	ctrl.funcionarioLogado();
 	ctrl.carregaFormaPagamento();
 	ctrl.dtInicio = new Date(moment().startOf('month').local());
 	ctrl.dtFim = new Date(moment().endOf('month').local());	
