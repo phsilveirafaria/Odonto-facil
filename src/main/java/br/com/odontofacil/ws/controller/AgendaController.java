@@ -359,7 +359,7 @@ public class AgendaController {
 
 	@RequestMapping(value = "/listarAgendamentosDoDia", method = {
 			RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_VALUE)
-	public List<Agendamento> listarAgendamentosDoDia(Principal user) throws Exception {
+	public int listarAgendamentosDoDia(Principal user) throws Exception {
 		System.out.println("AgendaController.listarAgendamentosDoDia: início");
 		try {
 			Funcionario funcionario;
@@ -377,7 +377,7 @@ public class AgendaController {
 			List<Agendamento> lstAgendamentos = this.agendamentoService.listarAposHorario(funcionario);
 
 			System.out.println("AgendaController.listarAgendamentosDoDia: fim");
-			return lstAgendamentos;
+			return lstAgendamentos.size();
 		} catch (Exception ex) {
 			throw new Exception(ex.getMessage());
 		}

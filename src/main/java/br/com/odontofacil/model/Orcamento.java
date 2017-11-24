@@ -5,6 +5,8 @@ import java.util.Calendar;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Orcamento {
@@ -15,16 +17,17 @@ public class Orcamento {
 	
 	private String procedimento;
 	
+	@ManyToOne
+	@JoinColumn(name="idCliente")	
 	private Cliente cliente;
 	
+	@ManyToOne
+	@JoinColumn(name="idFuncionario")	
 	private Funcionario funcionario;
 	
-	private Calendar data;
+	private String cidade = "Porto Alegre";
 	
-	private String cidade;
-	
-	private String endereco;
-
+	private String endereco = "Avenida João Antonio da Silveira Nº 2200, sala 907";
 	
 
 	public long getIdOrcamento() {
@@ -57,14 +60,6 @@ public class Orcamento {
 
 	public void setFuncionario(Funcionario funcionario) {
 		this.funcionario = funcionario;
-	}
-
-	public Calendar getData() {
-		return data;
-	}
-
-	public void setData(Calendar data) {
-		this.data = data;
 	}
 
 	public String getCidade() {

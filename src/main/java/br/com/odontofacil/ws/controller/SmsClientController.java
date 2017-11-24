@@ -2,10 +2,22 @@ package br.com.odontofacil.ws.controller;
 
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.twiml.Body;
+import com.twilio.twiml.MessagingResponse;
+import com.twilio.twiml.TwiMLException;
 import com.twilio.type.PhoneNumber;
 
-import br.com.odontofacil.model.Agendamento;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 
+import br.com.odontofacil.model.Agendamento;
+import br.com.odontofacil.model.Orcamento;
+
+@RestController
 public class SmsClientController {
 
 	// Find your Account Sid and Token at twilio.com/user/account
@@ -28,5 +40,20 @@ public class SmsClientController {
 	    
 	    System.out.println(sms.getSid());
 	}
-
+	
+//	@RequestMapping(
+//			value = "/recebe-sms", 
+//			method={RequestMethod.POST},
+//			produces = MediaType.APPLICATION_JSON_VALUE,
+//			consumes = MediaType.APPLICATION_JSON_VALUE
+//			)
+//	public String RecebeSMS (){
+//		com.twilio.twiml.Message sms
+//		      new Message.Builder().body(new Body("The Robots are coming! Head for the hills!")).build();
+//
+//		    MessagingResponse twiml = new MessagingResponse.Builder().message(sms).build();
+//
+//		   return twiml.toXml();
+//		  }
+		
 }

@@ -56,6 +56,10 @@ angular.module('odontoFacil', ['ngRoute', 'ngMaterial', 'ngTable']).constant("co
 				templateUrl: "pages/orcamento.html",
 				controller: "orcamentoController",
 				controllerAs: "ctrl"			
+			}).when('/teste', { 
+				templateUrl: "pages/teste.html",
+				controller: "uploadFileController",
+				controllerAs: "ctrl"			
 			}).when('/index', { 
 				templateUrl: "index.html",
 				controller: "loginController",

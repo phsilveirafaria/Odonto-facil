@@ -26,8 +26,8 @@
 				<label ng-show="ctrl.x.permissao.id != 1" for="selFuncionarios">Dentista:</label>
 			</div>
 			<div clas="col-md12" ng-show="ctrl.x.permissao.id != 1">
-				<ui-select ng-model="ctrl.agendamento.funcionario" ng-required = "true" theme="bootstrap" ng-disabled="ctrl.editable(ctrl.agendamento.start)"
-					style="width: 450px;" title="Choose a country"> <ui-select-match
+				<ui-select ng-model="ctrl.agendamento.funcionario" theme="bootstrap" ng-disabled="ctrl.editable(ctrl.agendamento.start)"
+					style="width: 450px;"> <ui-select-match
 					placeholder="Selecione um Dentista">{{ctrl.agendamento.funcionario.nomeCompleto}}</ui-select-match>
 				<ui-select-choices
 					repeat="funcionario in ctrl.comboFuncionarios | filter: $select.search">
@@ -50,10 +50,10 @@
 
 		<div class="form-group">
 			<div class="col-md12">
-				<label for="observacao">Observação: </label>
+				<label for="observacao">Procedimentos da Consulta: </label>
 			</div>
 			<div class="col-md12">
-				<textarea id="observacao" ng-disabled="ctrl.editable(ctrl.agendamento.start)"
+				<textarea id="observacao" ng- ="ctrl.editable(ctrl.agendamento.start)"
 					class="form-control" ng-model="ctrl.agendamento.descricao"></textarea>
 			</div>
 		</div>

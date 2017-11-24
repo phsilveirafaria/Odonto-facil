@@ -7,6 +7,7 @@ angular.module('odontoFacil').controller('dashboardController', ['$scope', '$roo
 	ctrl.valores = {};
 	ctrl.consultasDoMesFuncionario = {};
 	ctrl.x = Session.usuario;
+	ctrl.lstAgendamentos = {};
 
 	
 	  var carregarContasDoMes = function() {		
@@ -67,6 +68,17 @@ angular.module('odontoFacil').controller('dashboardController', ['$scope', '$roo
 		  agendamentoFactory.listarAgendamentosDoDia().then(
 			      successCallback = function(response) {		    	  
 			    	  ctrl.lstAgendamentos = response.data;					    	  			    	 
+			  	  },
+			  	  errorCallback = function (error, status){		
+			  		  utilService.tratarExcecao(error);
+			  	  }
+			  );
+	  }
+	  
+	  var carregarAgendamentosDoMes = function() {
+		  agendamentoFactory.listarAgendamentosDoMes().then(
+			      successCallback = function(response) {		    	  
+			    	  ctrl.lstAgendamentosDoMes = response.data;					    	  			    	 
 			  	  },
 			  	  errorCallback = function (error, status){		
 			  		  utilService.tratarExcecao(error);

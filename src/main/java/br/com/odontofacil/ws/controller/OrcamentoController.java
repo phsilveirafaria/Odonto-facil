@@ -24,6 +24,7 @@ public class OrcamentoController {
 			@RequestMapping(method=RequestMethod.POST, value="/salvarOrcamentos", consumes=MediaType.APPLICATION_JSON_VALUE)
 			public ResponseEntity<Orcamento> salvar(@RequestBody Orcamento orcamento){
 				Orcamento orcamentoCadastrado = orcamentoService.salvar(orcamento);
+				
 				return new ResponseEntity<>(orcamentoCadastrado, HttpStatus.CREATED);
 			}
 			
@@ -32,13 +33,13 @@ public class OrcamentoController {
 //				
 //			}
 			
-			@RequestMapping(method=RequestMethod.GET, value="/listarorcamentos", produces=MediaType.APPLICATION_JSON_VALUE)
+			@RequestMapping(method=RequestMethod.GET, value="/listarOrcamentos", produces=MediaType.APPLICATION_JSON_VALUE)
 			public List<Orcamento> listar() {
 				List<Orcamento> orcamentos = orcamentoService.buscarTodos();
 				return (orcamentos);
 			}
 			
-			@RequestMapping(method=RequestMethod.POST, value = "/excluirorcamentos")
+			@RequestMapping(method=RequestMethod.POST, value = "/excluirOrcamentos")
 			public ResponseEntity<Orcamento> excluirorcamento(@RequestBody Orcamento orcamento) {
 				
 				Orcamento orcamentoEncontrado = orcamentoService.buscarPorId(orcamento.getIdOrcamento());

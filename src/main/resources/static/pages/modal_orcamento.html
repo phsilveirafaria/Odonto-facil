@@ -1,0 +1,66 @@
+<head>
+<meta charset="UTF-8" />
+</head>
+<div class="modal-header">
+	<h3 class="modal-title" id="modal-title">Orçamento</h3>
+</div>
+
+<div class="modal-body" id="modal-body">
+	<form name="orcamentoForm">
+		<div class="form-group">
+			<div class="col-md12">
+				<label for="selClientes">Nome do Paciente:</label>
+			</div>
+			<div clas="col-md12">
+				<ui-select ng-model="ctrl.orcamento.cliente" ng-required="true"
+					theme="bootstrap" style="width: 450px;"> <ui-select-match
+					placeholder="Selecione um Paciente">{{ctrl.orcamento.cliente.nomeCompleto}}</ui-select-match>
+				<ui-select-choices
+					repeat="cliente in ctrl.comboClientes | filter: $select.search">
+				<span
+					ng-bind-html="cliente.nomeCompleto | highlight: $select.search"></span>
+				</ui-select-choices> </ui-select>
+			</div>
+			<div class="form-group">
+				<div class="col-md12">
+					<label for="selFuncionarios">Dentista:</label>
+				</div>
+				<div clas="col-md12" ng-show="ctrl.x.permissao.id != 1">
+					<ui-select ng-model="ctrl.orcamento.funcionario" ng-required="true"
+						theme="bootstrap" style="width: 450px;"> <ui-select-match
+						placeholder="Selecione um Dentista">{{ctrl.orcamento.funcionario.nomeCompleto}}</ui-select-match>
+					<ui-select-choices
+						repeat="funcionario in ctrl.comboFuncionarios | filter: $select.search">
+					<span
+						ng-bind-html="funcionario.nomeCompleto | highlight: $select.search"></span>
+					</ui-select-choices> </ui-select>
+				</div>
+			</div>
+
+
+			<div class="form-group">
+				<div class="col-md12">
+					<label for="procedimento">Procedimento: </label>
+				</div>
+				<div class="col-md12">
+					<textarea id="procedimento" class="form-control"
+						ng-model="ctrl.orcamento.procedimento"></textarea>
+				</div>
+				<div class="form-group">
+					<label for="exampleInputFile">Anexar Arquivo</label> <input type="file"
+						id="InputFile" ng-model="ctrl.arquivo">
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="modal-footer">
+	<div class="form-group">
+		<button id="btnSalvar" type="button" class="btn btn-success"
+			ng-disabled="orcamentoForm.$invalid" style="width: 100px;"
+			ng-click="ctrl.salvar(ctrl.orcamento, ctrl.arquivo)">Salvar</button>
+		<button id="btnCancel" type="button" class="btn btn-default"
+			ng-click="ctrl.cancel()" style="width: 100px;">Cancelar</button>
+	</div>
+</div>

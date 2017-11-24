@@ -224,10 +224,5 @@ angular.module('odontoFacil').controller('agendaController', ['$scope', '$mdDial
   var limparDadosAgendamento = function() {
 	//  agendamentoFactory.setAgendamento({});
   };
-  
-  /**
-   * Popula o calendario com os agendamentos do BD e persiste novos agendamentos
-   * na view atual, caso necessário
-   */ 
  
 }]);
