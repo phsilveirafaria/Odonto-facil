@@ -87,15 +87,6 @@ angular.module('odontoFacil').controller("clienteController", ['clienteFactory',
 	ctrl.salvarClientes = function(cliente) {
 		clienteFactory.salvarClientes(cliente).then(function successCallback(response) {	
 			alert('Cliente cadastrado com sucesso!');
-//			$mdDialog.alert(
-//					$mdDialog.alert()
-//						.multiple(true)
-//						.clickOutsideToClose(true)
-//						.title('Cadastro de Clientes')
-//						.textContent('Cliente cadastrado com sucesso!')
-//						.ariaLabel('Alerta')
-//						.ok('Ok')						
-//				);	
 			ctrl.cliente = {};	
 			ctrl.clientes = response.data;
 			$scope.frmCliente.$setPristine();
@@ -107,14 +98,6 @@ angular.module('odontoFacil').controller("clienteController", ['clienteFactory',
 	}
 	
 	ctrl.funcionarioLogado = function(x) {
-		/*homeFactory.funcionarioLogado(nomeFuncionario).then(function successCallback(response){
-		Session.create(response.data);
-		ctrl.funcionario = response.data;
-		return ctrl.funcionario;
-	}, function errorCallback(response) {
-		console.log(response.data);
-		console.log(response.status);
-	});*/
 		$http({
 			  method: 'GET',
 			  url: 'https://localhost:8443/userLogado/'
@@ -122,8 +105,8 @@ angular.module('odontoFacil').controller("clienteController", ['clienteFactory',
 			    Session.create(response.data);
 			    ctrl.x = response.data;
 			  }, function errorCallback(response) {
-			    // called asynchronously if an error occurs
-			    // or server returns response with an error status.
+				 console.log(response.data);
+				 console.log(response.status);
 			  });
 		
 	}

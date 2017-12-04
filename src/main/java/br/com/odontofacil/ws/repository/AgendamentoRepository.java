@@ -49,6 +49,12 @@ public interface AgendamentoRepository extends JpaRepository <Agendamento, Long>
 			+ "WHERE DATE(a.end) <= DATE(?1) AND f = ?2")
 	public List<Agendamento> listarEventosPrincipaisPorPeriodo(Calendar dataFinal, Funcionario funcionario);
 
+	@Query("SELECT a FROM Agendamento a WHERE"
+			+ " DAY(start) = DAY(now()) "
+			+ " AND MONTH(start) = MONTH(now()) "
+			+ " AND YEAR(start) = YEAR(now())")
+	public List<Agendamento> listarAgendamentosDoDiaGeral();
+	
 	@Query("SELECT a FROM Agendamento a "
 			+ "INNER JOIN a.funcionario f "
 			+ "WHERE DATE(a.start) > DATE(?1) "
@@ -95,6 +101,10 @@ public interface AgendamentoRepository extends JpaRepository <Agendamento, Long>
 			+ "AND a.naoCompareceu = false "
 			+ "AND a.consulta.valor > 0 ")
 	public List<Agendamento> listarReceitasPorPeriodo(Calendar dataInicial, Calendar dataFinal);
+	@Query("SELECT a FROM Agendamento a "			
+			+ "WHERE (DATE(a.start) BETWEEN DATE(?1) AND DATE(?2)) "
+			+ "AND a.naoCompareceu = false ")
+	public List<Agendamento> listarReceitasPorPeriodoDash(Date inicio,Date fim);
 	@Query("SELECT a FROM Agendamento a "			
 			+ "WHERE (DATE(a.start) BETWEEN DATE(?1) AND DATE(?2)) "
 			+ "AND a.naoCompareceu = false "

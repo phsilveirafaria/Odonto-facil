@@ -1,3 +1,4 @@
+
 <meta charset="utf-8">
 <!-- Main content -->
 	<!-- Content Header (Page header) -->
@@ -11,48 +12,66 @@
           <!-- small box -->
           <div class="small-box bg-aqua" ng-show="ctrl.x.permissao.id == 2">
             <div class="inner">
-              <h3>150</h3>
+              <h3>{{ctrl.listaReceitaDash | monetarioFormat}}</h3>
 
-              <p>Compras de Materiais</p>
+              <p>Receitas do Mês</p>
             </div>
             <div class="icon">
               <i class="fa fa-shopping-cart"></i>
             </div>
-            <a href="#" class="small-box-footer">
+            <a href="#/receitas" class="small-box-footer">
               Detalhes <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>
         <!-- ./col -->
-        <div class="col-lg-3 col-xs-6">
+        <div class="col-lg-3 col-xs-6" ng-show="ctrl.x.permissao.id == 1">
           <!-- small box -->
-          <div class="small-box bg-green" ng-show="ctrl.x.permissao.id != 1">
+          <div class="small-box bg-green" >
             <div class="inner">
-              <h3>74</h3>
+              <h3>{{ctrl.lstAgendamentosDoDia}}</h3>
 
               <p>Consultas do Dia</p>
             </div>
             <div class="icon">
               <i class="ion ion-stats-bars"></i>
             </div>
-            <a href="#" class="small-box-footer">
+            <a href="#/agenda" class="small-box-footer">
               Detalhes <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
         </div>
+        
+        <div class="col-lg-3 col-xs-6" ng-show="ctrl.x.permissao.id != 1">
+          <!-- small box -->
+          <div class="small-box bg-green" >
+            <div class="inner">
+              <h3>{{ctrl.lstAgendamentosDoDiaGeral}}</h3>
+
+              <p>Consultas do Dia</p>
+            </div>
+            <div class="icon">
+              <i class="ion ion-stats-bars"></i>
+            </div>
+            <a href="#/agenda" class="small-box-footer">
+              Detalhes <i class="fa fa-arrow-circle-right"></i>
+            </a>
+          </div>
+        </div>
+        
         <!-- ./col -->
         <div class="col-lg-3 col-xs-6">
           <!-- small box -->
           <div class="small-box bg-yellow" ng-show="ctrl.x.permissao.id != 1">
             <div class="inner">
-              <h3>{{ctrl.lstAgendamentos}} </h3>
+              <h3>{{ctrl.lstNovosUsuarios}} </h3>
 
               <p>Novos Usuarios</p>
             </div>
             <div class="icon">
               <i class="ion ion-person-add"></i>
             </div>
-            <a href="#" class="small-box-footer">
+            <a href="#/consultarCliente" class="small-box-footer">
               Detalhes <i class="fa fa-arrow-circle-right"></i>
             </a>
           </div>
@@ -84,7 +103,9 @@
             <!-- Add the bg color to the header using any of the bg-* classes -->
             <div class="widget-user-header bg-yellow">
               <div class="widget-user-image">
-                <img class="img-circle" src="https://yt3.ggpht.com/-3YGn4reoO5c/AAAAAAAAAAI/AAAAAAAAAAA/zLqOw91Omy4/s900-c-k-no-mo-rj-c0xffffff/photo.jpg" alt="User Avatar">
+                <img class="img-circle" ng-show="ctrl.x.permissao.id == 1" src="https://media.licdn.com/mpr/mpr/shrinknp_200_200/AAEAAQAAAAAAAAhJAAAAJDFmYzVhNzZlLTA4MTItNGY3NS1iZDE4LTM2YTk3YTkzNWIxMA.jpg" alt="User Avatar">
+              	<img class="img-circle" ng-show="ctrl.x.permissao.id == 2" src="https://yt3.ggpht.com/-3YGn4reoO5c/AAAAAAAAAAI/AAAAAAAAAAA/zLqOw91Omy4/s900-c-k-no-mo-rj-c0xffffff/photo.jpg" alt="User Avatar">
+              	<img class="img-circle" ng-show="ctrl.x.permissao.id == 3" src="http://congressodeti.com.br/wp-content/uploads/2017/06/silvia-mollica-palestrante-5.0.jpg" alt="User Avatar">
               </div>
               <!-- /.widget-user-image -->
               <h3 class="widget-user-username">{{ctrl.x.nomeCompleto}}</h3>
@@ -93,8 +114,8 @@
             <div class="box-footer no-padding">
               <ul class="nav nav-stacked">
                 <li><a href="">Consultas <span class="pull-right badge bg-blue">{{ctrl.consultasDoMesFuncionario}}</span></a></li>
-                <li><a href="">Faturamento <span class="pull-right badge bg-green">{{ctrl.valores}}</span></a></li>
-                <li><a href="">Faltas<span class="pull-right badge bg-red">842</span></a></li>
+                <li><a href="">Faturamento <span class="pull-right badge bg-green">{{ctrl.valores | monetarioFormat}}</span></a></li>
+                <li><a href="">Faltas<span class="pull-right badge bg-red">2</span></a></li>
               </ul>
             </div>
           </div>
@@ -141,10 +162,10 @@
               <!-- USERS LIST -->
               <div class="box box-danger">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Novos Clientes</h3>
+                  <h3 class="box-title">Novos Pacientes</h3>
 
                   <div class="box-tools pull-right">
-                    <span class="label label-danger">8 Novos Clientes</span>
+                    <span class="label label-danger">8 Novos Pacientes</span>
                     <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
                     </button>
                     <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i>

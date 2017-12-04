@@ -1,7 +1,9 @@
 package br.com.odontofacil.ws.controller;
 
+import java.math.BigDecimal;
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
@@ -15,17 +17,29 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.view.jasperreports.JasperReportsPdfView;
 import org.springframework.context.ApplicationContext;
 
+import br.com.odontofacil.dto.EntradaRelatorioDTO;
 import br.com.odontofacil.model.Agendamento;
+import br.com.odontofacil.model.Despesa;
 import br.com.odontofacil.model.Funcionario;
 import br.com.odontofacil.model.Orcamento;
+import br.com.odontofacil.util.SalvarEnviarLogs;
+import br.com.odontofacil.ws.repository.AgendamentoRepository;
+import br.com.odontofacil.ws.repository.DespesaRepository;
 import br.com.odontofacil.ws.repository.FuncionarioRepository;
 import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 
 @RestController
 public class RelatoriosController {
 	
 	@Autowired
 	FuncionarioRepository funcionarioRepository;
+	
+	@Autowired
+	DespesaRepository despesaRepository;
+	
+	@Autowired
+	AgendamentoRepository agendamentoRepository;
 	
 	
 	@Autowired
@@ -78,9 +92,137 @@ public class RelatoriosController {
 	        System.out.println("RelatorioController.imprimirRelatorioOrcamento: fim");
 	        return new ModelAndView(view, params);	
 		} catch(Exception ex) {
-			System.out.println("Erro ao gerar relatório: " + ex.getMessage());			
+			System.out.println("Erro ao gerar relatório: " + ex.getMessage());	
+			SalvarEnviarLogs.gravarArquivo(ex);
 			throw new Exception("Não foi possível gerar o relatório");
 		}
 	}
+	
+	
+	@RequestMapping(
+			value = "/imprimirRelatorioDespesas", 
+			method={RequestMethod.POST},
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+			)
+	public ModelAndView imprimirRelatorioDespesas(@RequestBody EntradaRelatorioDTO entradaRelatorioDTO, 
+			Principal user) throws Exception {	
+		System.out.println("RelatorioController.imprimirRelatorioDespesas: início");
+					
+		Funcionario funcionario;
+		if (user != null) {			
+			System.out.println("user.getName(): " + user.getName());
+			funcionario = this.funcionarioRepository.findByLogin(user.getName());
+			if (funcionario == null) {
+				System.out.println("Funcionário nulo em getFuncionarioLogado");
+				throw new Exception("Erro ao carregar funcionário. Faça login novamente.");
+			}		
+		} else {
+			System.out.println("User nulo em getFuncionarioLogado");
+			throw new Exception("Erro ao carregar funcionário. Faça login novamente.");
+		}		
+		
+		try {								
+			List<Despesa> lstDespesas = 
+					this.despesaRepository.listarPorPeriodo(entradaRelatorioDTO.getDataInicial(), 
+							entradaRelatorioDTO.getDataFinal());
+			
+			BigDecimal totalDespesas = new BigDecimal(0);
+			for (Despesa despesa : lstDespesas) {				
+				totalDespesas = totalDespesas.add(despesa.getValor()); 
+			}
+			
+								
+			JRBeanCollectionDataSource beanColDataSource = 
+					new JRBeanCollectionDataSource(lstDespesas);
+								
+			JasperReportsPdfView view = new JasperReportsPdfView();
+	        view.setUrl("classpath:br/com/odontofacil/jasper/Despesas.jrxml");
+	        view.setApplicationContext(appContext);
+	        view.setContentType("application/pdf");	        
+	        view.setReportDataKey("datasource");
+	        	        
+	        Properties p = new Properties();
+	        p.setProperty("Content-disposition", "inline; filename=\"relatorioDespesas.pdf\"");
+	        view.setHeaders(p);
+
+	        Map<String, Object> params = new HashMap<>();
+	        params.put("dataInicial", entradaRelatorioDTO.getDataInicial());
+	        params.put("dataFinal", entradaRelatorioDTO.getDataFinal());
+	        params.put("totalDespesas", totalDespesas);
+	        params.put("datasource", beanColDataSource);
+
+	        System.out.println("RelatorioController.imprimirRelatorioDespesas: fim");
+	        return new ModelAndView(view, params);	        						           	       																						
+		} catch(Exception ex) {
+			System.out.println("Erro ao gerar relatório: " + ex.getMessage());		
+			SalvarEnviarLogs.gravarArquivo(ex);
+			throw new Exception("Não foi possível gerar o relatório");
+		}
+	}
+	
+		
+	
+	@RequestMapping(
+			value = "/imprimirRelatorioReceitas", 
+			method={RequestMethod.POST},
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+			)
+	public ModelAndView imprimirRelatorioReceitas(@RequestBody EntradaRelatorioDTO entradaRelatorioDTO, 
+			Principal user) throws Exception {	
+		System.out.println("RelatorioController.imprimirRelatorioReceitas: início");
+					
+		Funcionario funcionario;
+		if (user != null) {			
+			System.out.println("user.getName(): " + user.getName());
+			funcionario = this.funcionarioRepository.findByLogin(user.getName());
+			if (funcionario == null) {
+				System.out.println("Funcionário nulo em getFuncionaioLogado");
+				throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
+			}		
+		} else {
+			System.out.println("User nulo em getFuncionarioLogado");
+			throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
+		}		
+		
+		try {								
+			List<Agendamento> lstAgendamentos = 
+					this.agendamentoRepository.listarConsultasPorPeriodo(
+							entradaRelatorioDTO.getDataInicial(), entradaRelatorioDTO.getDataFinal());
+			
+			BigDecimal totalReceitas = new BigDecimal(0);
+			for (Agendamento ag : lstAgendamentos) {				
+				totalReceitas = totalReceitas.add(ag.getValor()); 
+			}
+										
+			JRBeanCollectionDataSource beanColDataSource = 
+					new JRBeanCollectionDataSource(lstAgendamentos);
+								
+			JasperReportsPdfView view = new JasperReportsPdfView();
+	        view.setUrl("classpath:br/com/odontofacil/jasper/Receitas.jrxml");	        
+	        view.setApplicationContext(appContext);
+	        view.setContentType("application/pdf");	        
+	        view.setReportDataKey("datasource");
+	        
+	        Properties p = new Properties();
+	        p.setProperty("Content-disposition", "inline; filename=\"relatorioReceitas.pdf\"");
+	        view.setHeaders(p);
+
+	        Map<String, Object> params = new HashMap<>();
+	        params.put("dataInicial", entradaRelatorioDTO.getDataInicial());
+	        params.put("dataFinal", entradaRelatorioDTO.getDataFinal());
+	        params.put("totalReceitas", totalReceitas);
+	        params.put("datasource", beanColDataSource);
+	        
+	        System.out.println("RelatorioController.imprimirRelatorioReceitas: fim");
+	        return new ModelAndView(view, params);	        						           	       																						
+		} catch(Exception ex) {
+			System.out.println("Erro ao gerar relatório: " + ex.getMessage());
+			SalvarEnviarLogs.gravarArquivo(ex);
+			throw new Exception("Não foi possível gerar o relatório");
+		}
+	}
+	
 
 }

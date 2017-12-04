@@ -3,12 +3,13 @@ angular.forEach(lazyModules, function(dependency) {
 	angular.module('odontoFacil').requires.push(dependency);
 });
 
-angular.module('odontoFacil').controller("orcamentoController", ['orcamentoFactory','funcionarioFactory', 'agendamentoFactory', 'consultaFactory', '$http', '$mdDialog', 'NgTableParams', '$scope' , '$location', '$uibModal', 'utilService',
-	function(orcamentoFactory, funcionarioFactory, agendamentoFactory, consultaFactory, $http, $mdDialog, NgTableParams, $scope, $location, $uibModal, utilService) {
+angular.module('odontoFacil').controller("orcamentoController", ['orcamentoFactory','funcionarioFactory', 'agendamentoFactory', 'consultaFactory', '$http', '$mdDialog', 'NgTableParams', '$scope' , '$location', '$uibModal', 'utilService', 'Session',
+	function(orcamentoFactory, funcionarioFactory, agendamentoFactory, consultaFactory, $http, $mdDialog, NgTableParams, $scope, $location, $uibModal, utilService, Session) {
 	var ctrl = this;
 	ctrl.selClientes = agendamentoFactory.listarClientes();
 	ctrl.selFuncionarios = agendamentoFactory.listarFuncionarios();
 	ctrl.arquivo = {};
+	ctrl.x = Session.usuario;
 	
 	$scope.$watch(function () { return ctrl.orcamentos; }, function (newValue, oldValue) {
 		ctrl.tableParams = new NgTableParams({ count: 10, sorting: { nomeCompleto: "asc" } }, { counts: [], dataset: ctrl.orcamentos });
@@ -139,6 +140,28 @@ angular.module('odontoFacil').controller("orcamentoController", ['orcamentoFacto
 		});
 		
 	}
+	ctrl.funcionarioLogado = function(x) {
+		/*homeFactory.funcionarioLogado(nomeFuncionario).then(function successCallback(response){
+		Session.create(response.data);
+		ctrl.funcionario = response.data;
+		return ctrl.funcionario;
+	}, function errorCallback(response) {
+		console.log(response.data);
+		console.log(response.status);
+	});*/
+		$http({
+			  method: 'GET',
+			  url: 'https://localhost:8443/userLogado/'
+			}).then(function successCallback(response) {
+			    Session.create(response.data);
+			    ctrl.x = response.data;
+			  }, function errorCallback(response) {
+			    // called asynchronously if an error occurs
+			    // or server returns response with an error status.
+			  });
+		
+	}
+	ctrl.funcionarioLogado();
 	ctrl.listarOrcamentos();
 	
 }]);

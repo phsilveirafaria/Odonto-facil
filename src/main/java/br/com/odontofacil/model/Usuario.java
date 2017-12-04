@@ -51,6 +51,8 @@ public class Usuario implements Serializable{
 	
 	private char sexo;
 	
+	private Calendar dataInclusao;
+	
 	public Usuario(){
 		super();
 	}
@@ -176,4 +178,12 @@ public class Usuario implements Serializable{
 		this.sexo = sexo;
 	}
 
+	public Calendar getDataInclusao() {
+		return dataInclusao;
+	}
+
+	public void setDataInclusao(Calendar dataInclusao) {
+		this.dataInclusao = dataInclusao;
+	}
+	
 }

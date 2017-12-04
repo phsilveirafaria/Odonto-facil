@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.odontofacil.model.Email;
+import br.com.odontofacil.util.SalvarEnviarLogs;
 
 @RestController
 public class SendEmailController {
@@ -63,14 +64,11 @@ public class SendEmailController {
 			}
 		} catch (MessagingException e) {
 			e.printStackTrace();
+			SalvarEnviarLogs.gravarArquivo(e);
 		}
 	}
 	
 	private void mountMail(Email email){
 		this.corpo = email.getEmailFormatado();
 	}
-/*	public static void main(String[] args) {
-		SendEmailController sem = new SendEmailController("MENSAGEMdcfsdfsdfsd");
-		sem.sendMail();
-	}*/
 }

@@ -35,5 +35,9 @@ public class ClienteService {
 	public 	List<Cliente> buscarTodos(){
 		return clienteRepository.findAll();
 	}
+	
+	public 	List<Cliente> listarNovosUsuarios(){
+		return clienteRepository.listarNovosUsuarios();
+	}
 
 }

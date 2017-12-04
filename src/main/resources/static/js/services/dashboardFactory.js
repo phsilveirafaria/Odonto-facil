@@ -8,6 +8,10 @@ angular.module('odontoFacil').factory('dashboardFactory',['$http', function($htt
 		return $http.get('https://localhost:8443/listarValoresPorFuncionario');
 	};
 	
+	var _listarNovosUsuarios = function() {
+		return $http.get('https://localhost:8443/listarNovosUsuarios');
+	};
+	
 	var _listarAgendamentosDoMesPorFuncionario = function() {
 		return $http.get('https://localhost:8443/listarValoresPorFuncionario');
 	};
@@ -16,6 +20,7 @@ angular.module('odontoFacil').factory('dashboardFactory',['$http', function($htt
 		getFuncionario: function() { return _funcionario; },
 		setFuncionario: function(funcionario) { _funcionario = funcionario; },
 		listarValores: _listarValores,
+		listarNovosUsuarios: _listarNovosUsuarios,
 		listarAgendamentosDoMesPorFuncionario: _listarAgendamentosDoMesPorFuncionario
 	}
 }]);

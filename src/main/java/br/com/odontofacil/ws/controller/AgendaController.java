@@ -43,9 +43,11 @@ import com.google.api.services.calendar.model.Events;
 import br.com.odontofacil.exception.GCalendarEvtNotChangeException;
 import br.com.odontofacil.exception.GCalendarException;
 import br.com.odontofacil.model.Agendamento;
+import br.com.odontofacil.model.Cliente;
 import br.com.odontofacil.model.Email;
 import br.com.odontofacil.model.Funcionario;
 import br.com.odontofacil.model.TmpGCalendarEvent;
+import br.com.odontofacil.util.SalvarEnviarLogs;
 import br.com.odontofacil.ws.service.AgendamentoService;
 import br.com.odontofacil.ws.service.ClienteService;
 import br.com.odontofacil.ws.service.FuncionarioService;
@@ -113,6 +115,7 @@ public class AgendaController {
 			di.setTime(format.parse(dataInicial));
 			df.setTime(format.parse(dataFinal));
 		} catch (ParseException e) {
+			SalvarEnviarLogs.gravarArquivo(e);
 			throw new Exception("Erro ao listar agendamentos: formato de data inválido.");
 		}
 
@@ -133,23 +136,6 @@ public class AgendaController {
 		} else {
 			agendamentos = agendamentoService.listarAllPorPeriodo(di, df);
 		}
-		// for (Agendamento ag : agendamentos) {
-		// if (ag.isAtivo()) {
-		// if (ag.getColor().equals(COR_AGENDAMENTO_NAO_COMPARECEU)) {
-		// ag.setNaoCompareceu(true);
-		// }
-		//
-		//// // Decripta dados do prontuário
-		//// if (ag.getConsulta() != null && ag.getConsulta().getProntuario() !=
-		// null && !ag.getConsulta().getProntuario().isEmpty()) {
-		//// ag.getConsulta().setProntuario(Util.decrypt(ag.getConsulta().getProntuario(),
-		// funcionario));
-		//// }
-		//
-		// listaAgendamentos.add(ag);
-		// }
-		// }
-
 		System.out.println("listarAgendamentos: fim");
 		return agendamentos;
 	}
@@ -194,27 +180,7 @@ public class AgendaController {
 		return new ModelAndView(new RedirectView(redirectView, true));
 	}
 
-	// @RequestMapping(value = "/agendamentosDoMes",
-	// method={RequestMethod.POST},
-	// produces = MediaType.APPLICATION_JSON_VALUE,
-	// consumes = MediaType.APPLICATION_JSON_VALUE
-	// )
-	// public int agendamentosDoMes() throws Exception {
-	//
-	// SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-	// Calendar di = Calendar.getInstance();
-	// Calendar df = Calendar.getInstance();
-	//
-	// try {
-	// di.setTime(format.parse(dataInicial));
-	// df.setTime(format.parse(dataFinal));
-	// } catch (ParseException e) {
-	// throw new Exception("Erro ao listar agendamentos: formato de data
-	// inválido.");
-	// }
-	//
-	// return agendamentoService.agendamentosDoMes(di, df);
-	// }
+
 	@RequestMapping(value = "/removerAgendamento", method = {
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE)
 	public void removerAgendamento(@RequestBody Agendamento agendamento, Principal user) throws Exception {
@@ -265,6 +231,7 @@ public class AgendaController {
 			return credential;
 		} catch (Exception ex) {
 			System.out.println("Message: " + ex.getMessage());
+			SalvarEnviarLogs.gravarArquivo(ex);
 			System.out.println("authorize(): Não foi possível carregar o arquivo client_secret.json.");
 			throw new GCalendarException("Não foi possível carregar o arquivo client_secret.json.");
 		}
@@ -355,8 +322,6 @@ public class AgendaController {
 	}
 
 	
-
-
 	@RequestMapping(value = "/listarAgendamentosDoDia", method = {
 			RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_VALUE)
 	public int listarAgendamentosDoDia(Principal user) throws Exception {
@@ -379,8 +344,15 @@ public class AgendaController {
 			System.out.println("AgendaController.listarAgendamentosDoDia: fim");
 			return lstAgendamentos.size();
 		} catch (Exception ex) {
+			SalvarEnviarLogs.gravarArquivo(ex);
 			throw new Exception(ex.getMessage());
 		}
+	}
+	
+	@RequestMapping(method=RequestMethod.GET, value="/listarAgendamentosDoDiaGeral", produces=MediaType.APPLICATION_JSON_VALUE)
+	public int listarAgendamentosDoDiaGeral() {
+		List<Agendamento> agendamentos = agendamentoService.listarAgendamentosDoDiaGeral();
+		return (agendamentos.size());
 	}
 	
 	
@@ -413,6 +385,7 @@ public class AgendaController {
 			System.out.println("AgendaController.listarAgendamentosDoDia: fim");
 			return lstAgendamentos.size();
 		} catch (Exception ex) {
+			SalvarEnviarLogs.gravarArquivo(ex);
 			throw new Exception(ex.getMessage());
 		}
 	}
@@ -500,6 +473,7 @@ public class AgendaController {
 				}
 			}
 		} catch (Exception ex) {
+			SalvarEnviarLogs.gravarArquivo(ex);
 			System.out.println("Erro ao vincular: " + ex.getMessage());
 		}
 		System.out.println("AgendaController.exportarAgendamentoParaGoogleCalendar: fim");
@@ -525,6 +499,7 @@ public class AgendaController {
 				this.agendamentoService.salvarListaAgendamentos(lstAgendamentos);
 			}
 		} catch (Exception ex) {
+			SalvarEnviarLogs.gravarArquivo(ex);
 			System.out.println("Erro ao desvincular: " + ex.getMessage());
 		}
 		System.out.println("AgendaController.desvincularAgendamentosDoGoogleCalendar: fim");
@@ -569,6 +544,7 @@ public class AgendaController {
 			System.out.println("AgendaController.salvarAgendamentoNoGoogleCalendar: fim");
 			return agendamento;
 		} catch (Exception e) {
+			SalvarEnviarLogs.gravarArquivo(e);
 			System.out.println("Erro ao salvar no google calendar. Id agendamento: " + agendamento.getId() + " erro: "
 					+ e.getMessage());
 			throw new GCalendarException("Erro ao salvar agendamento no Google Calendar");
@@ -597,6 +573,7 @@ public class AgendaController {
 		} catch (Exception e) {
 			System.out.println("Erro ao excluir no google calendar. Id agendamento: " + agendamento.getId() + " erro: "
 					+ e.getMessage());
+			SalvarEnviarLogs.gravarArquivo(e);
 			throw new GCalendarException("Erro ao excluir agendamento no Google Calendar");
 		}
 		System.out.println("AgendaController.excluirAgendamentoNoGoogleCalendar: início");
@@ -686,6 +663,7 @@ public class AgendaController {
 		} catch (Exception e) {
 			System.out.println("Erro ao editar no google calendar. Id agendamento: " + agendamento.getId() + " erro: "
 					+ e.getMessage());
+			SalvarEnviarLogs.gravarArquivo(e);
 			throw new GCalendarException("Erro ao editar agendamento no Google Calendar");
 		}
 	}

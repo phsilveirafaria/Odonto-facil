@@ -17,7 +17,7 @@ angular.module('odontoFacil').service('utilService', ['$rootScope', '$mdDialog',
 		return $mdDialog.show(
 			$mdDialog.alert()
 				.clickOutsideToClose(true)
-				.title('Algo saiu errado ...')
+				.title('Algo saiu errado contate o Administrador...')
 				.textContent(msg)
 				.ariaLabel('Alerta')
 				.ok('Ok')						

@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.odontofacil.util.SalvarEnviarLogs;
 import br.com.odontofacil.util.Util;
 import br.com.odontofacil.model.Backup;
 import br.com.odontofacil.ws.repository.BackupRepository;
@@ -129,6 +130,7 @@ public class BackupController {
 							sqlFile.delete();							
 						} catch(Exception ex) {
 							logMessage("Erro ao criptografar arquivo de backup: " + ex.getMessage(), true);
+							SalvarEnviarLogs.gravarArquivo(ex);
 							throw new Exception("Erro ao criptografar arquivo de backup. Informe imediatamente o administrador do sistema!");
 						} finally {				         
 				            out.close();
@@ -141,6 +143,7 @@ public class BackupController {
 					Backup backup = new Backup(inicio, fim);
 					this.backupRepository.save(backup);
 				} catch(Exception ex) {
+					SalvarEnviarLogs.gravarArquivo(ex);
 					logMessage("Erro: " + ex.getMessage(), true);
 					throw new Exception("Não foi possível realizar o backup!");
 				}
@@ -181,9 +184,11 @@ public class BackupController {
 			}
 			
 		} catch (NumberFormatException ex) {
+			SalvarEnviarLogs.gravarArquivo(ex);
 			logMessage("qtdMaxArquivos inválido no arquivo application.yml: " + this.qtdMaxArquivos, true);
 			throw new Exception("Configuração de quantidade de arquivos de backup inválida!");
 		} catch (Exception ex) {
+			SalvarEnviarLogs.gravarArquivo(ex);
 			logMessage("Erro ao realizar manutenção do backup: " + ex.getMessage(), true);			
 		}
 	}

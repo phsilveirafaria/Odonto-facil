@@ -39,6 +39,10 @@ angular.module('odontoFacil').factory('financeiroFactory',['$http', 'consts', fu
 		return $http.get('https://localhost:8443/listarConsultasPorPeriodo', {params});
 	};
 	
+	var _listarReceitasPorPeriodoDash = function() {
+		return $http.get('https://localhost:8443/listarReceitasPorPeriodoDash');
+	};
+	
 	var _listarConsultasNaoFinalizadasPorPeriodo = function(dataInicial, dataFinal) {
 		var params = {dataInicial: dataInicial, dataFinal: dataFinal};
 		return $http.get('https://localhost:8443/listarConsultasNaoFinalizadasPorPeriodo', {params});
@@ -48,21 +52,21 @@ angular.module('odontoFacil').factory('financeiroFactory',['$http', 'consts', fu
 	};
 		
 	var _imprimirRelatorioReceitas = function(dataInicial, dataFinal) {
-		var inRelatorioDTO = {
+		var EntradaRelatorioDTO = {
 				dataInicial: dataInicial,
 				dataFinal: dataFinal
 		}; 
 		
-		return $http.post('https://localhost:8443/imprimirRelatorioReceitas', inRelatorioDTO, {responseType:'arraybuffer'});
+		return $http.post('https://localhost:8443/imprimirRelatorioReceitas', EntradaRelatorioDTO, {responseType:'arraybuffer'});
 	};
 	
 	var _imprimirRelatorioDespesas = function(dataInicial, dataFinal) {
-		var inRelatorioDTO = {
+		var EntradaRelatorioDTO = {
 				dataInicial: dataInicial,
 				dataFinal: dataFinal
 		}; 
 		
-		return $http.post('https://localhost:8443/imprimirRelatorioDespesas', inRelatorioDTO, {responseType:'arraybuffer'});
+		return $http.post('https://localhost:8443/imprimirRelatorioDespesas', EntradaRelatorioDTO, {responseType:'arraybuffer'});
 	};
 	
 	return {		
@@ -104,6 +108,7 @@ angular.module('odontoFacil').factory('financeiroFactory',['$http', 'consts', fu
 		carregaFormaPagamento: _carregaFormaPagamento,
 		excluirDespesa: _excluirDespesa,
 		listarDespesasPorPeriodo: _listarDespesasPorPeriodo,
+		listarReceitasPorPeriodoDash: _listarReceitasPorPeriodoDash,
 		listarConsultasPorPeriodo: _listarConsultasPorPeriodo,
 		listarConsultasNaoFinalizadasPorPeriodo: _listarConsultasNaoFinalizadasPorPeriodo,
 		imprimirRelatorioReceitas: _imprimirRelatorioReceitas,

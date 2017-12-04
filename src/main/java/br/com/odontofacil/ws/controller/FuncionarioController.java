@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import br.com.odontofacil.model.Agendamento;
 import br.com.odontofacil.model.Funcionario;
 import br.com.odontofacil.pojo.CredenciaisFuncionario;
+import br.com.odontofacil.util.SalvarEnviarLogs;
 import br.com.odontofacil.util.Util;
 import br.com.odontofacil.ws.service.AgendamentoService;
 import br.com.odontofacil.ws.service.FuncionarioService;
@@ -52,31 +53,31 @@ private final static Logger logger = Logger.getLogger(FuncionarioController.clas
 	//Serve para inserir e alterar
 		@RequestMapping(method=RequestMethod.POST, value="/salvarFuncionarios", consumes=MediaType.APPLICATION_JSON_VALUE, produces=MediaType.APPLICATION_JSON_VALUE)
 		public Funcionario salvar(@RequestBody CredenciaisFuncionario cf) throws Exception{
-			
+			Funcionario funcionarioCadastrado = new Funcionario();
 			Funcionario funcionario = cf.getFuncionario();
 			funcionario.setSenha((new BCryptPasswordEncoder().encode(cf.getSenha())).getBytes());
 			
-			//if()
 			Funcionario funcionarioExiste = this.funcionarioService.buscaPorLogin(funcionario.getLogin());
-			if (funcionarioExiste != null) {
-				throw new Exception("Usuário já cadastrado!");
-			}
-			
+		if (funcionarioExiste == null) {
 			if (funcionario.getCpf_cnpj() != null && !funcionario.getCpf_cnpj().trim().isEmpty()) {
 				try {
 					Util.validarCPF(funcionario.getCpf_cnpj());
-				} catch(Exception ex) {
-					logMessage("CPF " + funcionario.getCpf_cnpj() + " do psicólogo é inválido", true);
+				} catch (Exception ex) {
+					logMessage("CPF " + funcionario.getCpf_cnpj() + " do funcionário é inválido", true);
+					SalvarEnviarLogs.gravarArquivo(ex);
 					throw new Exception("O CPF é inválido!");
 				}
 			}
-			
+		
 			funcionario.setChave(Util.gerarChave().getBytes());		
 			funcionario.setIdUsuario(this.funcionarioService.proximoId());	
 			
-						
-			Funcionario funcionarioCadastrado = funcionarioService.salvar(funcionario);
-			
+			funcionario.setDataInclusao(Calendar.getInstance());			
+			 funcionarioCadastrado = funcionarioService.salvar(funcionario);
+		} else {
+			 funcionarioExiste.setChave(Util.gerarChave().getBytes());
+			 funcionarioCadastrado = funcionarioService.salvar(funcionario);
+		}
 			return funcionarioCadastrado;
 		}
 		

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
@@ -23,6 +24,7 @@ import br.com.odontofacil.enuns.FormaPagamento;
 import br.com.odontofacil.model.Agendamento;
 import br.com.odontofacil.model.Despesa;
 import br.com.odontofacil.model.Funcionario;
+import br.com.odontofacil.util.SalvarEnviarLogs;
 import br.com.odontofacil.ws.service.AgendamentoService;
 import br.com.odontofacil.ws.service.DespesaService;
 import br.com.odontofacil.ws.service.FuncionarioService;
@@ -86,6 +88,7 @@ public class FinanceiroController {
 			System.out.println("FinanceiroController.salvarDespesa: fim");
 			return outDespesaDTO;
 		} catch(Exception ex) {
+			SalvarEnviarLogs.gravarArquivo(ex);
 			System.out.println("Erro ao salvar: " + ex.getMessage());
 			throw new Exception("Não foi possível salvar a despesa.");
 		}
@@ -144,6 +147,7 @@ public class FinanceiroController {
 			
 			return outDespesaDTO;
 		} catch (Exception ex) {
+			SalvarEnviarLogs.gravarArquivo(ex);
 			System.out.println("FinanceiroController.excluirDespesa: " + ex.getMessage());
 			throw new Exception("Não foi possível excluir a despesa!");
 		}					
@@ -204,6 +208,7 @@ public class FinanceiroController {
 			df.setTime(format.parse(dataFinal));
 		} catch (ParseException e) {
 			System.out.println("Formato de data inválido");
+			SalvarEnviarLogs.gravarArquivo(e);
 			throw new Exception("Erro ao listar agendamentos: formato de data inválido.");
 		}		
 		
@@ -226,6 +231,7 @@ public class FinanceiroController {
 		
 			return entradaReceitaDTO;
 		} catch(Exception ex) {
+			SalvarEnviarLogs.gravarArquivo(ex);
 			System.out.println("Erro ao listar consultas: " + ex.getMessage());
 			throw new Exception("Não foi possível listar as receitas!");
 		}
@@ -254,6 +260,7 @@ public class FinanceiroController {
 			df.setTime(format.parse(dataFinal));
 		} catch (ParseException e) {
 			System.out.println("Formato de data inválido");
+			SalvarEnviarLogs.gravarArquivo(e);
 			throw new Exception("Erro ao listar agendamentos: formato de data inválido.");
 		}		
 		
@@ -278,6 +285,57 @@ public class FinanceiroController {
 			return entradaReceitaDTO;
 		} catch(Exception ex) {
 			System.out.println("Erro ao listar consultas: " + ex.getMessage());
+			SalvarEnviarLogs.gravarArquivo(ex);
+			throw new Exception("Não foi possível listar as receitas!");
+		}
+	}
+	
+	
+	@RequestMapping(
+			value = "/listarReceitasPorPeriodoDash", 
+			method={RequestMethod.GET},
+			produces = MediaType.APPLICATION_JSON_VALUE			
+			)
+	public BigDecimal listarReceitasPorPeriodoDash(Principal user) throws Exception {
+		System.out.println("FinanceiroController.listarReceitasPorPeriodoDash: início");
+		
+		if (user == null) {
+			System.out.println("user nulo");
+			throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
+		}						
+		
+		Funcionario funcionario = this.funcionarioService.buscaPorLogin(user.getName());
+		if (funcionario == null) {
+			System.out.println("Funcionario nulo em getFuncionarioLogado");
+			throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
+		}
+				
+		try {
+			Calendar data = Calendar.getInstance();
+			
+			int inicio = data.getActualMinimum(Calendar.DAY_OF_MONTH);
+			int fim = data.getActualMaximum(Calendar.DAY_OF_MONTH);
+			
+			Calendar dataInicio = Calendar.getInstance();
+			dataInicio.set(Calendar.DAY_OF_MONTH, 1);
+			
+			Calendar dataFim = Calendar.getInstance();
+			
+			List<Agendamento> agendamentos = new ArrayList<Agendamento>();
+			agendamentos = agendamentoService.listarReceitasPorPeriodoDash(dataInicio, dataFim);
+			
+			BigDecimal totalConsultas = new BigDecimal(0);
+			for (Agendamento agendamento : agendamentos) {	
+				if(agendamento.getValor() != null){
+					totalConsultas = totalConsultas.add(agendamento.getValor());
+				}
+			}
+			System.out.println("ConsultaController.listarReceitasPorPeriodoDash: Fim");
+		
+			return totalConsultas;
+		} catch(Exception ex) {
+			System.out.println("Erro ao listar consultas: " + ex.getMessage());
+			SalvarEnviarLogs.gravarArquivo(ex);
 			throw new Exception("Não foi possível listar as receitas!");
 		}
 	}
@@ -305,6 +363,7 @@ public class FinanceiroController {
 			df.setTime(format.parse(dataFinal));
 		} catch (ParseException e) {
 			System.out.println("Formato de data inválido");
+			SalvarEnviarLogs.gravarArquivo(e);
 			throw new Exception("Erro ao listar agendamentos: formato de data inválido.");
 		}		
 		
@@ -324,6 +383,7 @@ public class FinanceiroController {
 			return lstAgendamentos;
 		} catch(Exception ex) {
 			System.out.println("Erro ao listar consultas: " + ex.getMessage());
+			SalvarEnviarLogs.gravarArquivo(ex);
 			throw new Exception("Não foi possível listar as receitas!");
 		}
 	}

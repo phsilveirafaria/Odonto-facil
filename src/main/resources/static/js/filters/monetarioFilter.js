@@ -1,6 +1,6 @@
 angular.module('odontoFacil').filter('monetarioFormat', function() {
     return function(valor) {
-    	if (valor) {    
+    	if (valor && valor.toFixed) {    
     		var novoValor = valor.toFixed(2).toString();
     		if (novoValor.split(".").length > 1 || novoValor.split(",").length > 1) {    			   
     			novoValor = 'R$ ' + novoValor.replace('.',',');

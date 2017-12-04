@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.com.odontofacil.model.Funcionario;
 import br.com.odontofacil.model.Usuario;
+import br.com.odontofacil.util.SalvarEnviarLogs;
 import br.com.odontofacil.ws.service.UsuarioService;
 
 @RestController
@@ -67,6 +68,7 @@ private final static Logger logger = Logger.getLogger(FuncionarioController.clas
 			return lstAniversariantes;
 		} catch(Exception ex) {
 			logMessage("Erro ao buscar aniversariantes: " + ex.getMessage(), true);
+			SalvarEnviarLogs.gravarArquivo(ex); 
 			throw new Exception();
 		}
 	}

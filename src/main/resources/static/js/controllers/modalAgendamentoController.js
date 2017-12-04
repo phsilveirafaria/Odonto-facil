@@ -159,11 +159,6 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 						if (event.length > 0) {
 							agendamento.title = updateTitle(agendamento);
 							atualizarViewFC();
-//							if(agendamento.valor){
-//								alert("Valor cadastrado com sucesso");
-//							}else{
-//								alert("Agendamento salvo com sucesso");
-//							}
 							if(agendamento.valor){
 							$mdDialog.show(
 									$mdDialog.alert()
@@ -195,41 +190,10 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 									.ariaLabel('Alerta')
 									.ok('Ok')						
 							);
+							utilService.hideWait();
 							
 						}
 						
-//						agendamentoFactory.salvarAgendamentoTemporarioGCalendar(agendamento).then(
-//								successCallback = function(response) {
-//									//utilService.hideWait();
-//									atualizarViewFC();						
-//								},
-//								errorCallback = function(error) {
-//									//utilService.hideWait();
-//									utilService.tratarExcecao(error);
-//								}
-//						);			
-
-//		// Novo agendamento
-//		if (agendamento.cliente) {						
-//			agendamento.title = updateTitle(agendamento);
-//			var horarioConsulta = agendamento.formatedStart.split(":");
-//			agendamento.ativo = true;
-//			
-//			
-//			agendamentoFactory.salvarAgendamento(agendamento).then(
-//					successCallback = function(response) {
-//						angular.element('.calendar').fullCalendar('renderEvent', response.data);
-//					},
-//					errorCallBack = function(error) {
-//						//utilService.hideWait();			
-//						utilService.tratarExcecao(error).then(function() {
-//							var view = angular.element('.calendar').fullCalendar('getView');
-//							listarAgendamento(view.start, view.end);
-//						});
-//					}
-//			);																
-//		}							
-		
 	});			
 	
 	}
@@ -251,5 +215,43 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 				 }
 		 );		
 	 };
+	 
+	 ctrl.imprimirImpostoRenda = function(agendamento) {
+			utilService.setMessage("Gerando Declaração ...");
+			utilService.showWait();
+			agendamentoFactory.imprimirRelatorioOrcamento(agendamento).then(
+					successCallback = function(response) {
+						utilService.hideWait();
+						var file = new Blob([response.data], {
+					    	type: 'application/pdf'
+					    });
+					    var fileURL = URL.createObjectURL(file);				    
+						window.open(fileURL);							
+					},
+					errorCallback = function(error) {
+						utilService.hideWait();
+						utilService.tratarExcecao(error);
+					}
+			);
+		};
+		
+		ctrl.imprimirAtestado = function(agendamento) {
+			utilService.setMessage("Gerando Atestado ...");
+			utilService.showWait();
+			agendamentoFactory.imprimirRelatorioOrcamento(agendamento).then(
+					successCallback = function(response) {
+						utilService.hideWait();
+						var file = new Blob([response.data], {
+					    	type: 'application/pdf'
+					    });
+					    var fileURL = URL.createObjectURL(file);				    
+						window.open(fileURL);							
+					},
+					errorCallback = function(error) {
+						utilService.hideWait();
+						utilService.tratarExcecao(error);
+					}
+			);
+		};
 	
 }]);

@@ -1,6 +1,6 @@
 package br.com.odontofacil.ws.controller;
 
-import java.util.Collection;
+import java.util.Calendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,14 +26,11 @@ public class ClienteController {
 		@RequestMapping(method=RequestMethod.POST, value="/salvarClientes", consumes=MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<Cliente> salvar(@RequestBody Cliente cliente){
 			cliente.setAtivo(true);
+			cliente.setDataInclusao(Calendar.getInstance());
 			Cliente clienteCadastrado = clienteService.salvar(cliente);
 			return new ResponseEntity<>(clienteCadastrado, HttpStatus.CREATED);
 		}
 		
-//		@RequestMapping(method=RequestMethod.POST, value="/upload", consumes=MediaType.APPLICATION_JSON_VALUE)
-//		public @ResponseBody void upload(@RequestParam("file") MultipartFile file){
-//			
-//		}
 		
 		@RequestMapping(method=RequestMethod.GET, value="/listarClientes", produces=MediaType.APPLICATION_JSON_VALUE)
 		public List<Cliente> listar() {
@@ -56,5 +53,10 @@ public class ClienteController {
 			
 		}
 		
+		@RequestMapping(method=RequestMethod.GET, value="/listarNovosUsuarios", produces=MediaType.APPLICATION_JSON_VALUE)
+		public int listarNovosUsuarios() {
+			List<Cliente> clientes = clienteService.listarNovosUsuarios();
+			return (clientes.size());
+		}
 
 	}

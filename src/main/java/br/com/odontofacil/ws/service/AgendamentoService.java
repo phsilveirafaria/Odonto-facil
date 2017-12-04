@@ -83,6 +83,11 @@ public class AgendamentoService {
 		return agendamentos;
 	}
 	
+	public List<Agendamento> listarReceitasPorPeriodoDash(Calendar inicio, Calendar fim){	
+		List<Agendamento> agendamentos = agendamentoRepository.listarReceitasPorPeriodoDash(inicio.getTime(), fim.getTime());
+		return agendamentos;
+	}
+	
 	public List<Agendamento> listarReceitasPorFuncionario(Calendar dataInicial, Calendar dataFinal, Funcionario funcionario){	
 		List<Agendamento> agendamentos = agendamentoRepository.listarReceitasPorFuncionario(dataInicial, dataFinal, funcionario);
 		return agendamentos;
@@ -118,6 +123,16 @@ public class AgendamentoService {
 	
 	public List<Agendamento> listarAposHorario(Funcionario funcionario) {
 		List<Agendamento> agendamentos = agendamentoRepository.listarAposHorario(funcionario);
+		return agendamentos;
+	}
+	
+	public List<Agendamento> listarAgendamentosDoDia(Funcionario funcionario) {
+		List<Agendamento> agendamentos = agendamentoRepository.listarAposHorario(funcionario);
+		return agendamentos;
+	}
+	
+	public List<Agendamento> listarAgendamentosDoDiaGeral() {
+		List<Agendamento> agendamentos = agendamentoRepository.listarAgendamentosDoDiaGeral();
 		return agendamentos;
 	}
 	

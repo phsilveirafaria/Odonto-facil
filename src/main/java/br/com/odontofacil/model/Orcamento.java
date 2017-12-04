@@ -1,5 +1,6 @@
 package br.com.odontofacil.model;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 
 import javax.persistence.Entity;
@@ -24,6 +25,8 @@ public class Orcamento {
 	@ManyToOne
 	@JoinColumn(name="idFuncionario")	
 	private Funcionario funcionario;
+	
+	private BigDecimal valor;
 	
 	private String cidade = "Porto Alegre";
 	
@@ -77,6 +80,13 @@ public class Orcamento {
 	public void setEndereco(String endereco) {
 		this.endereco = endereco;
 	}
-	
+
+	public BigDecimal getValor() {
+		return valor;
+	}
+
+	public void setValor(BigDecimal valor) {
+		this.valor = valor;
+	}
 	
 }

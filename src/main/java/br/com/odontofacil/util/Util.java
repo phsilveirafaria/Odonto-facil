@@ -72,7 +72,7 @@ public class Util {
 	}
 	
 	public static String encrypt(String texto, Funcionario funcionario) throws Exception {
-		System.out.println("Util.encrypt(texto, psicologo): início");
+		System.out.println("Util.encrypt(texto, funcionario): início");
 		byte[] key = funcionario.getChave();		
 		
         SecretKeySpec skeySpec = new SecretKeySpec(key, "AES");
@@ -82,7 +82,7 @@ public class Util {
 
         byte[] encrypted = cipher.doFinal(texto.getBytes());        
 
-        System.out.println("Util.encrypt(texto, psicologo): fim");
+        System.out.println("Util.encrypt(texto, funcionario): fim");
         return Base64.encodeBase64String(encrypted);
     }
 	
@@ -101,7 +101,7 @@ public class Util {
 	 
 	 
 	 public static String decrypt(String encrypted, Funcionario funcionario) throws Exception {
-	    	System.out.println("Util.decrypt(texto, psicologo): início");
+	    	System.out.println("Util.decrypt(texto, funcionario): início");
 	    	byte[] key = funcionario.getChave();    	
 	    	    	    	    	
 	        SecretKeySpec skeySpec = new SecretKeySpec(key, "AES");
@@ -111,7 +111,7 @@ public class Util {
 	    	 
 	        byte[] original = cipher.doFinal(Base64.decodeBase64(encrypted));        
 
-	        System.out.println("Util.decrypt(texto, psicologo): fim");
+	        System.out.println("Util.decrypt(texto, funcionario): fim");
 	        return new String(original);
 	    }
 	

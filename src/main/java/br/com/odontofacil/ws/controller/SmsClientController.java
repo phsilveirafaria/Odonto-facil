@@ -41,19 +41,4 @@ public class SmsClientController {
 	    System.out.println(sms.getSid());
 	}
 	
-//	@RequestMapping(
-//			value = "/recebe-sms", 
-//			method={RequestMethod.POST},
-//			produces = MediaType.APPLICATION_JSON_VALUE,
-//			consumes = MediaType.APPLICATION_JSON_VALUE
-//			)
-//	public String RecebeSMS (){
-//		com.twilio.twiml.Message sms
-//		      new Message.Builder().body(new Body("The Robots are coming! Head for the hills!")).build();
-//
-//		    MessagingResponse twiml = new MessagingResponse.Builder().message(sms).build();
-//
-//		   return twiml.toXml();
-//		  }
-		
 }

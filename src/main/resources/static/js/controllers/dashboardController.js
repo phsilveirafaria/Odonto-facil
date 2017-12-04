@@ -8,7 +8,14 @@ angular.module('odontoFacil').controller('dashboardController', ['$scope', '$roo
 	ctrl.consultasDoMesFuncionario = {};
 	ctrl.x = Session.usuario;
 	ctrl.lstAgendamentos = {};
+	ctrl.lstAgendamentosDoDia = {};
+	ctrl.lstAgendamentosDoDiaGeral = {};
+	ctrl.lstNovosUsuarios = {};
+	ctrl.listaReceitaDash = {};
 
+	$scope.$watch(function () { return financeiroFactory.getTotalConsultasPeriodo(); }, function (newValue, oldValue) {		
+		ctrl.totalConsultasPeriodo = newValue;
+	});
 	
 	  var carregarContasDoMes = function() {		
 		  var dataInicial = moment().startOf('month').local().format();
@@ -44,6 +51,20 @@ angular.module('odontoFacil').controller('dashboardController', ['$scope', '$roo
 			  );
 	  }
 	  
+	  var pesquisarReceitasPeriodo = function() {
+			ctrl.searchDisabled = true;
+			financeiroFactory.listarReceitasPorPeriodoDash().then(
+					successCallback = function(response) {
+						ctrl.listaReceitaDash = response.data;
+					},
+					errorCallback = function(error) {
+						listaReceitaDash = 0;
+						ctrl.searchDisabled = false;
+						utilService.tratarExcecao(error);
+					}
+			);
+		};
+	  
 	  var listarAgendamentosDoMesPorFuncionario = function() {
 		  dashboardFactory.listarValores().then(
 			      successCallback = function(response) {		    	  
@@ -68,6 +89,39 @@ angular.module('odontoFacil').controller('dashboardController', ['$scope', '$roo
 		  agendamentoFactory.listarAgendamentosDoDia().then(
 			      successCallback = function(response) {		    	  
 			    	  ctrl.lstAgendamentos = response.data;					    	  			    	 
+			  	  },
+			  	  errorCallback = function (error, status){		
+			  		  utilService.tratarExcecao(error);
+			  	  }
+			  );
+	  }
+	  
+	  var listarAgendamentosDoDiaGeral = function() {
+		  agendamentoFactory.listarAgendamentosDoDiaGeral().then(
+			      successCallback = function(response) {		    	  
+			    	  ctrl.lstAgendamentosDoDiaGeral = response.data;					    	  			    	 
+			  	  },
+			  	  errorCallback = function (error, status){		
+			  		  utilService.tratarExcecao(error);
+			  	  }
+			  );
+	  }
+	  
+	  var listarAgendamentosDoDiaDentista = function() {
+		  agendamentoFactory.listarAgendamentosDoDia().then(
+			      successCallback = function(response) {		    	  
+			    	  ctrl.lstAgendamentosDoDia = response.data;					    	  			    	 
+			  	  },
+			  	  errorCallback = function (error, status){		
+			  		  utilService.tratarExcecao(error);
+			  	  }
+			  );
+	  }
+	  
+	  var carregarNovosUsuarios = function() {
+		  dashboardFactory.listarNovosUsuarios().then(
+			      successCallback = function(response) {		    	  
+			    	  ctrl.lstNovosUsuarios = response.data;					    	  			    	 
 			  	  },
 			  	  errorCallback = function (error, status){		
 			  		  utilService.tratarExcecao(error);
@@ -107,6 +161,10 @@ angular.module('odontoFacil').controller('dashboardController', ['$scope', '$roo
 				  });
 			
 		}
+	listarAgendamentosDoDiaDentista();
+	pesquisarReceitasPeriodo();  
+	listarAgendamentosDoDiaGeral();
+	carregarNovosUsuarios();
 	listarAgendamentosDoMesPorFuncionario();
 	listarValores();
 	carregarContasDoMes();
