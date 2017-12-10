@@ -2,33 +2,35 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Orcamento" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6d1c286d-85a2-45f9-8eef-33d1937aa2a7">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="488"/>
-	<parameter name="idOrcamento" class="java.lang.Long" isForPrompting="false"/>
-	<parameter name="cidade" class="java.lang.String"/>
-	<parameter name="cliente" class="java.lang.String"/>
-	<parameter name="endereco" class="java.lang.String"/>
-	<parameter name="funcionario" class="java.lang.String"/>
-	<parameter name="procedimento" class="java.lang.String"/>
-	<parameter name="valor" class="java.math.BigDecimal"/>
+	<property name="ireport.y" value="12"/>
+	<parameter name="totalDespesas" class="java.math.BigDecimal"/>
+	<parameter name="dataInicial" class="java.util.Calendar"/>
+	<parameter name="dataFinal" class="java.util.Calendar"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
+	<field name="descricao" class="java.lang.String"/>
+	<field name="pago" class="java.lang.Boolean"/>
+	<field name="valor" class="java.math.BigDecimal"/>
+	<field name="funcionario" class="java.lang.String"/>
+	<field name="idDespesa" class="java.lang.Long"/>
+	<field name="vencimento" class="java.util.Calendar"/>
 	<background>
 		<band/>
 	</background>
 	<title>
 		<band height="72">
 			<frame>
-				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="b1334da1-a37a-4b75-ac92-6af7b421cd82"/>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#753DA6" uuid="b1334da1-a37a-4b75-ac92-6af7b421cd82"/>
 				<staticText>
-					<reportElement x="20" y="20" width="234" height="43" forecolor="#FFFFFF" uuid="56535386-8e9e-4489-ab49-8cdb8b880918"/>
+					<reportElement x="212" y="20" width="234" height="43" forecolor="#FFFFFF" uuid="56535386-8e9e-4489-ab49-8cdb8b880918"/>
 					<textElement>
 						<font size="34" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Orçamento]]></text>
+					<text><![CDATA[Despesas]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="395" y="43" width="180" height="20" forecolor="#FFFFFF" uuid="4b0c3201-1bed-4349-bedb-48ae174f4043"/>
+					<reportElement x="147" y="72" width="180" height="20" forecolor="#FFFFFF" uuid="4b0c3201-1bed-4349-bedb-48ae174f4043"/>
 					<textElement textAlignment="Right">
 						<font size="14" isBold="false"/>
 					</textElement>
@@ -45,54 +47,126 @@
 			<line>
 				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="216bab5f-b038-437c-8b1a-f06d885404ff"/>
 			</line>
-			<textField>
-				<reportElement x="0" y="0" width="354" height="20" uuid="74395282-e1d6-4d8c-ba09-aabd6cf55b1f"/>
-				<textFieldExpression><![CDATA[$P{funcionario}]]></textFieldExpression>
-			</textField>
+			<staticText>
+				<reportElement x="400" y="1" width="100" height="20" uuid="18e9ce2d-5c44-456e-93ab-16420453722e"/>
+				<text><![CDATA[vencimento]]></text>
+			</staticText>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="668">
 			<staticText>
-				<reportElement x="0" y="20" width="79" height="20" uuid="6cea0ba1-840b-4419-a8c3-9ceb5aaf1536"/>
-				<text><![CDATA[id_orcamento:]]></text>
+				<reportElement x="110" y="10" width="100" height="30" uuid="9f2e8fcd-0c2e-4fc5-9d7b-754d7a3bf018"/>
+				<textElement textAlignment="Center">
+					<font size="15"/>
+				</textElement>
+				<text><![CDATA[Descrição]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="296" y="20" width="79" height="20" uuid="15082d27-b400-4677-85a6-fade0eb01627"/>
-				<text><![CDATA[Paciente:]]></text>
+				<reportElement x="448" y="10" width="100" height="30" uuid="c8f260e4-1201-4875-b33e-9324ca2e9196"/>
+				<textElement textAlignment="Center">
+					<font size="15"/>
+				</textElement>
+				<text><![CDATA[Valor]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="0" y="88" width="79" height="20" uuid="78b2b71e-3144-4182-97c5-184159c3c86f"/>
-				<text><![CDATA[Procedimento: ]]></text>
+				<reportElement x="239" y="10" width="100" height="30" uuid="1f082b86-21d4-4070-9827-22cdc8c21d75"/>
+				<textElement textAlignment="Center">
+					<font size="15"/>
+				</textElement>
+				<text><![CDATA[Conta paga]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="100" y="88" width="353" height="216" uuid="ab491738-40d6-4a07-997e-80954a1a6574"/>
-				<textFieldExpression><![CDATA[$P{procedimento}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="188" y="618" width="277" height="20" uuid="ec347cbd-ec93-442a-aa98-c0cba95da9df"/>
-				<textFieldExpression><![CDATA[$P{endereco}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="375" y="20" width="155" height="20" uuid="5cb1f3af-ba6d-4fc6-8850-b4e1b000c499"/>
-				<textFieldExpression><![CDATA[$P{cliente}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="240" y="638" width="122" height="20" uuid="686a6e00-3037-455b-8d3e-4cf9540dbe8a"/>
-				<textFieldExpression><![CDATA[$P{cidade}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="79" y="20" width="100" height="20" uuid="cf49f80e-3d49-4201-9d14-cb40949b29ac"/>
-				<textFieldExpression><![CDATA[$P{idOrcamento}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="79" y="390" width="100" height="20" uuid="07e10281-fb20-4406-b139-90f453f36502"/>
-				<textFieldExpression><![CDATA[$P{valor}]]></textFieldExpression>
+				<reportElement x="455" y="554" width="110" height="40" uuid="39129ed9-66bc-42ad-aef0-64c6b008697d"/>
+				<textElement>
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{totalDespesas}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="390" width="79" height="20" uuid="a57c6ebd-c25c-4004-8545-3f4d510faa47"/>
-				<text><![CDATA[Valor: ]]></text>
+				<reportElement x="355" y="554" width="100" height="30" uuid="acb2596f-4cbf-4bb2-9a58-eb7ed5ce9175"/>
+				<textElement textAlignment="Right">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Total:]]></text>
 			</staticText>
+			<textField>
+				<reportElement x="239" y="40" width="100" height="26" uuid="476d6b43-7e8c-4cb2-a8c3-209d0cd637b8"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pago} ? "Sim" : "Não"]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="69" y="40" width="192" height="26" uuid="7a2c34cb-9c45-4f3c-abdc-7b4ee35468a3"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="448" y="40" width="100" height="26" uuid="9a84aef3-a07c-404c-9862-78153f283193"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="0" y="10" width="100" height="30" uuid="8173fae9-3b66-4f5d-95bc-6ddc18a871ce"/>
+				<textElement textAlignment="Center">
+					<font size="15"/>
+				</textElement>
+				<text><![CDATA[id]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="0" y="40" width="100" height="26" uuid="78ef7c6a-723b-4ab5-b7c6-c2785884fcb2"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{idDespesa}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="128" y="644" width="100" height="20" uuid="be31d88c-e4f6-46b5-bf64-3dab4db59648"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dataInicial}.getTime()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="293" y="614" width="100" height="30" uuid="f2796a8c-a4de-4579-95cf-b414e8438f7b"/>
+				<textElement textAlignment="Center">
+					<font size="15"/>
+				</textElement>
+				<text><![CDATA[Até]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="128" y="614" width="100" height="30" uuid="4565df44-f838-4bf2-abea-7c3f47b84e2a"/>
+				<textElement textAlignment="Center">
+					<font size="15"/>
+				</textElement>
+				<text><![CDATA[Periodo de]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="292" y="644" width="100" height="20" uuid="f817a3b7-a023-40c9-aa90-d189aa63153c"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{dataFinal}.getTime()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="344" y="10" width="100" height="30" uuid="72c5e964-112e-4f28-926f-30082a80c8c9"/>
+				<textElement textAlignment="Center">
+					<font size="15"/>
+				</textElement>
+				<text><![CDATA[Vencimento]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="344" y="40" width="100" height="26" uuid="0164921a-f013-4a4a-a3ca-8511692d6017"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{vencimento}.getTime()]]></textFieldExpression>
+			</textField>
 		</band>
 	</detail>
 	<columnFooter>

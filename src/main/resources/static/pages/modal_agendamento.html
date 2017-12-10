@@ -1,7 +1,7 @@
 <head>
 <meta charset="UTF-8" />
 </head>
-<div class="modal-header">
+<div class="modal-header" style="background-color:#605ca8; color: white;">
 	<h3 class="modal-title" id="modal-title">Agendamento</h3>
 </div>
 
@@ -79,25 +79,25 @@
 	</form>
 </div>
 
+<div class="form-group">
+	<button id="btnImpostoRenda" type="button" class="btn bg-purple btn-flat margin"
+			ng-if="ctrl.agendamento.fechado"
+			style="width: 240px;" ng-click="ctrl.imprimirImpostoRenda(ctrl.agendamento)">
+			Recibo para Imposto de Renda</button>
+
+	<button id="btnAtestado" type="button" class="btn bg-purple btn-flat margin"
+			ng-if="ctrl.agendamento.fechado"
+			style="width: 140px;" ng-click="ctrl.imprimirAtestado(ctrl.agendamento)">
+			Gerar Atestado</button>
+	</div>
+
 <div class="modal-footer">
 	<div class="form-group">
 		<button id="btnSalvar" type="button" class="btn btn-success"
 			ng-if="!ctrl.agendamento.fechado" ng-disabled="agendamentoForm.$invalid"
-			style="width: 100px;" ng-click="ctrl.salvar(ctrl.agendamento)">
+			style="width: 100px; background-color:#605ca8;" ng-click="ctrl.salvar(ctrl.agendamento)">
 			Salvar</button>
 		<button id="btnCancel" type="button" class="btn btn-default"
 			ng-click="ctrl.cancel()" style="width: 100px;">Cancelar</button>
-	</div>
-	<div class="form-group">
-	<button id="btnAtestado" type="button" class="btn bg-purple btn-flat margin"
-			ng-if="ctrl.agendamento.fechado"
-			style="width: 150px;" ng-click="ctrl.imprimirAtestado(ctrl.agendamento)">
-			Gerar Atestado</button>
-	</div>
-	<div class="form-group">
-	<button id="btnImpostoRenda" type="button" class="btn bg-purple btn-flat margin"
-			ng-if="ctrl.agendamento.fechado"
-			style="width: 290px;" ng-click="ctrl.imprimirImpostoRenda(ctrl.agendamento)">
-			Gerar Declaração para Imposto de Renda</button>
 	</div>
 </div>

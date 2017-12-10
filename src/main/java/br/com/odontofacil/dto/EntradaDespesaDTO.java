@@ -9,6 +9,7 @@ public class EntradaDespesaDTO {
 	private Despesa despesa;
 	private Calendar dataInicial;
 	private Calendar dataFinal;
+	private String nomeFuncionario;
 	
 	/**
 	 * @return the despesa
@@ -52,5 +53,18 @@ public class EntradaDespesaDTO {
 	public void setDataFinal(Calendar dataFinal) {
 		this.dataFinal = dataFinal;
 	}
+
+	public String getNomeFuncionario() {
+		if(despesa.getFuncionario().getNomeCompleto() != null){
+			nomeFuncionario = despesa.getFuncionario().getNomeCompleto();
+		}
+		return nomeFuncionario;
+	}
+
+	public void setNomeFuncionario(String nomeFuncionario) {
+		this.nomeFuncionario = nomeFuncionario;
+	}
+	
+	
 
 }

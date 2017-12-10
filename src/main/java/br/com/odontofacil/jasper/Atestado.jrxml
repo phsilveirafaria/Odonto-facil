@@ -2,14 +2,12 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Orcamento" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6d1c286d-85a2-45f9-8eef-33d1937aa2a7">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="488"/>
-	<parameter name="idOrcamento" class="java.lang.Long" isForPrompting="false"/>
-	<parameter name="cidade" class="java.lang.String"/>
+	<property name="ireport.y" value="39"/>
 	<parameter name="cliente" class="java.lang.String"/>
-	<parameter name="endereco" class="java.lang.String"/>
 	<parameter name="funcionario" class="java.lang.String"/>
-	<parameter name="procedimento" class="java.lang.String"/>
-	<parameter name="valor" class="java.math.BigDecimal"/>
+	<parameter name="cpf_cnpj" class="java.lang.String"/>
+	<parameter name="rua" class="java.lang.String"/>
+	<parameter name="numero" class="java.lang.Integer"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -19,16 +17,16 @@
 	<title>
 		<band height="72">
 			<frame>
-				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#006699" uuid="b1334da1-a37a-4b75-ac92-6af7b421cd82"/>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#753DA6" uuid="b1334da1-a37a-4b75-ac92-6af7b421cd82"/>
 				<staticText>
-					<reportElement x="20" y="20" width="234" height="43" forecolor="#FFFFFF" uuid="56535386-8e9e-4489-ab49-8cdb8b880918"/>
+					<reportElement x="219" y="20" width="234" height="43" forecolor="#FFFFFF" uuid="56535386-8e9e-4489-ab49-8cdb8b880918"/>
 					<textElement>
 						<font size="34" isBold="true"/>
 					</textElement>
-					<text><![CDATA[Orçamento]]></text>
+					<text><![CDATA[Atestado]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="395" y="43" width="180" height="20" forecolor="#FFFFFF" uuid="4b0c3201-1bed-4349-bedb-48ae174f4043"/>
+					<reportElement x="147" y="72" width="180" height="20" forecolor="#FFFFFF" uuid="4b0c3201-1bed-4349-bedb-48ae174f4043"/>
 					<textElement textAlignment="Right">
 						<font size="14" isBold="false"/>
 					</textElement>
@@ -45,53 +43,68 @@
 			<line>
 				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="216bab5f-b038-437c-8b1a-f06d885404ff"/>
 			</line>
-			<textField>
-				<reportElement x="0" y="0" width="354" height="20" uuid="74395282-e1d6-4d8c-ba09-aabd6cf55b1f"/>
-				<textFieldExpression><![CDATA[$P{funcionario}]]></textFieldExpression>
-			</textField>
 		</band>
 	</columnHeader>
 	<detail>
 		<band height="668">
 			<staticText>
-				<reportElement x="0" y="20" width="79" height="20" uuid="6cea0ba1-840b-4419-a8c3-9ceb5aaf1536"/>
-				<text><![CDATA[id_orcamento:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="296" y="20" width="79" height="20" uuid="15082d27-b400-4677-85a6-fade0eb01627"/>
-				<text><![CDATA[Paciente:]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="0" y="88" width="79" height="20" uuid="78b2b71e-3144-4182-97c5-184159c3c86f"/>
-				<text><![CDATA[Procedimento: ]]></text>
+				<reportElement x="19" y="82" width="511" height="136" uuid="78b2b71e-3144-4182-97c5-184159c3c86f"/>
+				<textElement textAlignment="Justified">
+					<font size="17"/>
+				</textElement>
+				<text><![CDATA[	Atesto para devidos fins que
+CPF:				residente
+esteve sob tratamento Odontológico neste consultório, no
+período das ________________às _________________ horas do
+dia ___/___/______.]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="100" y="88" width="353" height="216" uuid="ab491738-40d6-4a07-997e-80954a1a6574"/>
-				<textFieldExpression><![CDATA[$P{procedimento}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="188" y="618" width="277" height="20" uuid="ec347cbd-ec93-442a-aa98-c0cba95da9df"/>
-				<textFieldExpression><![CDATA[$P{endereco}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="375" y="20" width="155" height="20" uuid="5cb1f3af-ba6d-4fc6-8850-b4e1b000c499"/>
+				<reportElement x="279" y="82" width="234" height="27" uuid="5cb1f3af-ba6d-4fc6-8850-b4e1b000c499"/>
+				<textElement>
+					<font size="17"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$P{cliente}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement x="19" y="264" width="511" height="158" uuid="a57c6ebd-c25c-4004-8545-3f4d510faa47"/>
+				<textElement>
+					<font size="17"/>
+				</textElement>
+				<text><![CDATA[Necessita de convalecença ? ( ) SIM       	    ( ) NÃO
+
+		        Periodo _____________________
+
+
+Porto Alegre ___/___/______]]></text>
+			</staticText>
 			<textField>
-				<reportElement x="240" y="638" width="122" height="20" uuid="686a6e00-3037-455b-8d3e-4cf9540dbe8a"/>
-				<textFieldExpression><![CDATA[$P{cidade}]]></textFieldExpression>
+				<reportElement x="65" y="104" width="122" height="30" uuid="016345e4-e85e-4397-9673-741c4c2530c4"/>
+				<textElement>
+					<font size="17"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cpf_cnpj}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="79" y="20" width="100" height="20" uuid="cf49f80e-3d49-4201-9d14-cb40949b29ac"/>
-				<textFieldExpression><![CDATA[$P{idOrcamento}]]></textFieldExpression>
+				<reportElement x="298" y="104" width="251" height="25" uuid="934d4576-d2bf-41f9-a28a-959d267d2af1"/>
+				<textElement>
+					<font size="17"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rua}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="79" y="390" width="100" height="20" uuid="07e10281-fb20-4406-b139-90f453f36502"/>
-				<textFieldExpression><![CDATA[$P{valor}]]></textFieldExpression>
+				<reportElement x="510" y="104" width="100" height="25" uuid="221f8995-147b-40dc-b5d0-24e9cda05ae6"/>
+				<textElement>
+					<font size="17"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{numero}]]></textFieldExpression>
 			</textField>
 			<staticText>
-				<reportElement x="0" y="390" width="79" height="20" uuid="a57c6ebd-c25c-4004-8545-3f4d510faa47"/>
-				<text><![CDATA[Valor: ]]></text>
+				<reportElement x="19" y="518" width="511" height="64" uuid="aa30d7be-93c5-4a96-9d1e-195b50d61386"/>
+				<textElement>
+					<font size="17"/>
+				</textElement>
+				<text><![CDATA[    ________________________     ________________________
+         Assinatura do Paciente	          	      Assinatura	]]></text>
 			</staticText>
 		</band>
 	</detail>

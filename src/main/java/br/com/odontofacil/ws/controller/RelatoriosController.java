@@ -100,6 +100,57 @@ public class RelatoriosController {
 	
 	
 	@RequestMapping(
+			value = "/imprimirRelatorioAtestado", 
+			method={RequestMethod.POST},
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+			)
+	public ModelAndView imprimirRelatorioAtestado(@RequestBody Agendamento agendamento, 
+			Principal user) throws Exception {	
+		System.out.println("RelatorioController.imprimirRelatorioAtestado: início");								
+		
+		Funcionario funcionario;
+		if (user != null) {			
+			System.out.println("user.getName(): " + user.getName());
+			funcionario = this.funcionarioRepository.findByLogin(user.getName());
+			if (funcionario == null) {
+				System.out.println("Funcionario nulo em getfuncionarioLogado");
+				throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
+			}		
+		} else {
+			System.out.println("User nulo em getfuncionarioLogado");
+			throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
+		}	
+		
+		try {												
+			JasperReportsPdfView view = new JasperReportsPdfView();
+	        view.setUrl("classpath:br/com/odontofacil/jasper/Atestado.jrxml");
+	        view.setApplicationContext(appContext);
+	        view.setContentType("application/pdf");	    
+	        view.setReportDataKey("datasource");
+	        	        
+	        Properties p = new Properties();
+	        p.setProperty("Content-disposition", "inline; filename=\"relatorioAtestado.pdf\"");
+	        view.setHeaders(p);
+
+	        Map<String, Object> params = new HashMap<>();
+	        params.put("cliente", agendamento.getCliente().getNomeCompleto());	        
+	        params.put("cpf_cnpj", agendamento.getCliente().getCpf_cnpj());
+	        params.put("rua", agendamento.getCliente().getRua());
+	        params.put("numero", agendamento.getCliente().getNumero());
+	        params.put("datasource", new JREmptyDataSource());
+
+	        System.out.println("RelatorioController.imprimirRelatorioAtestado: fim");
+	        return new ModelAndView(view, params);	
+		} catch(Exception ex) {
+			System.out.println("Erro ao gerar relatório: " + ex.getMessage());	
+			SalvarEnviarLogs.gravarArquivo(ex);
+			throw new Exception("Não foi possível gerar o relatório");
+		}
+	}
+	
+	
+	@RequestMapping(
 			value = "/imprimirRelatorioDespesas", 
 			method={RequestMethod.POST},
 			produces = MediaType.APPLICATION_JSON_VALUE,
@@ -151,7 +202,7 @@ public class RelatoriosController {
 	        params.put("dataFinal", entradaRelatorioDTO.getDataFinal());
 	        params.put("totalDespesas", totalDespesas);
 	        params.put("datasource", beanColDataSource);
-
+	        
 	        System.out.println("RelatorioController.imprimirRelatorioDespesas: fim");
 	        return new ModelAndView(view, params);	        						           	       																						
 		} catch(Exception ex) {
@@ -200,7 +251,7 @@ public class RelatoriosController {
 					new JRBeanCollectionDataSource(lstAgendamentos);
 								
 			JasperReportsPdfView view = new JasperReportsPdfView();
-	        view.setUrl("classpath:br/com/odontofacil/jasper/Receitas.jrxml");	        
+	        view.setUrl("classpath:br/com/odontofacil/jasper/Recfffeitas.jrxml");	        
 	        view.setApplicationContext(appContext);
 	        view.setContentType("application/pdf");	        
 	        view.setReportDataKey("datasource");
@@ -219,6 +270,61 @@ public class RelatoriosController {
 	        return new ModelAndView(view, params);	        						           	       																						
 		} catch(Exception ex) {
 			System.out.println("Erro ao gerar relatório: " + ex.getMessage());
+			SalvarEnviarLogs.gravarArquivo(ex);
+			throw new Exception("Não foi possível gerar o relatório");
+		}
+	}
+	
+	
+	@RequestMapping(
+			value = "/imprimirImpostoRenda", 
+			method={RequestMethod.POST},
+			produces = MediaType.APPLICATION_JSON_VALUE,
+			consumes = MediaType.APPLICATION_JSON_VALUE
+			)
+	public ModelAndView imprimirImpostoRenda(@RequestBody Agendamento agendamento, 
+			Principal user) throws Exception {	
+		System.out.println("RelatorioController.imprimirImpostoRenda: início");								
+		
+		Funcionario funcionario;
+		if (user != null) {			
+			System.out.println("user.getName(): " + user.getName());
+			funcionario = this.funcionarioRepository.findByLogin(user.getName());
+			if (funcionario == null) {
+				System.out.println("Funcionario nulo em getfuncionarioLogado");
+				throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
+			}		
+		} else {
+			System.out.println("User nulo em getfuncionarioLogado");
+			throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
+		}	
+		
+		try {												
+			JasperReportsPdfView view = new JasperReportsPdfView();
+	        view.setUrl("classpath:br/com/odontofacil/jasper/ImpostoRenda.jrxml");
+	        view.setApplicationContext(appContext);
+	        view.setContentType("application/pdf");	    
+	        view.setReportDataKey("datasource");
+	        	        
+	        Properties p = new Properties();
+	        p.setProperty("Content-disposition", "inline; filename=\"relatorioAtestado.pdf\"");
+	        view.setHeaders(p);
+
+	        Map<String, Object> params = new HashMap<>();
+	        params.put("cliente", agendamento.getCliente().getNomeCompleto());
+	        params.put("funcionario", agendamento.getFuncionario().getNomeCompleto());
+	        params.put("cro", agendamento.getFuncionario().getCro());
+	        params.put("cep", agendamento.getFuncionario().getCep());
+	        params.put("valor", agendamento.getValor());
+	        params.put("cpf_cnpj", agendamento.getCliente().getCpf_cnpj());
+	        params.put("rua", agendamento.getCliente().getRua());
+	        params.put("numero", agendamento.getCliente().getNumero());
+	        params.put("datasource", new JREmptyDataSource());
+
+	        System.out.println("RelatorioController.imprimirRelatorioAtestado: fim");
+	        return new ModelAndView(view, params);	
+		} catch(Exception ex) {
+			System.out.println("Erro ao gerar relatório: " + ex.getMessage());	
 			SalvarEnviarLogs.gravarArquivo(ex);
 			throw new Exception("Não foi possível gerar o relatório");
 		}

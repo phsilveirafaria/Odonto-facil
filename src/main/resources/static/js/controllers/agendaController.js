@@ -59,15 +59,59 @@ angular.module('odontoFacil').controller('agendaController', ['$scope', '$mdDial
 //		});    
 //	};
 	
-	/**
-	 * Abre janela modal do agendamento
-	 */	
+	
+  const modalTemplate = `
+     <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-6">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Quick Example</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form role="form">
+              <div class="box-body">
+                <div class="form-group">
+                  <label for="exampleInputEmail1">Email address</label>
+                  <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPassword1">Password</label>
+                  <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputFile">File input</label>
+                  <input type="file" id="exampleInputFile">
+
+                  <p class="help-block">Example block-level help text here.</p>
+                </div>
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox"> Check me out
+                  </label>
+                </div>
+              </div>
+              <!-- /.box-body -->
+
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </form>
+          </div>
+          <!-- /.box -->
+  `;
+  
 	this.openEventModal = function (size) {	 	
 		var modalInstance = $uibModal.open({
 			animation: true,
 		    ariaLabelledBy: 'modal-title',
 		    ariaDescribedBy: 'modal-body',
 		    templateUrl: 'pages/modal_agendamento.html',
+		  //template: modalTemplate,
 		    controller: 'modalAgendamentoController',
 		    controllerAs: 'ctrl',
 		    size: size
@@ -132,6 +176,15 @@ angular.module('odontoFacil').controller('agendaController', ['$scope', '$mdDial
   
   var eventDrop = function(event, delta, revertFunc, jsEvent, ui, view) {	
 	  console.log("EvendDrop");
+	  agendamentoFactory.salvarAgendamento(event).then(
+				successCallback = function(response) {					
+									angular.element('.calendar').fullCalendar('removeEvents',agendamento.id);				
+				},errorCallback = function (error, status){
+									//utilService.hideWait();
+									utilService.tratarExcecao(error);			  						
+								}
+						);
+	  
 //  	  var oldEvent = angular.copy(event); // evento dropado			  
 //	    	  
 //	  var days = moment.duration(delta).days()*(-1);

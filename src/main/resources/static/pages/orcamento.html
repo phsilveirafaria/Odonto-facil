@@ -4,9 +4,6 @@
 
 <div id="page-wrapper" ng-show="ctrl.x.permissao.id != 3>
 	<div class="row">
-		<div class="col-lg-12">
-			<h1 class="page-header">Orçamentos</h1>
-		</div>
 		<!-- /.col-lg-12 -->
 	</div>
 	<!-- /.row -->
@@ -41,6 +38,7 @@
 								Orçamentos</caption>
 							<tr ng-repeat="orcamento in $data | filter:ctrl.pesquisaNome">
 								<td data-title="'ID'">{{orcamento.idOrcamento}}</td>
+								<td data-title="'Titulo'">{{orcamento.titulo}}</td>
 								<td data-title="'Paciente'">{{orcamento.cliente.nomeCompleto}}</td>
 								<td data-title="'Dentista'">{{orcamento.funcionario.nomeCompleto}}</td>
 								<td data-title="'Ações'" class="text-center"><a
@@ -48,7 +46,7 @@
 									ng-click="ctrl.imprimirRelatorioOrcamentos(orcamento)"
 									title="Imprimir Orcamento"><i class="fa fa-print fa-fw"></i></a>
 									<a class="btn btn-danger btn-xs"
-									ng-click="ctrl.excluirOrcamento(orcamento)"
+									ng-click="ctrl.excluirOrcamentos(orcamento)"
 									title="Excluir Orcamento"><i class="fa fa-times fa-fw"></i></a>
 								</td>
 							</tr>

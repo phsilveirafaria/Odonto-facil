@@ -33,6 +33,26 @@ angular.module('odontoFacil').factory('agendamentoFactory', ['$http',  function(
 		return $http.post('https://localhost:8443/removerAgendamento', angular.copy(agendamento));
 	};
 	
+	var _imprimirRelatorioAtestado = function(agendamento) {
+		
+		return $http.post('https://localhost:8443/imprimirRelatorioAtestado', agendamento, {responseType:'arraybuffer'});
+	};
+	
+	var _imprimirImpostoRenda = function(agendamento) {
+		
+		return $http.post('https://localhost:8443/imprimirImpostoRenda', agendamento, {responseType:'arraybuffer'});
+	};
+	
+	var _editarAgendamento = function(agendamento) {
+		
+		return $http.post('https://localhost:8443/editarAgendamento', agendamento);
+	};
+	
+	var _imprimirReciboCliente = function(agendamento) {
+		
+		return $http.post('https://localhost:8443/imprimirReciboCliente', agendamento, {responseType:'arraybuffer'});
+	};
+	
 	var _listarAgendamentosDoDia = function() {
 		return $http.get('https://localhost:8443/listarAgendamentosDoDia');
 	}
@@ -54,6 +74,9 @@ angular.module('odontoFacil').factory('agendamentoFactory', ['$http',  function(
 		removerAgendamento: _removerAgendamento,
 		agendamentosDoMes: _agendamentosDoMes,
 		listarFuncionarios: _listarFuncionarios,
+		editarAgendamento:_editarAgendamento,
+		imprimirRelatorioAtestado: _imprimirRelatorioAtestado,
+		imprimirImpostoRenda: _imprimirImpostoRenda,
 		getAgendamentoCarregado: function() { return _agendamentoCarregado; },
 		setAgendamentoCarregado: function(agendamentoCarregado) { _agendamentoCarregado = agendamentoCarregado; },
 		getEditable: function() { return _agendamento.editable; },

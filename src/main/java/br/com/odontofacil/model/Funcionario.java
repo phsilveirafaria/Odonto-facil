@@ -27,7 +27,7 @@ public class Funcionario extends Usuario{
 	
 	private byte[] chave;
 	
-	private String pis;
+	private String cro;
 	
 	@Column(name="vinculadogcal")
 	private boolean vinculadoGCal;
@@ -37,12 +37,12 @@ public class Funcionario extends Usuario{
 	//private Permissao permissao;
 	
 
-	public String getPis() {
-		return pis;
+	public String getCro() {
+		return cro;
 	}
 
-	public void setPis(String pis) {
-		this.pis = pis;
+	public void setCro(String cro) {
+		this.cro = cro;
 	}
 
 	public static long getSerialversionuid() {

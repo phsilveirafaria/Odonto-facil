@@ -19,7 +19,6 @@ import br.com.odontofacil.util.SalvarEnviarLogs;
 @RestController
 public class SendEmailController {
 	
-	private Logger logger = Logger.getLogger("cloud");
 	private static String corpo;
 	private static String host;
 	private static Properties properties;
@@ -59,8 +58,6 @@ public class SendEmailController {
 			message.setContent(this.corpo, "text/html");
 
 			Transport.send(message);
-			//Esses logger tu pode tirar.. eu usava log4J no keepupload.
-			//logger.info("Email eviado com sucesso!");
 			}
 		} catch (MessagingException e) {
 			e.printStackTrace();

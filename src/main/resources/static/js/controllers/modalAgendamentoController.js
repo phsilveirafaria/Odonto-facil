@@ -161,21 +161,21 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 							atualizarViewFC();
 							if(agendamento.valor){
 							$mdDialog.show(
-									$mdDialog.alert()
-										.multiple(true)
-										.clickOutsideToClose(false)
-										.title('Sucesso!')
-										.textContent("Agendamento salvo com sucesso")
-										.ariaLabel('Alerta')
-										.ok('Ok')						
-								);
+										$mdDialog.alert()
+											.multiple(true)
+											.clickOutsideToClose(false)
+											.title('Sucesso!')
+											.textContent("Valor salvo com sucesso")
+											.ariaLabel('Alerta')
+											.ok('Ok')						
+									);
 							}else{
 								$mdDialog.show(
 										$mdDialog.alert()
 											.multiple(true)
 											.clickOutsideToClose(false)
 											.title('Sucesso!')
-											.textContent("Valor salvo com sucesso")
+											.textContent("Agendamento salvo com sucesso")
 											.ariaLabel('Alerta')
 											.ok('Ok')						
 									);
@@ -219,7 +219,7 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 	 ctrl.imprimirImpostoRenda = function(agendamento) {
 			utilService.setMessage("Gerando Declaração ...");
 			utilService.showWait();
-			agendamentoFactory.imprimirRelatorioOrcamento(agendamento).then(
+			agendamentoFactory.imprimirImpostoRenda(agendamento).then(
 					successCallback = function(response) {
 						utilService.hideWait();
 						var file = new Blob([response.data], {
@@ -238,7 +238,7 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 		ctrl.imprimirAtestado = function(agendamento) {
 			utilService.setMessage("Gerando Atestado ...");
 			utilService.showWait();
-			agendamentoFactory.imprimirRelatorioOrcamento(agendamento).then(
+			agendamentoFactory.imprimirRelatorioAtestado(agendamento).then(
 					successCallback = function(response) {
 						utilService.hideWait();
 						var file = new Blob([response.data], {
@@ -253,5 +253,24 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 					}
 			);
 		};
-	
+		
+		ctrl.imprimirReciboCliente = function(agendamento) {
+			utilService.setMessage("Gerando Atestado ...");
+			utilService.showWait();
+			agendamentoFactory.imprimirReciboCliente(agendamento).then(
+					successCallback = function(response) {
+						utilService.hideWait();
+						var file = new Blob([response.data], {
+					    	type: 'application/pdf'
+					    });
+					    var fileURL = URL.createObjectURL(file);				    
+						window.open(fileURL);							
+					},
+					errorCallback = function(error) {
+						utilService.hideWait();
+						utilService.tratarExcecao(error);
+					}
+			);
+		};
+		
 }]);

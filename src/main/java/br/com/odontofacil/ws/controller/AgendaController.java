@@ -241,7 +241,12 @@ public class AgendaController {
 			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
 	public Agendamento salvarAgendamento(@RequestBody Agendamento agendamento, Principal user) throws Exception {
 		System.out.println("salvarAgendamento: início");
-
+		boolean ehEdicao = false;
+		
+		if(agendamento.getId() != null){
+			ehEdicao = true;
+		}
+		
 		Funcionario funcionario;
 
 		if (user != null) {
@@ -258,6 +263,7 @@ public class AgendaController {
 
 				throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
 			}
+		
 		} else {
 			System.out.println("user nulo em getFuncionarioLogado");
 			throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
@@ -273,12 +279,104 @@ public class AgendaController {
 			agendamento.setColor(COR_AGENDAMENTO_DEFAULT);
 		}
 
-		// Ta, entao depois que ele terminar de salvar, se tudo ocorrer bem
-		// nos vamos popular a entidade Email e depois chamar o controller do
-		// mesmo modo que eu chamo no Service.
-
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+		
+		sdf.setCalendar(agendamento.getStart());
+		
+		String dateFormatted = sdf.format(agendamento.getStart().getTime());
+		
 		agendamento = agendamentoService.salvar(agendamento);
 
+		
+		if (agendamento == null) {
+			System.out.println("Erro ao salvar no BD.");
+			throw new Exception("Não foi possível salvar o agendamento!");
+		} else {
+			if(!ehEdicao && agendamento.getStart().getTime().after(new Date())){
+			Email email = new Email();
+			// Pra quem vai mandar
+			email.setTo(agendamento.getCliente().getEmail());
+			email.setCc(agendamento.getFuncionario().getEmail());
+			// Quem ta mandando
+			email.setFrom("tccodontofacil@gmail.com");
+			// senha
+			email.setPass(password);
+			email.setTexto("");
+			email.setEmailFormatado("<html>"
+					+ "<body>"
+					+ "<div style=\"text-align: center;\">"
+					+ "<span style=\"font-size:16px;\">Olá, "+ agendamento.getCliente().getNomeCompleto()  +",</span></h2></br>"
+					+ "<span style=\"font-size:16px;\">Este &eacute; um e-mail autom&aacute;tico "
+							+ "para informar que seu agendamento esta marcado para as "+ agendamento.getStart().getTime().getHours() + ":"+ agendamento.getStart().getTime().getMinutes()
+							+ " do dia "+ dateFormatted
+							+ ", com o Profissional " + agendamento.getFuncionario().getNomeCompleto() + ".</span></h2>"
+							+ "<p>"
+							+ "<strong><span style=\"font-size:16px;\">Na Odonto F&aacute;cil,"
+							+ " avenida João Antônio da Silveira Número 1580.</span></strong></p>");
+
+			SendEmailController sendMail = new SendEmailController(email);
+			smsController.EnviaSMS(agendamento);
+			}
+		}
+		
+		if (agendamento.getColor() != null && agendamento.getColor().equals(COR_AGENDAMENTO_NAO_COMPARECEU)) {
+			agendamento.setNaoCompareceu(true);
+		}
+		
+		System.out.println("salvarAgendamento: fim");
+		return agendamento;
+	}
+	
+	
+	@RequestMapping(value = "/editarAgendamento", method = {
+			RequestMethod.POST }, produces = MediaType.APPLICATION_JSON_VALUE, consumes = MediaType.APPLICATION_JSON_VALUE)
+	public Agendamento editarAgendamento(@RequestBody Agendamento agendamento, Principal user) throws Exception {
+		System.out.println("salvarAgendamento: início");
+
+		
+		Funcionario funcionario;
+
+		if (user != null) {
+			System.out.println("user.getName(): " + user.getName());
+
+			funcionario = funcionarioService.buscaPorLogin(user.getName());
+
+			if (agendamento.getFuncionario() == null) {
+				agendamento.setFuncionario(funcionario);
+			}
+
+			if (funcionario == null) {
+				System.out.println("Funcionario nulo em getFuncionarioLogado");
+
+				throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
+			}
+		
+		} else {
+			System.out.println("user nulo em getFuncionarioLogado");
+			throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
+		}
+
+		
+		if (agendamento.isNaoCompareceu()) {
+			agendamento.setColor(COR_AGENDAMENTO_NAO_COMPARECEU);
+		}else if(agendamento.getValor() != null){
+			agendamento.setFechado(true);
+			agendamento.setColor(COR_AGENDAMENTO_FECHADO);
+		}else{
+			agendamento.setColor(COR_AGENDAMENTO_DEFAULT);
+		}
+
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+		
+		sdf.setCalendar(agendamento.getStart());
+		
+		String dateFormatted = sdf.format(agendamento.getStart().getTime());
+		
+		agendamento = agendamentoService.salvar(agendamento);
+
+		
 		if (agendamento == null) {
 			System.out.println("Erro ao salvar no BD.");
 			throw new Exception("Não foi possível salvar o agendamento!");
@@ -296,28 +394,25 @@ public class AgendaController {
 			email.setEmailFormatado("<html>"
 					+ "<body>"
 					+ "<div style=\"text-align: center;\">"
-					+ "<span style=\"font-size:16px;\">Olá, "+ agendamento.getCliente().getNomeCompleto()  +" ,</span></h2>"
+					+ "<span style=\"font-size:16px;\">Olá, "+ agendamento.getCliente().getNomeCompleto()  +",</span></h2></br>"
 					+ "<span style=\"font-size:16px;\">Este &eacute; um e-mail autom&aacute;tico "
-							+ "para informar que seu agendamento esta marcado para "+ agendamento.getStart().HOUR_OF_DAY
+							+ "para informar que seu agendamento esta marcado para as "+ agendamento.getStart().getTime().getHours() + ":"+ agendamento.getStart().getTime().getMinutes()
+							+ " do dia "+ dateFormatted
 							+ ", com o Profissional " + agendamento.getFuncionario().getNomeCompleto() + ".</span></h2>"
 							+ "<p>"
 							+ "<strong><span style=\"font-size:16px;\">Na Odonto F&aacute;cil,"
 							+ " avenida João Antônio da Silveira Número 1580.</span></strong></p>");
 
-			// Depois que tu popúlou a entidade EMAIL como foi feito ali encima,
-			// tu inicializa o construtor da classe
-			// SendEmailController e ela vai "montar" pra ti o email e enviar.
 			SendEmailController sendMail = new SendEmailController(email);
 			smsController.EnviaSMS(agendamento);
 			}
 		}
-
+		
 		if (agendamento.getColor() != null && agendamento.getColor().equals(COR_AGENDAMENTO_NAO_COMPARECEU)) {
 			agendamento.setNaoCompareceu(true);
 		}
-
+		
 		System.out.println("salvarAgendamento: fim");
-
 		return agendamento;
 	}
 
@@ -390,341 +485,6 @@ public class AgendaController {
 		}
 	}
 
-	@RequestMapping(value = "/exportarAgendamentoParaGoogleCalendar", method = {
-			RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void exportarAgendamentoParaGoogleCalendar(Principal user) {
-		System.out.println("AgendaController.exportarAgendamentoParaGoogleCalendar: início");
-		try {
-			System.out.println("user.getName(): " + user.getName());
-			Funcionario funcionario = this.funcionarioService.buscaPorLogin(user.getName());
-			System.out.println("funcionario: " + funcionario == null ? "Funcionario nulo" : "OK");
-			if (funcionario.isVinculadoGCal()) {
-				System.out.println("getCalendarService");
-				com.google.api.services.calendar.Calendar service = getCalendarService();
-				System.out.println("getCalendarService: OK");
+	
 
-				List<Agendamento> lstAgendamentosRepetidos = this.agendamentoService
-						.listarAgendamentosRepetidosAVincular(funcionario);
-
-				Map<Long, String> mapAgRepetidos = new HashMap<Long, String>();
-				for (Agendamento ag : lstAgendamentosRepetidos) {
-					if (ag.getIdGCalendar() == null && ag.getIdRecurring() == null) {
-						Calendar now = Calendar.getInstance();
-						Calendar start = (Calendar) ag.getStart().clone();
-						Calendar origStart = (Calendar) ag.getStart().clone();
-						Calendar end = (Calendar) ag.getEnd().clone();
-
-						now.set(Calendar.HOUR, start.get(Calendar.HOUR));
-						now.set(Calendar.MINUTE, start.get(Calendar.MINUTE));
-						now.set(Calendar.SECOND, 0);
-						now.set(Calendar.MILLISECOND, 0);
-
-						if (start.before(now)) {
-							boolean naoEncontrou = true;
-							for (Calendar dia = now; naoEncontrou; dia.add(Calendar.DATE, 1)) {
-								if ((dia.get(Calendar.DAY_OF_WEEK) == ag.getStart().get(Calendar.DAY_OF_WEEK))) {
-									start.set(Calendar.DATE, now.get(Calendar.DATE));
-									start.set(Calendar.MONTH, now.get(Calendar.MONTH));
-									start.set(Calendar.YEAR, now.get(Calendar.YEAR));
-									end.set(Calendar.DATE, now.get(Calendar.DATE));
-									end.set(Calendar.MONTH, now.get(Calendar.MONTH));
-									end.set(Calendar.YEAR, now.get(Calendar.YEAR));
-									break;
-								}
-							}
-						}
-
-						Agendamento tmpAgendamento = new Agendamento(ag.getCliente(), ag.getIdGCalendar(),
-								ag.getIdRecurring(), start, end, ag.getDescricao(), ag.getColor(), ag.isAtivo());
-
-						Agendamento agendamento = this.salvarAgendamentoNoGoogleCalendar(tmpAgendamento, funcionario,
-								service);
-
-						List<Agendamento> lstAgendamentosAnteriores = this.agendamentoService
-								.listarAgendamentosRepetitivosParaNaoVincular(funcionario, now);
-
-						for (Agendamento agend : lstAgendamentosAnteriores) {
-							agend.setIdRecurring(ag.getIdRecurring());
-						}
-						this.agendamentoService.salvarListaAgendamentos(lstAgendamentosAnteriores);
-
-						this.excluirAgendamentosNoGoogleCalendarDuranteExportacao(agendamento, funcionario, service);
-					}
-				}
-				if (lstAgendamentosRepetidos != null && !lstAgendamentosRepetidos.isEmpty()) {
-					System.out.println("Salvando lista eventos repetidos");
-					this.agendamentoService.salvarListaAgendamentos(lstAgendamentosRepetidos);
-				}
-
-				List<Agendamento> lstAgendamentosSimples = this.agendamentoService
-						.listarAgendamentosSimplesAVincular(funcionario, Calendar.getInstance());
-
-				String idRecurring;
-				for (Agendamento ag : lstAgendamentosSimples) {
-
-					Agendamento agendamento = this.salvarAgendamentoNoGoogleCalendar(ag, funcionario, service);
-					ag.setIdGCalendar(agendamento.getIdGCalendar());
-					ag.setIdRecurring(agendamento.getIdRecurring());
-				}
-
-				if (lstAgendamentosSimples != null && !lstAgendamentosSimples.isEmpty()) {
-					System.out.println("Salvando lista eventos simples");
-					this.agendamentoService.salvarListaAgendamentos(lstAgendamentosSimples);
-				}
-			}
-		} catch (Exception ex) {
-			SalvarEnviarLogs.gravarArquivo(ex);
-			System.out.println("Erro ao vincular: " + ex.getMessage());
-		}
-		System.out.println("AgendaController.exportarAgendamentoParaGoogleCalendar: fim");
-	}
-
-	@RequestMapping(value = "/desvincularAgendamentosDoGoogleCalendar", method = {
-			RequestMethod.GET }, produces = MediaType.APPLICATION_JSON_VALUE)
-	public void desvincularAgendamentosDoGoogleCalendar(Principal user) {
-		System.out.println("AgendaController.desvincularAgendamentosDoGoogleCalendar: início");
-		try {
-			System.out.println("user.getName(): " + user.getName());
-			Funcionario funcionario = this.funcionarioService.buscaPorLogin(user.getName());
-			if (funcionario.isVinculadoGCal()) {
-				funcionario.setVinculadoGCal(false);
-				this.funcionarioService.salvar(funcionario);
-				System.out.println("funcionario: " + funcionario == null ? "Erro" : "OK");
-				List<Agendamento> lstAgendamentos = this.agendamentoService.listarAgendamentosVinculados(funcionario);
-				for (Agendamento ag : lstAgendamentos) {
-					ag.setIdGCalendar(null);
-					ag.setIdRecurring(null);
-				}
-				System.out.println("Salvando lista");
-				this.agendamentoService.salvarListaAgendamentos(lstAgendamentos);
-			}
-		} catch (Exception ex) {
-			SalvarEnviarLogs.gravarArquivo(ex);
-			System.out.println("Erro ao desvincular: " + ex.getMessage());
-		}
-		System.out.println("AgendaController.desvincularAgendamentosDoGoogleCalendar: fim");
-	}
-
-	private Agendamento salvarAgendamentoNoGoogleCalendar(Agendamento agendamento, Funcionario funcionario,
-			com.google.api.services.calendar.Calendar service) throws GCalendarException {
-		System.out.println("AgendaController.salvarAgendamentoNoGoogleCalendar: início");
-		try {
-			Event event = new Event().setSummary(agendamento.getCliente().getNomeCompleto())
-					.setDescription(agendamento.getDescricao());
-
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss-03:00");
-			DateTime startDateTime = new DateTime(format.format(agendamento.getStart().getTime()));
-			EventDateTime start = new EventDateTime().setDateTime(startDateTime).setTimeZone("America/Sao_Paulo");
-			event.setStart(start);
-
-			DateTime endDateTime = new DateTime(format.format(agendamento.getEnd().getTime()));
-			EventDateTime end = new EventDateTime().setDateTime(endDateTime).setTimeZone("America/Sao_Paulo");
-			event.setEnd(end);
-
-			event = service.events().insert("primary", event).execute();
-			agendamento.setIdGCalendar(event.getId());
-
-			// Apenas para novos agendamentos
-			if (agendamento != null) {
-				Calendar maxDateCal = Calendar.getInstance();
-				maxDateCal.setTime(agendamento.getStart().getTime());
-				maxDateCal.add(Calendar.DATE, 1);
-				DateTime maxDate = new DateTime(format.format(maxDateCal.getTime()));
-				Events events = service.events().instances("primary", event.getId()).setMaxResults(1)
-						.setTimeMax(maxDate).setPageToken(null).execute();
-
-				if (events.getItems() != null && !events.getItems().isEmpty()) {
-					Event evt = events.getItems().get(0);
-					agendamento.setIdGCalendar(evt.getId());
-					agendamento.setIdRecurring(evt.getRecurringEventId());
-				}
-
-			}
-
-			System.out.println("AgendaController.salvarAgendamentoNoGoogleCalendar: fim");
-			return agendamento;
-		} catch (Exception e) {
-			SalvarEnviarLogs.gravarArquivo(e);
-			System.out.println("Erro ao salvar no google calendar. Id agendamento: " + agendamento.getId() + " erro: "
-					+ e.getMessage());
-			throw new GCalendarException("Erro ao salvar agendamento no Google Calendar");
-		}
-	}
-
-	private void excluirAgendamentoNoGoogleCalendar(Agendamento agendamento, boolean excluirFuturos)
-			throws GCalendarException {
-		System.out.println("AgendaController.excluirAgendamentoNoGoogleCalendar: início");
-		System.out.println("getCalendarService");
-		com.google.api.services.calendar.Calendar service = getCalendarService();
-		System.out.println("getCalendarService: OK");
-
-		try {
-			if (excluirFuturos) {
-				if (agendamento != null) {
-					// Aguardar API com opção de excluir eventos futuros
-				} else {
-					service.events().delete("primary", agendamento.getIdRecurring()).execute();
-					System.out.println("Série eventos excluídos no GCal: " + agendamento.getIdRecurring());
-				}
-			} else {
-				service.events().delete("primary", agendamento.getIdGCalendar()).execute();
-				System.out.println("Evento excluído no GCal: " + agendamento.getIdGCalendar());
-			}
-		} catch (Exception e) {
-			System.out.println("Erro ao excluir no google calendar. Id agendamento: " + agendamento.getId() + " erro: "
-					+ e.getMessage());
-			SalvarEnviarLogs.gravarArquivo(e);
-			throw new GCalendarException("Erro ao excluir agendamento no Google Calendar");
-		}
-		System.out.println("AgendaController.excluirAgendamentoNoGoogleCalendar: início");
-	}
-
-	/**
-	 * Exclui eventos do Google Calendar durante a exportação (quando da
-	 * ativação da integração com o GCal) de uma série de eventos repetidos do
-	 * sistema no qual exista algum evento desativado
-	 * 
-	 * @param agendamentoPrincipal
-	 *            o agendamento com evento principal igual a true
-	 * @throws GCalendarException
-	 *             caso algum problema ocorra
-	 * @throws IOException
-	 */
-	private void excluirAgendamentosNoGoogleCalendarDuranteExportacao(Agendamento agendamentoPrincipal,
-			Funcionario funcionario, com.google.api.services.calendar.Calendar service)
-			throws IOException, GCalendarException {
-		System.out.println("AgendaController.excluirAgendamentoNoGoogleCalendarDuranteExportacao: início");
-
-		List<Agendamento> lstAgendamentos = this.agendamentoService
-				.listarAgendamentosParaExcluirNoGoogleCalendarDuranteExportacao(agendamentoPrincipal,
-						funcionario);
-
-		if (lstAgendamentos != null && !lstAgendamentos.isEmpty()) {
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss-03:00");
-			for (Agendamento ag : lstAgendamentos) {
-				Calendar maxDateCal = Calendar.getInstance();
-				Calendar minDateCal = Calendar.getInstance();
-				maxDateCal.setTime(ag.getStart().getTime());
-				minDateCal.setTime(ag.getStart().getTime());
-				maxDateCal.add(Calendar.DATE, 1); // timeMax é exclusivo
-				DateTime maxDate = new DateTime(format.format(maxDateCal.getTime()));
-				DateTime minDate = new DateTime(format.format(minDateCal.getTime()));
-
-				Events lstEventToDelete = service.events().instances("primary", agendamentoPrincipal.getIdRecurring())
-						.setTimeMin(minDate).setTimeMax(maxDate).execute();
-
-				if (lstEventToDelete != null && !lstEventToDelete.getItems().isEmpty()) {
-					Event toDelete = lstEventToDelete.getItems().get(0);
-					service.events().delete("primary", toDelete.getId()).execute();
-					System.out.println("Evento excluído no GCal: " + toDelete.getId());
-				}
-			}
-		}
-
-		System.out.println("AgendaController.excluirAgendamentoNoGoogleCalendarDuranteExportacao: fim");
-	}
-
-	private Agendamento editarAgendamentoNoGoogleCalendar(Agendamento agendamento,
-			com.google.api.services.calendar.Calendar service) throws GCalendarException {
-		try {
-			Event event = service.events().get("primary", agendamento.getIdGCalendar()).execute();
-			event.setSummary(agendamento.getCliente().getNomeCompleto());
-			event.setDescription(agendamento.getDescricao());
-
-			SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss-03:00");
-			DateTime startDateTime = new DateTime(format.format(agendamento.getStart().getTime()));
-			EventDateTime start = new EventDateTime().setDateTime(startDateTime).setTimeZone("America/Sao_Paulo");
-			event.setStart(start);
-
-			DateTime endDateTime = new DateTime(format.format(agendamento.getEnd().getTime()));
-			EventDateTime end = new EventDateTime().setDateTime(endDateTime).setTimeZone("America/Sao_Paulo");
-			event.setEnd(end);
-
-			event = service.events().update("primary", event.getId(), event).execute();
-
-			if (agendamento != null) {
-				Calendar maxDateCal = Calendar.getInstance();
-				maxDateCal.setTime(agendamento.getStart().getTime());
-				maxDateCal.add(Calendar.DATE, 1);
-				DateTime maxDate = new DateTime(format.format(maxDateCal.getTime()));
-				Events events = service.events().instances("primary", event.getId()).setMaxResults(1)
-						.setTimeMax(maxDate).setPageToken(null).execute();
-
-				if (events.getItems() != null) {
-					Event evt = events.getItems().get(0);
-					agendamento.setIdGCalendar(evt.getId());
-					agendamento.setIdRecurring(evt.getRecurringEventId());
-				}
-
-			}
-
-			System.out.println("AgendaController.editarAgendamentoNoGoogleCalendar: início");
-			return agendamento;
-		} catch (Exception e) {
-			System.out.println("Erro ao editar no google calendar. Id agendamento: " + agendamento.getId() + " erro: "
-					+ e.getMessage());
-			SalvarEnviarLogs.gravarArquivo(e);
-			throw new GCalendarException("Erro ao editar agendamento no Google Calendar");
-		}
-	}
-
-	private TmpGCalendarEvent verificarAlteracoesGCal(Event event, TmpGCalendarEvent tmpGCalendarEvent)
-			throws GCalendarEvtNotChangeException {
-		boolean change = false;
-
-		if (event.getStart().getDateTime().getValue() != tmpGCalendarEvent.getStart().getTimeInMillis()) {
-			Calendar startEvent = Calendar.getInstance();
-			startEvent.setTimeInMillis(event.getStart().getDateTime().getValue());
-			tmpGCalendarEvent.setStart(startEvent);
-			change = true;
-		}
-
-		if (event.getEnd().getDateTime().getValue() != tmpGCalendarEvent.getEnd().getTimeInMillis()) {
-			Calendar endEvent = Calendar.getInstance();
-			endEvent.setTimeInMillis(event.getEnd().getDateTime().getValue());
-			tmpGCalendarEvent.setEnd(endEvent);
-			change = true;
-		}
-
-		if (event.getSummary() != null && !event.getSummary().equals(tmpGCalendarEvent.getSummary())) {
-			tmpGCalendarEvent.setSummary(event.getSummary());
-			change = true;
-		}
-
-		if (!change) {
-			throw new GCalendarEvtNotChangeException();
-		}
-
-		return tmpGCalendarEvent;
-	}
-
-	private Agendamento verificarAlteracoesGCal(Event event, Agendamento agendamento, Funcionario funcionario)
-			throws GCalendarEvtNotChangeException, IOException, GCalendarException {
-		boolean change = false;
-
-		if (event.getStart().getDateTime().getValue() != agendamento.getStart().getTimeInMillis()) {
-			Calendar startEvent = Calendar.getInstance();
-			startEvent.setTimeInMillis(event.getStart().getDateTime().getValue());
-			agendamento.setStart(startEvent);
-			change = true;
-		}
-
-		if (event.getEnd().getDateTime().getValue() != agendamento.getEnd().getTimeInMillis()) {
-			Calendar endEvent = Calendar.getInstance();
-			endEvent.setTimeInMillis(event.getEnd().getDateTime().getValue());
-			agendamento.setEnd(endEvent);
-			change = true;
-		}
-
-		if (event.getDescription() != null && !event.getDescription().equals(agendamento.getDescricao())) {
-			agendamento.setDescricao(event.getDescription());
-			change = true;
-		}
-
-		if (!change) {
-			throw new GCalendarEvtNotChangeException();
-		}
-
-		return agendamento;
-	}
 }

@@ -18,6 +18,8 @@ public class Orcamento {
 	
 	private String procedimento;
 	
+	private String titulo;
+	
 	@ManyToOne
 	@JoinColumn(name="idCliente")	
 	private Cliente cliente;
@@ -87,6 +89,14 @@ public class Orcamento {
 
 	public void setValor(BigDecimal valor) {
 		this.valor = valor;
+	}
+
+	public String getTitulo() {
+		return titulo;
+	}
+
+	public void setTitulo(String titulo) {
+		this.titulo = titulo;
 	}
 	
 }

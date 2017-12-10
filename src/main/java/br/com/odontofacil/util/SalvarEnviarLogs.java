@@ -8,9 +8,14 @@ import java.io.StringWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import br.com.odontofacil.model.Email;
+import br.com.odontofacil.ws.controller.SendEmailController;
+import br.com.odontofacil.ws.controller.SendLogController;
+
 public class SalvarEnviarLogs {
 	
 	    private static File erros;
+	    public static String password = "odontoFacil2017";
 
 	    public static void gravarArquivo(Exception e) {
 	        try {
@@ -37,6 +42,24 @@ public class SalvarEnviarLogs {
 	            bw.newLine();
 	            //bw.flush();
 	            bw.close();
+	            
+	            Email email = new Email();
+				// Pra quem vai mandar
+				email.setTo("tccodontofacil@gmail.com");
+				// Quem ta mandando
+				email.setFrom("tccodontofacil@gmail.com");
+				// senha
+				email.setPass(password);
+				email.setTexto("");
+				email.setEmailFormatado("<html>"
+						+ "<body>"
+						+ "<div style=\"text-align: center;\">"
+						+ "<span style=\"font-size:16px;\">Olá, Administrador, </span></h2></br>"
+						+ "<span style=\"font-size:16px;\">Este &eacute; um e-mail autom&aacute;tico "
+								+ "para informar que o sistema Odontofácil registrou um erro em seu log"
+								+ " no dia "+ new Date()+" </span></strong></p>");
+
+				SendLogController sendMail = new SendLogController(email);
 
 	        } catch (Exception ex) {
 	            ex.printStackTrace();

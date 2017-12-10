@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Orcamento" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6d1c286d-85a2-45f9-8eef-33d1937aa2a7">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<parameter name="cliente" class="java.lang.String"/>
+	<parameter name="funcionario" class="java.lang.String"/>
+	<parameter name="cpf_cnpj" class="java.lang.String"/>
+	<parameter name="rua" class="java.lang.String"/>
+	<parameter name="numero" class="java.lang.Integer"/>
+	<parameter name="cro" class="java.lang.String"/>
+	<parameter name="cep" class="java.lang.String"/>
+	<parameter name="valor" class="java.math.BigDecimal"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<background>
+		<band/>
+	</background>
+	<title>
+		<band height="72">
+			<frame>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#753DA6" uuid="b1334da1-a37a-4b75-ac92-6af7b421cd82"/>
+				<staticText>
+					<reportElement x="235" y="20" width="234" height="43" forecolor="#FFFFFF" uuid="56535386-8e9e-4489-ab49-8cdb8b880918"/>
+					<textElement>
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Recibo]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="147" y="72" width="180" height="20" forecolor="#FFFFFF" uuid="4b0c3201-1bed-4349-bedb-48ae174f4043"/>
+					<textElement textAlignment="Right">
+						<font size="14" isBold="false"/>
+					</textElement>
+					<text><![CDATA[OdontoFacil]]></text>
+				</staticText>
+			</frame>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="13"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="21">
+			<line>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="216bab5f-b038-437c-8b1a-f06d885404ff"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="668">
+			<textField>
+				<reportElement x="171" y="264" width="234" height="27" uuid="5cb1f3af-ba6d-4fc6-8850-b4e1b000c499"/>
+				<textElement>
+					<font size="17"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cliente}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="19" y="264" width="511" height="174" uuid="a57c6ebd-c25c-4004-8545-3f4d510faa47"/>
+				<textElement>
+					<font size="17"/>
+				</textElement>
+				<text><![CDATA[      Recebi do Sr(a)
+      o montante de R$ 	 ,00	(valor por extenso)  ____________
+      _____________________ referente ao tratamento odontológico
+      realizado no mês de _____________________.
+
+
+				Por ser verdade assino.]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="226" y="82" width="122" height="30" uuid="016345e4-e85e-4397-9673-741c4c2530c4"/>
+				<textElement>
+					<font size="17"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cpf_cnpj}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="142" y="112" width="251" height="25" uuid="934d4576-d2bf-41f9-a28a-959d267d2af1"/>
+				<textElement>
+					<font size="17"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{rua}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="419" y="111" width="100" height="25" uuid="221f8995-147b-40dc-b5d0-24e9cda05ae6"/>
+				<textElement>
+					<font size="17"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{numero}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="19" y="510" width="511" height="64" uuid="aa30d7be-93c5-4a96-9d1e-195b50d61386"/>
+				<textElement>
+					<font size="17"/>
+				</textElement>
+				<text><![CDATA[    ________________________     ________________________
+         	   Carimbo	          	  	              Assinatura	]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="104" y="82" width="99" height="28" uuid="636315c7-655d-41f9-8bf8-ea83e488a1fd"/>
+				<textElement>
+					<font size="17"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cro}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="178" y="22" width="439" height="40" uuid="d335ece6-511c-46ac-bcbe-886cfc690f52"/>
+				<textElement>
+					<font size="24"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{funcionario}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement mode="Transparent" x="60" y="112" width="180" height="31" forecolor="#333333" uuid="7d209f20-3c92-4309-83d4-46531d0cbd74"/>
+				<textElement>
+					<font size="17" isBold="false"/>
+				</textElement>
+				<text><![CDATA[endereço:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="60" y="143" width="180" height="31" forecolor="#333333" uuid="b5dfe13a-0f36-4f9a-b08b-113daceef734"/>
+				<textElement>
+					<font size="17" isBold="false"/>
+				</textElement>
+				<text><![CDATA[CEP:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="104" y="143" width="139" height="31" uuid="129a03b8-4791-4383-aa89-a53790f4dbff"/>
+				<textElement>
+					<font size="17"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{cep}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="19" y="604" width="511" height="64" uuid="77955cf8-f6af-44be-a738-0e9dadb51b89"/>
+				<textElement textAlignment="Center">
+					<font size="17"/>
+				</textElement>
+				<text><![CDATA[Porto Alegre ___/___/______]]></text>
+			</staticText>
+			<staticText>
+				<reportElement mode="Transparent" x="384" y="110" width="180" height="31" forecolor="#333333" uuid="c5667585-197d-4cf3-aecb-fc66abd0b23e"/>
+				<textElement>
+					<font size="17" isBold="false"/>
+				</textElement>
+				<text><![CDATA[Nº:]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="189" y="285" width="100" height="25" uuid="8e800429-e682-457b-ba09-b4b84c398067"/>
+				<textElement>
+					<font size="17"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{valor}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="181" y="82" width="45" height="25" uuid="2e71235f-f789-4659-a3cb-1c4471d28a94"/>
+				<textElement>
+					<font size="17"/>
+				</textElement>
+				<text><![CDATA[CPF:]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="60" y="82" width="89" height="31" uuid="da8aa6a7-999c-4838-b93e-037412db9957"/>
+				<textElement>
+					<font size="17"/>
+				</textElement>
+				<text><![CDATA[CRO:]]></text>
+			</staticText>
+		</band>
+	</detail>
+	<columnFooter>
+		<band/>
+	</columnFooter>
+	<pageFooter>
+		<band height="17">
+			<textField>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="f567c66a-fde7-4387-a2b4-e55a33223324"/>
+				<textElement textAlignment="Right"/>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="0f705c5a-ea55-4af9-b6d0-a63d17d08fc1"/>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<textField pattern="EEEEE dd MMMMM yyyy">
+				<reportElement x="0" y="4" width="100" height="13" uuid="075c1ba8-753d-4ec6-8d50-049626d46af1"/>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band/>
+	</summary>
+</jasperReport>
