@@ -66,7 +66,7 @@ angular.module('odontoFacil').controller('dashboardController', ['$scope', '$roo
 		};
 	  
 	  var listarAgendamentosDoMesPorFuncionario = function() {
-		  dashboardFactory.listarValores().then(
+		  dashboardFactory.listarAgendamentosDoMesPorFuncionario().then(
 			      successCallback = function(response) {		    	  
 			    	  ctrl.consultasDoMesFuncionario = response.data;	    	  
 			  	  },

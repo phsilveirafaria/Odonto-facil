@@ -1,0 +1,41 @@
+<head>
+<meta charset="UTF-8" />
+</head>
+<div class="modal-header" style="background-color:#605ca8; color: white;">
+	<h3 class="modal-title" id="modal-title">Selecione o Dentista</h3>
+</div>
+
+<div class="modal-body" id="modal-body">
+	<form name="agendamentoForm">
+		<div class="form-group">
+			<div class="col-md12">
+				<label ng-show="ctrl.x.permissao.id != 1" for="selFuncionarios">Dentista:</label>
+			</div>
+			<div clas="col-md12" ng-show="ctrl.x.permissao.id != 1">
+				<ui-select ng-model="ctrl.agendamento.funcionario" theme="bootstrap" ng-disabled="ctrl.editable(ctrl.agendamento.start)"
+					style="width: 950px;"> <ui-select-match
+					placeholder="Selecione um Dentista">{{ctrl.agendamento.funcionario.nomeCompleto}}</ui-select-match>
+				<ui-select-choices
+					repeat="funcionario in ctrl.comboFuncionarios | filter: $select.search">
+				<span
+					ng-bind-html="funcionario.nomeCompleto | highlight: $select.search"></span>
+				</ui-select-choices> </ui-select>
+			</div>
+		</div>
+
+
+
+<div class="modal-footer">
+	<div class="form-group">
+	<li><a href="#/home"><i class="fa fa-home"></i> <span>Home</span></a></li>
+		<button id="btnSalvar" type="button" class="btn btn-success"
+			ng-if="!ctrl.agendamento.fechado" ng-disabled="agendamentoForm.$invalid"
+			style="width: 100px; background-color:#605ca8;" ng-click="ctrl.chamaAgenda(ctrl.agendamento)">
+			Salvar</button>
+		<button id="btnCancel" type="button" class="btn btn-default"
+			ng-click="ctrl.cancel()" style="width: 100px;">Cancelar</button>
+	</div>
+</div>
+
+	</form>
+</div>

@@ -1,39 +1,90 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Orcamento" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6d1c286d-85a2-45f9-8eef-33d1937aa2a7">
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Despesas" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="d709bc2b-ef78-4e68-8dee-a1d39fa53b2b">
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
-	<parameter name="totalReceitas" class="java.math.BigDecimal"/>
+	<import value="br.com.odontofacil.model.Despesa"/>
 	<parameter name="dataInicial" class="java.util.Calendar"/>
 	<parameter name="dataFinal" class="java.util.Calendar"/>
+	<parameter name="totalReceitas" class="java.math.BigDecimal"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
-	<field name="descricao" class="java.lang.String"/>
-	<field name="valor" class="java.math.BigDecimal"/>
+	<field name="descricao" class="java.lang.String">
+		<fieldDescription><![CDATA[descricao]]></fieldDescription>
+	</field>
+	<field name="valor" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[valor]]></fieldDescription>
+	</field>
 	<field name="funcionario" class="br.com.odontofacil.model.Funcionario"/>
 	<field name="id" class="java.lang.Long"/>
 	<field name="start" class="java.util.Calendar"/>
+	<group name="Group1">
+		<groupFooter>
+			<band height="73">
+				<staticText>
+					<reportElement x="405" y="40" width="40" height="20" uuid="142ff815-0c63-47e8-ba15-05face2dd6b7"/>
+					<text><![CDATA[Total]]></text>
+				</staticText>
+				<textField>
+					<reportElement x="445" y="40" width="100" height="20" uuid="efb92bcd-cb3e-4211-be26-8db857b39401"/>
+					<textFieldExpression><![CDATA[$P{totalReceitas}]]></textFieldExpression>
+				</textField>
+			</band>
+		</groupFooter>
+	</group>
 	<background>
 		<band/>
 	</background>
 	<title>
 		<band height="72">
 			<frame>
-				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#753DA6" uuid="b1334da1-a37a-4b75-ac92-6af7b421cd82"/>
-				<staticText>
-					<reportElement x="212" y="20" width="234" height="43" forecolor="#FFFFFF" uuid="56535386-8e9e-4489-ab49-8cdb8b880918"/>
+				<reportElement mode="Opaque" x="-20" y="-20" width="595" height="92" backcolor="#753DA6" uuid="6b3f3795-920d-40bf-8cd0-4a45d918371c"/>
+				<textField pattern="dd/MM/yy">
+					<reportElement x="513" y="63" width="60" height="20" forecolor="#FFFFFF" uuid="08f27ea1-a94e-4a2c-8549-bd0445d1594f">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
 					<textElement>
-						<font size="34" isBold="true"/>
+						<font size="14"/>
 					</textElement>
-					<text><![CDATA[Receitas]]></text>
+					<textFieldExpression><![CDATA[$P{dataFinal}.getTime()]]></textFieldExpression>
+				</textField>
+				<textField pattern="dd/MM/yy">
+					<reportElement x="434" y="63" width="60" height="20" forecolor="#FFFFFF" uuid="4e415f17-12ad-4ff8-b426-53ba07454e59">
+						<property name="com.jaspersoft.studio.unit.x" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.y" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+					</reportElement>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$P{dataInicial}.getTime()]]></textFieldExpression>
+				</textField>
+				<staticText>
+					<reportElement x="496" y="63" width="10" height="20" forecolor="#FFFFFF" uuid="91dc6bfb-7f10-4f95-8d03-f499ef841b46"/>
+					<textElement>
+						<font size="14"/>
+					</textElement>
+					<text><![CDATA[a]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="147" y="72" width="180" height="20" forecolor="#FFFFFF" uuid="4b0c3201-1bed-4349-bedb-48ae174f4043"/>
-					<textElement textAlignment="Right">
+					<reportElement x="213" y="72" width="180" height="20" forecolor="#FFFFFF" uuid="b9b7fda0-b5fe-47cb-baf3-cf007ec8b5df"/>
+					<textElement textAlignment="Center">
 						<font size="14" isBold="false"/>
 					</textElement>
 					<text><![CDATA[OdontoFacil]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="191" y="29" width="234" height="43" forecolor="#FFFFFF" uuid="8419c208-10c4-4a19-a5f6-f66a79f3094b"/>
+					<textElement textAlignment="Center">
+						<font size="34" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Receitas]]></text>
 				</staticText>
 			</frame>
 		</band>
@@ -42,125 +93,83 @@
 		<band height="13"/>
 	</pageHeader>
 	<columnHeader>
-		<band height="21">
+		<band height="31">
 			<line>
-				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="216bab5f-b038-437c-8b1a-f06d885404ff"/>
+				<reportElement x="-20" y="20" width="595" height="1" forecolor="#666666" uuid="7fa97b42-e69c-4c26-aaa7-3e6b1401764c"/>
 			</line>
-		</band>
-	</columnHeader>
-	<detail>
-		<band height="668">
 			<staticText>
-				<reportElement x="100" y="10" width="100" height="30" uuid="9f2e8fcd-0c2e-4fc5-9d7b-754d7a3bf018"/>
+				<reportElement x="110" y="1" width="100" height="30" uuid="0790ac4d-630c-459d-9728-ead1e89d16f4"/>
 				<textElement textAlignment="Center">
 					<font size="15"/>
 				</textElement>
 				<text><![CDATA[Descrição]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="448" y="10" width="100" height="30" uuid="c8f260e4-1201-4875-b33e-9324ca2e9196"/>
-				<textElement textAlignment="Center">
-					<font size="15"/>
-				</textElement>
-				<text><![CDATA[Valor]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="228" y="10" width="100" height="30" uuid="1f082b86-21d4-4070-9827-22cdc8c21d75"/>
+				<reportElement x="236" y="1" width="100" height="30" uuid="b6e49957-feab-4fad-9c38-cf5aa7b1c849"/>
 				<textElement textAlignment="Center">
 					<font size="15"/>
 				</textElement>
 				<text><![CDATA[Funcionario]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="355" y="554" width="100" height="30" uuid="acb2596f-4cbf-4bb2-9a58-eb7ed5ce9175"/>
-				<textElement textAlignment="Right">
-					<font size="14"/>
-				</textElement>
-				<text><![CDATA[Total:]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="448" y="40" width="100" height="26" uuid="9a84aef3-a07c-404c-9862-78153f283193"/>
+				<reportElement x="458" y="1" width="100" height="30" uuid="be678e06-1b7b-409f-8ede-2ac01b0ab75d"/>
 				<textElement textAlignment="Center">
-					<font size="14"/>
+					<font size="15"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
-			</textField>
+				<text><![CDATA[Valor]]></text>
+			</staticText>
 			<staticText>
-				<reportElement x="0" y="10" width="100" height="30" uuid="8173fae9-3b66-4f5d-95bc-6ddc18a871ce"/>
+				<reportElement x="7" y="1" width="100" height="30" uuid="ef8dfefa-69d8-4a1d-9984-207f348d6e6e"/>
 				<textElement textAlignment="Center">
 					<font size="15"/>
 				</textElement>
 				<text><![CDATA[id]]></text>
 			</staticText>
+			<staticText>
+				<reportElement x="354" y="1" width="100" height="30" uuid="63d13391-d9f7-45e7-82e9-890023a50d9c"/>
+				<textElement textAlignment="Center">
+					<font size="15"/>
+				</textElement>
+				<text><![CDATA[Data Consulta]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="36">
 			<textField>
-				<reportElement x="0" y="40" width="100" height="26" uuid="78ef7c6a-723b-4ab5-b7c6-c2785884fcb2"/>
+				<reportElement x="7" y="2" width="100" height="26" uuid="5860c70d-b2e5-40f8-b96e-8001f97128df"/>
 				<textElement textAlignment="Center">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{id}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="128" y="644" width="100" height="20" uuid="be31d88c-e4f6-46b5-bf64-3dab4db59648"/>
-				<textElement textAlignment="Center">
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{dataInicial}.getTime()]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="293" y="614" width="100" height="30" uuid="f2796a8c-a4de-4579-95cf-b414e8438f7b"/>
-				<textElement textAlignment="Center">
-					<font size="15"/>
-				</textElement>
-				<text><![CDATA[Até]]></text>
-			</staticText>
-			<staticText>
-				<reportElement x="128" y="614" width="100" height="30" uuid="4565df44-f838-4bf2-abea-7c3f47b84e2a"/>
-				<textElement textAlignment="Center">
-					<font size="15"/>
-				</textElement>
-				<text><![CDATA[Periodo de]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="292" y="644" width="100" height="20" uuid="f817a3b7-a023-40c9-aa90-d189aa63153c"/>
-				<textElement textAlignment="Center">
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$P{dataFinal}.getTime()]]></textFieldExpression>
-			</textField>
-			<staticText>
-				<reportElement x="344" y="10" width="100" height="30" uuid="72c5e964-112e-4f28-926f-30082a80c8c9"/>
-				<textElement textAlignment="Center">
-					<font size="15"/>
-				</textElement>
-				<text><![CDATA[dataConsulta]]></text>
-			</staticText>
-			<textField>
-				<reportElement x="100" y="40" width="100" height="26" uuid="5fcea485-31d6-4c40-aec2-893797e7de7f"/>
+				<reportElement x="110" y="2" width="100" height="26" uuid="3c8306f5-cddd-4cb1-bfa0-58d238682134"/>
 				<textElement textAlignment="Center">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{descricao}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="348" y="40" width="100" height="26" uuid="061857c9-345b-409f-b1fd-e3fce0e93676"/>
-				<textElement textAlignment="Center">
-					<font size="14"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{start}.getTime()]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement x="210" y="40" width="134" height="26" uuid="9ec65b89-4888-4956-9afb-2a439f87270b"/>
+				<reportElement x="236" y="2" width="100" height="25" uuid="48061ffe-0464-4f9b-8788-edbd54a5e0e6"/>
 				<textElement textAlignment="Center">
 					<font size="14"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{funcionario}.getNomeCompleto()]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="455" y="554" width="100" height="30" uuid="cc083dde-a82d-4579-b5c7-d5e7e2744e7c"/>
-				<textElement>
+				<reportElement x="354" y="0" width="100" height="27" uuid="36f48c6e-3079-4313-9af6-511dbed00991"/>
+				<textElement textAlignment="Center">
 					<font size="14"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$P{totalReceitas}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{start}.getTime()]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="458" y="0" width="100" height="27" uuid="457c16c5-ceed-43ea-9595-8b0f6fc74213"/>
+				<textElement textAlignment="Center">
+					<font size="14"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{valor}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -170,16 +179,16 @@
 	<pageFooter>
 		<band height="17">
 			<textField>
-				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="f567c66a-fde7-4387-a2b4-e55a33223324"/>
+				<reportElement mode="Opaque" x="0" y="4" width="515" height="13" backcolor="#E6E6E6" uuid="6667409d-25a0-437a-8a8d-20a794809556"/>
 				<textElement textAlignment="Right"/>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="0f705c5a-ea55-4af9-b6d0-a63d17d08fc1"/>
+				<reportElement mode="Opaque" x="515" y="4" width="40" height="13" backcolor="#E6E6E6" uuid="2c84bbd7-59c9-4a7f-9251-5d79bf4bdfe9"/>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement x="0" y="4" width="100" height="13" uuid="075c1ba8-753d-4ec6-8d50-049626d46af1"/>
+				<reportElement x="0" y="4" width="280" height="13" uuid="6e319145-be1d-44ce-8bb4-8e1c08e1ea3d"/>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>

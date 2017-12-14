@@ -3,7 +3,7 @@ angular.module('odontoFacil').service('utilService', ['$rootScope', '$mdDialog',
 	var _message;
 	
 	/**
-	 * Trata eventuais excessoes que possam ocorrer
+	 * Trata excessoes que possam ocorrer
 	*/
 	var _tratarExcecao = function(error) {	
 		try {

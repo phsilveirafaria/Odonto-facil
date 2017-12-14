@@ -13,7 +13,7 @@ angular.module('odontoFacil').factory('dashboardFactory',['$http', function($htt
 	};
 	
 	var _listarAgendamentosDoMesPorFuncionario = function() {
-		return $http.get('https://localhost:8443/listarValoresPorFuncionario');
+		return $http.get('https://localhost:8443/listarAgendamentosDoMesPorFuncionario');
 	};
 	
 	return {

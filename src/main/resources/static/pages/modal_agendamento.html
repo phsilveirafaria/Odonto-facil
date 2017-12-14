@@ -53,8 +53,8 @@
 				<label for="observacao">Procedimentos da Consulta: </label>
 			</div>
 			<div class="col-md12">
-				<textarea id="observacao" ng- ="ctrl.editable(ctrl.agendamento.start)"
-					class="form-control" ng-model="ctrl.agendamento.descricao"></textarea>
+				<textarea id="observacao"
+					class="form-control" ng-disabled="ctrl.agendamento.fechado || ctrl.agendamento.naoCompareceu" ng-model="ctrl.agendamento.descricao"></textarea>
 			</div>
 		</div>
 			<div class="form-group" ng-if="ctrl.editable(ctrl.agendamento.start)">
@@ -62,7 +62,7 @@
 					<label>Valor</label>
 				</div>
 				<div class="col-md12">
-					<input id="valor" maxlength="7" class="form-control" ng-model="ctrl.agendamento.valor"
+					<input id="valor" maxlength="6" class="form-control" ng-model="ctrl.agendamento.valor"
 						ng-pattern="/^\$?[\d]+(\,\d{1,2})?$/"
 						ng-disabled="ctrl.agendamento.fechado || ctrl.agendamento.naoCompareceu"
 						formatted-valor>
@@ -71,7 +71,7 @@
 						
 			<div class="col-md12">
 				<div class="checkbox">
-					<label><input type="checkbox" value="true" ng-if="ctrl.agendamento.valor == null" ng-disabled="ctrl.editableNaoCompareceu(ctrl.agendamento.start)"
+					<label><input type="checkbox"  value="true" ng-if="ctrl.agendamento.valor == null" ng-disabled="ctrl.editableNaoCompareceu(ctrl.agendamento.start)"
 						ng-model="ctrl.agendamento.naoCompareceu">Não compareceu</label>
 				</div>
 			</div>

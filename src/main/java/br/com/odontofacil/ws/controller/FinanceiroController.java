@@ -264,7 +264,6 @@ public class FinanceiroController {
 			throw new Exception("Erro ao listar agendamentos: formato de data inválido.");
 		}		
 		
-		//Psicologo psicologo = LoginController.getPsicologoLogado();
 		Funcionario funcionario = this.funcionarioService.buscaPorLogin(user.getName());
 		if (funcionario == null) {
 			System.out.println("Funcionario nulo em getFuncionarioLogado");
@@ -283,6 +282,59 @@ public class FinanceiroController {
 			System.out.println("ConsultaController.listarConsultasPorPeriodo: Fim");
 		
 			return entradaReceitaDTO;
+		} catch(Exception ex) {
+			System.out.println("Erro ao listar consultas: " + ex.getMessage());
+			SalvarEnviarLogs.gravarArquivo(ex);
+			throw new Exception("Não foi possível listar as receitas!");
+		}
+	}
+	
+	
+	@RequestMapping(
+			value = "/listarReceitasPorPeriodoDentista", 
+			method={RequestMethod.GET},
+			produces = MediaType.APPLICATION_JSON_VALUE			
+			)
+	public BigDecimal listarReceitasPorPeriodoDentista(@RequestParam("dataInicial") String dataInicial, 
+			@RequestParam("dataFinal") String dataFinal, Principal user) throws Exception {
+		System.out.println("ConsultaController.listarConsultasPorPeriodo: início");
+		
+		if (user == null) {
+			System.out.println("user nulo");
+			throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
+		}						
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar di = Calendar.getInstance();
+		Calendar df = Calendar.getInstance();		
+		
+		try {
+			di.setTime(format.parse(dataInicial));
+			df.setTime(format.parse(dataFinal));
+		} catch (ParseException e) {
+			System.out.println("Formato de data inválido");
+			SalvarEnviarLogs.gravarArquivo(e);
+			throw new Exception("Erro ao listar agendamentos: formato de data inválido.");
+		}		
+		
+		Funcionario funcionario = this.funcionarioService.buscaPorLogin(user.getName());
+		if (funcionario == null) {
+			System.out.println("Funcionario nulo em getFuncionarioLogado");
+			throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
+		}
+				
+		try {
+			EntradaReceitaDTO entradaReceitaDTO = new EntradaReceitaDTO();
+			entradaReceitaDTO.setLstAgendamentos(this.agendamentoService.listarReceitasPorPeriodoDentista(di, df, funcionario));
+			
+			BigDecimal totalConsultas = new BigDecimal(0);
+			for (Agendamento agendamento : entradaReceitaDTO.getLstAgendamentos()) {				
+				totalConsultas = totalConsultas.add(agendamento.getConsulta().getValor());
+			}
+			entradaReceitaDTO.setTotalConsultas(totalConsultas);
+			System.out.println("ConsultaController.listarConsultasPorPeriodo: Fim");
+		
+			return totalConsultas;
 		} catch(Exception ex) {
 			System.out.println("Erro ao listar consultas: " + ex.getMessage());
 			SalvarEnviarLogs.gravarArquivo(ex);

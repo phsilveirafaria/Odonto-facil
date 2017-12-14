@@ -39,6 +39,11 @@ angular.module('odontoFacil').factory('financeiroFactory',['$http', 'consts', fu
 		return $http.get('https://localhost:8443/listarConsultasPorPeriodo', {params});
 	};
 	
+	var _listarConsultasPorPeriodoDentista = function(dataInicial, dataFinal) {
+		var params = {dataInicial: dataInicial, dataFinal: dataFinal};
+		return $http.get('https://localhost:8443/listarConsultasPorPeriodoDentista', {params});
+	};
+	
 	var _listarReceitasPorPeriodoDash = function() {
 		return $http.get('https://localhost:8443/listarReceitasPorPeriodoDash');
 	};
@@ -81,7 +86,7 @@ angular.module('odontoFacil').factory('financeiroFactory',['$http', 'consts', fu
 		getDespesaId: function() { return _despesa.id; },
 		setDespesaId: function(id) { despesa.id = id; },
 		getDespesaFuncionario: function() { return _despesa.funcionario; },
-		setDespesaFuncionario: function(psicologo) { despesa.funcionario = funcionario; },
+		setDespesaFuncionario: function(funcionario) { despesa.funcionario = funcionario; },
 		getDespesaDescricao: function() { return _despesa.descricao; },
 		setDespesaDescricao: function(descricao) { despesa.descricao = descricao; },
 		getDespesaValor: function() { return _despesa.valor; },
@@ -110,6 +115,7 @@ angular.module('odontoFacil').factory('financeiroFactory',['$http', 'consts', fu
 		listarDespesasPorPeriodo: _listarDespesasPorPeriodo,
 		listarReceitasPorPeriodoDash: _listarReceitasPorPeriodoDash,
 		listarConsultasPorPeriodo: _listarConsultasPorPeriodo,
+		listarConsultasPorPeriodoDentista: _listarConsultasPorPeriodoDentista,
 		listarConsultasNaoFinalizadasPorPeriodo: _listarConsultasNaoFinalizadasPorPeriodo,
 		imprimirRelatorioReceitas: _imprimirRelatorioReceitas,
 		imprimirRelatorioDespesas: _imprimirRelatorioDespesas

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="Orcamento" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6d1c286d-85a2-45f9-8eef-33d1937aa2a7">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="90"/>
+	<property name="ireport.y" value="370"/>
 	<parameter name="idOrcamento" class="java.lang.Long" isForPrompting="false"/>
 	<parameter name="cidade" class="java.lang.String"/>
 	<parameter name="cliente" class="java.lang.String"/>
@@ -64,7 +64,7 @@
 				<text><![CDATA[Procedimento: ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="100" y="88" width="353" height="216" uuid="ab491738-40d6-4a07-997e-80954a1a6574"/>
+				<reportElement x="100" y="90" width="353" height="216" uuid="ab491738-40d6-4a07-997e-80954a1a6574"/>
 				<textElement>
 					<font size="12"/>
 				</textElement>

@@ -285,6 +285,11 @@ public class AgendaController {
 		sdf.setCalendar(agendamento.getStart());
 		
 		String dateFormatted = sdf.format(agendamento.getStart().getTime());
+		Calendar atual = Calendar.getInstance();
+		if(agendamento.getStart().after(atual)){
+			agendamento.setNaoCompareceu(false);
+			agendamento.setColor(COR_AGENDAMENTO_DEFAULT);
+		}
 		
 		agendamento = agendamentoService.salvar(agendamento);
 

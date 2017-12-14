@@ -66,10 +66,9 @@ angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 
 	}
 	
 	ctrl.excluirFuncionarios = function(funcionario) {
-		console.log(cliente);
 		var confirm = $mdDialog.confirm()
 		.title('Atenção')
-		.textContent('Todas as informações do paciente, incluindo os prontuários, serão perdidas. Tem certeza que deseja continuar?')				
+		.textContent('Todas as informações do funcionario, serão perdidas. Tem certeza que deseja continuar?')				
 		.ok('Sim')
 		.cancel('Não');
 		
@@ -126,17 +125,10 @@ angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 
 	
 	ctrl.salvarFuncionarios = function(funcionario) {
 		funcionarioFactory.salvarFuncionarios(funcionario).then(function successCallback(response) {
-			$mdDialog.show(
-					$mdDialog.alert()
-						.clickOutsideToClose(true)
-						.title('Cadastro de Funcionário')
-						.textContent('Funcionário cadastrado com sucesso!')
-						.ariaLabel('Alerta')
-						.ok('Ok')						
-				);	
+			$scope.frmFuncionario.$setPristine();
+			alert('Funcionario cadastrado com sucesso!');
 			ctrl.funcionario = {};	
 			ctrl.funcionarios = response.data;
-			$scope.cadastroDespesaForm.$setPristine();
 		}, function errorCallback(response) {
 			console.log(response.data);
 			console.log(response.status);

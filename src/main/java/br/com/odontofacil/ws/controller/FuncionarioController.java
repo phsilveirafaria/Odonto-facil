@@ -98,7 +98,9 @@ private final static Logger logger = Logger.getLogger(FuncionarioController.clas
 			List<Agendamento> agendamentos = agendamentoService.listarReceitasPorFuncionario(dataInicial, dataFinal, funcionario);
 			
 			for(Agendamento agendamento : agendamentos){
+				if(agendamento.getValor() != null) {
 				valor = agendamento.getValor().add(valor);
+				}
 			}
 			
 			return valor;
@@ -118,7 +120,7 @@ private final static Logger logger = Logger.getLogger(FuncionarioController.clas
 		}
 		
 		@RequestMapping(method=RequestMethod.POST, value = "/deletarFuncionario")
-		public ResponseEntity<Funcionario> excluirfuncionario(@RequestBody Funcionario funcionario) {
+		public ResponseEntity<Funcionario> excluirfuncionarios(@RequestBody Funcionario funcionario) {
 			
 			Funcionario funcionarioEncontrado = funcionarioService.buscarPorId(funcionario.getIdUsuario());
 			

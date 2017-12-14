@@ -46,7 +46,7 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 	};
 	
 	ctrl.editableNaoCompareceu = function (start) {	 	
-		if(start < new Date() + 1){
+		if(start > new Date()){
 			return true;
 		}else{
 			return false;
@@ -88,7 +88,6 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 		}
 		$uibModalInstance.close();			
 	};
-	
 	
 	funcionarioFactory.listarDentistas().then(
 			sucessCallback = function(response){
@@ -160,6 +159,7 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 							agendamento.title = updateTitle(agendamento);
 							atualizarViewFC();
 							if(agendamento.valor){
+							utilService.hideWait();
 							$mdDialog.show(
 										$mdDialog.alert()
 											.multiple(true)
@@ -170,6 +170,7 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 											.ok('Ok')						
 									);
 							}else{
+								utilService.hideWait();
 								$mdDialog.show(
 										$mdDialog.alert()
 											.multiple(true)
@@ -180,7 +181,8 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 											.ok('Ok')						
 									);
 							}
-						} function errorCallback(response) {								
+						} function errorCallback(response) {		
+							utilService.hideWait();
 							$mdDialog.show(
 								$mdDialog.alert()
 								.multiple(true)
@@ -199,8 +201,7 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 	}
 	
 	 var atualizarViewFC = function() {	
-		 utilService.setMessage("Carregando agendamentos ...");
-		 utilService.showWait();		 		 
+				 		 
 		 angular.element('.calendar').fullCalendar('removeEvents');
 		 // Atualiza a view para o caso de haver algum evento semanal
 		 view = angular.element('.calendar').fullCalendar('getView');
@@ -214,6 +215,7 @@ angular.module('odontoFacil').controller('modalAgendamentoController', ['$scope'
 					 utilService.tratarExcecao(error);
 				 }
 		 );		
+		 utilService.hideWait();
 	 };
 	 
 	 ctrl.imprimirImpostoRenda = function(agendamento) {

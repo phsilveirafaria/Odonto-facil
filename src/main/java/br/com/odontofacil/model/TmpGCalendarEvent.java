@@ -20,7 +20,7 @@ public class TmpGCalendarEvent implements Serializable {
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
 	@ManyToOne
-    @JoinColumn(name="idpsicologo")
+    @JoinColumn(name="idFuncionario")
 	private Funcionario funcionario;
 	@Column(name="idgcalendar")
 	private String idGCalendar;

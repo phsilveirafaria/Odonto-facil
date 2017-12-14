@@ -151,6 +151,20 @@ angular.module('odontoFacil').controller('financeiroController',['$scope', '$mdD
 		);
 	};
 	
+	ctrl.pesquisarReceitasPeriodoDentista = function(dataInicial, dataFinal) {
+		ctrl.searchDisabled = true;
+		financeiroFactory.listarConsultasPorPeriodo(dataInicial, dataFinal).then(
+				successCallback = function(response) {
+					financeiroFactory.setTotalConsultasPeriodoDentista(response.data.totalConsultas);
+				},
+				errorCallback = function(error) {
+					financeiroFactory.setTotalConsultasPeriodo(0);
+					ctrl.searchDisabled = false;
+					utilService.tratarExcecao(error);
+				}
+		);
+	};
+	
 	ctrl.marcarPago = function(despesa) {
 		var novaDespesa = angular.copy(despesa);	
 		novaDespesa.pago = true;
@@ -259,4 +273,5 @@ angular.module('odontoFacil').controller('financeiroController',['$scope', '$mdD
 	ctrl.dtFim = new Date(moment().endOf('month').local());	
 	ctrl.pesquisarDespesasPeriodo(ctrl.dtInicio, ctrl.dtFim);
 	ctrl.pesquisarReceitasPeriodo(ctrl.dtInicio, ctrl.dtFim);
+	ctrl.pesquisarReceitasPeriodoDentista(ctrl.dtInicio, ctrl.dtFim);
 }]);

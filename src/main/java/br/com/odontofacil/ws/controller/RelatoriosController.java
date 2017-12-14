@@ -86,6 +86,7 @@ public class RelatoriosController {
 	        params.put("idOrcamento", orcamento.getIdOrcamento());
 	        params.put("funcionario", orcamento.getFuncionario().getNomeCompleto());
 	        params.put("cidade", orcamento.getCidade());
+	        params.put("valor", orcamento.getValor());
 	        params.put("endereco", orcamento.getEndereco());
 	        params.put("datasource", new JREmptyDataSource());
 
@@ -251,7 +252,7 @@ public class RelatoriosController {
 					new JRBeanCollectionDataSource(lstAgendamentos);
 								
 			JasperReportsPdfView view = new JasperReportsPdfView();
-	        view.setUrl("classpath:br/com/odontofacil/jasper/Recfffeitas.jrxml");	        
+	        view.setUrl("classpath:br/com/odontofacil/jasper/Receitas.jrxml");	        
 	        view.setApplicationContext(appContext);
 	        view.setContentType("application/pdf");	        
 	        view.setReportDataKey("datasource");
