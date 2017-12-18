@@ -55,6 +55,13 @@ public interface AgendamentoRepository extends JpaRepository <Agendamento, Long>
 			+ " AND YEAR(start) = YEAR(now())")
 	public List<Agendamento> listarAgendamentosDoDiaGeral();
 	
+	@Query("SELECT a FROM Agendamento a WHERE"
+			+ " a.funcionario = ?1 "
+			+ " AND DAY(start) = DAY(now()) "
+			+ " AND MONTH(start) = MONTH(now()) "
+			+ " AND YEAR(start) = YEAR(now())")
+	public List<Agendamento> listarAgendamentosDoDiaDentista(Funcionario funcionario);
+	
 	@Query("SELECT a FROM Agendamento a "
 			+ "INNER JOIN a.funcionario f "
 			+ "WHERE DATE(a.start) > DATE(?1) "

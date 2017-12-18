@@ -2,11 +2,8 @@ package br.com.odontofacil.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
@@ -20,7 +17,7 @@ public class Funcionario extends Usuario{
 	@ManyToOne
 	@JoinColumn(name= "id_permissao", nullable = false, updatable = false)
 	private Permissao permissao;
-	
+	@Column(unique=true)
 	private String login;
 	
 	private byte[] senha;
@@ -31,8 +28,6 @@ public class Funcionario extends Usuario{
 	
 	@Column(name="vinculadogcal")
 	private boolean vinculadoGCal;
-	
-	private boolean ativo;
 	
 	//private Permissao permissao;
 	
@@ -87,14 +82,6 @@ public class Funcionario extends Usuario{
 
 	public void setVinculadoGCal(boolean vinculadoGCal) {
 		this.vinculadoGCal = vinculadoGCal;
-	}
-
-	public boolean isAtivo() {
-		return ativo;
-	}
-
-	public void setAtivo(boolean ativo) {
-		this.ativo = ativo;
 	}
 	
 }

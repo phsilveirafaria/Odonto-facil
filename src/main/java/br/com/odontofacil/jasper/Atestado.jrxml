@@ -85,7 +85,7 @@ Porto Alegre ___/___/______]]></text>
 				<textFieldExpression><![CDATA[$P{cpf_cnpj}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="298" y="104" width="251" height="25" uuid="934d4576-d2bf-41f9-a28a-959d267d2af1"/>
+				<reportElement x="268" y="104" width="251" height="25" uuid="934d4576-d2bf-41f9-a28a-959d267d2af1"/>
 				<textElement>
 					<font size="17"/>
 				</textElement>

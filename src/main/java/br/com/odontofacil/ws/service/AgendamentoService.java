@@ -132,7 +132,7 @@ public class AgendamentoService {
 	}
 	
 	public List<Agendamento> listarAgendamentosDoDia(Funcionario funcionario) {
-		List<Agendamento> agendamentos = agendamentoRepository.listarAposHorario(funcionario);
+		List<Agendamento> agendamentos = agendamentoRepository.listarAgendamentosDoDiaDentista(funcionario);
 		return agendamentos;
 	}
 	

@@ -24,7 +24,8 @@ public class ClienteService {
 	}
 	
 	public void excluir(Cliente cliente){
-		clienteRepository.delete(cliente);
+		cliente.setAtivo(false);
+		clienteRepository.save(cliente);
 	}
 	
 	public Cliente buscarPorId(Long id){

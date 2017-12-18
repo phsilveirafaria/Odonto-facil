@@ -2,6 +2,7 @@ package br.com.odontofacil.ws.controller;
 
 import java.math.BigDecimal;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
@@ -25,6 +26,7 @@ import br.com.odontofacil.pojo.CredenciaisFuncionario;
 import br.com.odontofacil.util.SalvarEnviarLogs;
 import br.com.odontofacil.util.Util;
 import br.com.odontofacil.ws.service.AgendamentoService;
+import br.com.odontofacil.ws.service.ClienteService;
 import br.com.odontofacil.ws.service.FuncionarioService;
 
 @RestController
@@ -57,14 +59,15 @@ private final static Logger logger = Logger.getLogger(FuncionarioController.clas
 			Funcionario funcionario = cf.getFuncionario();
 			funcionario.setSenha((new BCryptPasswordEncoder().encode(cf.getSenha())).getBytes());
 			
-			Funcionario funcionarioExiste = this.funcionarioService.buscaPorLogin(funcionario.getLogin());
+			Funcionario funcionarioExiste = this.funcionarioService.buscarPorId(funcionario.getIdUsuario());
 		if (funcionarioExiste == null) {
 			if (funcionario.getCpf_cnpj() != null && !funcionario.getCpf_cnpj().trim().isEmpty()) {
 				try {
 					Util.validarCPF(funcionario.getCpf_cnpj());
 				} catch (Exception ex) {
 					logMessage("CPF " + funcionario.getCpf_cnpj() + " do funcionário é inválido", true);
-					SalvarEnviarLogs.gravarArquivo(ex);
+				//comentado para defesa do tcc para que caso não tenha conexão com a internet, não quebre o sistema.
+				//	SalvarEnviarLogs.gravarArquivo(ex);
 					throw new Exception("O CPF é inválido!");
 				}
 			}
@@ -110,7 +113,13 @@ private final static Logger logger = Logger.getLogger(FuncionarioController.clas
 		@RequestMapping(method=RequestMethod.GET, value="/listarFuncionarios", produces=MediaType.APPLICATION_JSON_VALUE)
 		public ResponseEntity<Collection<Funcionario>> listar() {
 			Collection<Funcionario> funcionarios = funcionarioService.buscarTodos();
-			return new ResponseEntity<>(funcionarios, HttpStatus.OK);
+			Collection<Funcionario> funcionariosAtivos = new ArrayList<Funcionario>();
+			for(Funcionario funcionario: funcionarios){
+				if(funcionario.getAtivo().equals(true)){
+					funcionariosAtivos.add(funcionario);
+				}
+			}
+			return new ResponseEntity<>(funcionariosAtivos, HttpStatus.OK);
 		}
 		
 		@RequestMapping(method=RequestMethod.GET, value="/listarDentistas", produces=MediaType.APPLICATION_JSON_VALUE)

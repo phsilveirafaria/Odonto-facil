@@ -130,8 +130,13 @@ angular.module('odontoFacil').controller("funcionarioController", ['$mdDialog', 
 			ctrl.funcionario = {};	
 			ctrl.funcionarios = response.data;
 		}, function errorCallback(response) {
-			console.log(response.data);
-			console.log(response.status);
+			if(response.data.exception == 'org.springframework.dao.DataIntegrityViolationException'){
+				alert('login de usuario já existe cadastrado no sistema')
+			}else{
+				alert('CPF Inválido');
+				console.log(response.data);
+				console.log(response.status);
+			}
 		});
 		
 	}

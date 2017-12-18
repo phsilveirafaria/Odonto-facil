@@ -319,9 +319,9 @@ public class AgendaController {
 							+ "<p>"
 							+ "<strong><span style=\"font-size:16px;\">Na Odonto F&aacute;cil,"
 							+ " avenida João Antônio da Silveira Número 1580.</span></strong></p>");
-
-			SendEmailController sendMail = new SendEmailController(email);
-			smsController.EnviaSMS(agendamento);
+			// comentado para a defesa do TCC, pois a porta do smtp e a porta de envio do sms são bloqueadas no firewall do campus
+//			SendEmailController sendMail = new SendEmailController(email);
+//			smsController.EnviaSMS(agendamento);
 			}
 		}
 		
@@ -401,15 +401,15 @@ public class AgendaController {
 					+ "<div style=\"text-align: center;\">"
 					+ "<span style=\"font-size:16px;\">Olá, "+ agendamento.getCliente().getNomeCompleto()  +",</span></h2></br>"
 					+ "<span style=\"font-size:16px;\">Este &eacute; um e-mail autom&aacute;tico "
-							+ "para informar que seu agendamento esta marcado para as "+ agendamento.getStart().getTime().getHours() + ":"+ agendamento.getStart().getTime().getMinutes()
+							+ "para informar que seu agendamento foi reagendado para as "+ agendamento.getStart().getTime().getHours() + ":"+ agendamento.getStart().getTime().getMinutes()
 							+ " do dia "+ dateFormatted
 							+ ", com o Profissional " + agendamento.getFuncionario().getNomeCompleto() + ".</span></h2>"
 							+ "<p>"
 							+ "<strong><span style=\"font-size:16px;\">Na Odonto F&aacute;cil,"
 							+ " avenida João Antônio da Silveira Número 1580.</span></strong></p>");
 
-			SendEmailController sendMail = new SendEmailController(email);
-			smsController.EnviaSMS(agendamento);
+//			SendEmailController sendMail = new SendEmailController(email);
+//			smsController.EnviaSMS(agendamento);
 			}
 		}
 		
@@ -439,7 +439,7 @@ public class AgendaController {
 				throw new Exception("Erro ao carregar funcionario. Faça login novamente.");
 			}
 
-			List<Agendamento> lstAgendamentos = this.agendamentoService.listarAposHorario(funcionario);
+			List<Agendamento> lstAgendamentos = this.agendamentoService.listarAgendamentosDoDia(funcionario);
 
 			System.out.println("AgendaController.listarAgendamentosDoDia: fim");
 			return lstAgendamentos.size();

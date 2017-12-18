@@ -105,10 +105,8 @@ angular.module('odontoFacil').controller("orcamentoController", ['orcamentoFacto
 		
 	}
 	
-	ctrl.salvar = function(orcamento, arquivo) {
-		ctrl.salvarArquivo(arquivo);
+	ctrl.salvar = function(orcamento) {
 		orcamentoFactory.salvarOrcamentos(orcamento).then(function successCallback(response) {	
-			ctrl.imprimirRelatorioOrcamentos(response);
 			alert('orcamento cadastrado com sucesso!');
 //			$mdDialog.alert(
 //					$mdDialog.alert()
@@ -119,6 +117,7 @@ angular.module('odontoFacil').controller("orcamentoController", ['orcamentoFacto
 //						.ariaLabel('Alerta')
 //						.ok('Ok')						
 //				);	
+			ctrl.listarOrcamentos();
 			ctrl.orcamento = {};	
 			ctrl.orcamentos = response.data;
 			$scope.orcamentoForm.$setPristine();

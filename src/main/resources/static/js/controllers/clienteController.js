@@ -91,6 +91,7 @@ angular.module('odontoFacil').controller("clienteController", ['clienteFactory',
 			ctrl.clientes = response.data;
 			$scope.frmCliente.$setPristine();
 		}, function errorCallback(response) {
+			alert("CPF Inválido");
 			console.log(response.data);
 			console.log(response.status);
 		});

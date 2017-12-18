@@ -25,7 +25,8 @@ public class FuncionarioService {
 	}
 	
 	public void excluir(Funcionario funcionario){
-		funcionarioRepository.delete(funcionario);
+		funcionario.setAtivo(false);
+		funcionarioRepository.save(funcionario);
 	}
 	
 	public Funcionario buscarPorId(Long id){
