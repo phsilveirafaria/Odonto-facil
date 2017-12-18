@@ -73,7 +73,7 @@ public class AgendaController {
 	public static String COR_AGENDAMENTO_DEFAULT = "#0A6CAC";
 	public static String COR_AGENDAMENTO_NAO_COMPARECEU = "#FF0000";
 	public static String COR_AGENDAMENTO_FECHADO = "#00FF00";
-	public static String password = "odontoFacil2017";
+	public static String password = "xxxxxx";
 
 	private List<Agendamento> listaAgendamentos;
 
